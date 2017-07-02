@@ -1,0 +1,44 @@
+<html ng-app="infoApp">
+    <head>
+        <title>MCGameInfo</title>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css" integrity="sha256-oiVjjd5Fuot9f/fgwH5IBBjsOA7TDdcfSK5I2EZ0zMw=" crossorigin="anonymous" media="screen,projection"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <base href="/">
+    </head>
+    <body>
+        <div>
+            <nav>
+                <div class="nav-wrapper row">
+                   <div class="col s12">
+                       <a href="/" class="brand-logo">MC GameInfo</a>
+                       <ul id="nav-mobile" class="right hide-on-med-and-down">
+                           <li><a href="/login">Login</a></li>
+                       </ul>
+                   </div>
+                </div>
+            </nav>
+
+            <div class="container">
+                <div ui-view></div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js" integrity="sha256-jFCqhWdzGFjoG8/SAncY2afI/Xv1TPSWSZrb9dpXQbk=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-cookies.min.js" integrity="sha256-KYao/9ufihAPfOpLlVPFDjECsFXMQqBhlbLn3FBsgvw=" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js" integrity="sha256-FMocp8pp1WruAK6GtjNDtuGAALCt/dCsVtw7oSjvPX0=" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js" integrity="sha256-Ff9bGnIM3a8Yj4saIp6RH8xkb1rQZpHqoFw/6m08fgA=" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js" integrity="sha256-hV6Ff1ZbnLObO8BWHPZs1oA3aPZkX4bnnEKO4nX1sm0=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/x64-core.min.js" integrity="sha256-Ib4gtvPEQ6fWMwvsDag1O50UfORLaTwgfaswLOa+hR8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha512.min.js" integrity="sha256-6Tf1qTZChk7+heP/aqN6vflwFV9frcqqEPCtj8HrKyo=" crossorigin="anonymous"></script>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>

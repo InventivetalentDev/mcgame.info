@@ -1,0 +1,35 @@
+<div style="text-align: center;">
+    <div class="container" style="margin-top: 15%;">
+        <h1 ng-if="state.is('login')">Login</h1>
+        <h1 ng-if="state.is('register')">Create new Account</h1>
+
+        <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px;">
+            <div>
+                <form class="col s12" method="post">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="text" class="validate" id="username" name="username" minlength="4" maxlength="16" ng-model="username">
+                            <label for="username">Minecraft Username</label>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="state.is('login')">
+                        <div class="input-field col s12">
+                            <input type="password" class="validate" id="password" name="password" minlength="8" ng-model="password" ng-disabled="tokenLogin">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <div class="row">
+                            <button ng-if="state.is('login')" ng-click="login()" type="submit" class="col s12 btn btn-large waves-effect">Login</button>
+                            <button ng-if="state.is('register')" ng-click="register()" type="submit" class="col s12 btn btn-large waves-effect">Register</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <a ng-if="state.is('login')" href="#" ui-sref="register">Create Account</a>
+    <a ng-if="state.is('register')" href="#" ui-sref="login">Already have an Account?</a>
+</div>

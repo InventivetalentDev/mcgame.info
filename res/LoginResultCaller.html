@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script>
+            window.onload = function () {
+                var result = atob(location.hash.substring(1));
+                if (window.opener) {
+//                    window.opener.__LoginCallback(result);
+                    window.opener.postMessage(result, "*");
+                } else {
+                    alert("No parent window :c")
+                }
+                setTimeout(function () {
+                    window.close();
+                }, 200);
+            };
+        </script>
+    </head>
+</html>
