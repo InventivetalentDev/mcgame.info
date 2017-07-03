@@ -261,6 +261,117 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         return;
     }
 
+    $scope.pushNotification = {
+        enabled: false,
+        update: function () {
+            console.log("Push Notifications: " + $scope.pushNotification.enabled);
+
+            if ($scope.pushNotification.isSubscribed) {
+                $scope.pushNotification.unsubscribeUser();
+            } else {
+                $scope.pushNotification.subscribeUser();
+            }
+        },
+        supported: false,
+        isSubscribed: false,
+        registration: null,
+        updateSubscriptionOnServer: function (subscription) {
+            console.log(subscription)
+            $http({
+                method: "POST",
+                url: "https://api.mcgame.info/account/pushNotification/update",
+                data: {subscription: subscription, username: usernameCookie, uuid: uuidCookie},
+                headers: {"Access-Token": accessTokenCookie}
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.status == "ok") {
+                    Materialize.toast("Push Notifications enabled", 4000)
+                    $scope.pushNotification.enabled = true;
+                } else {
+                    Materialize.toast('Error: ' + response.data.msg, 4000)
+                    $scope.pushNotification.enabled = false;
+                }
+
+                $scope.refreshFriends();
+            })
+        },
+        init: function () {
+            // Set the initial subscription value
+            $scope.pushNotification.registration.pushManager.getSubscription()
+                .then(function (subscription) {
+                    $timeout(function () {
+                        $scope.pushNotification.isSubscribed = !(subscription === null);
+
+                        if ($scope.pushNotification.isSubscribed) {
+                            console.log('User IS subscribed.');
+                            $scope.pushNotification.enabled = true;
+                        } else {
+                            console.log('User is NOT subscribed.');
+                            $scope.pushNotification.enabled = false;
+                        }
+                    })
+                });
+        },
+        subscribeUser: function () {
+            const applicationServerKey = urlB64ToUint8Array(/*"BFSI1Ym6OiOrM9COukPX6twj7QMI1L-LfmOvxG6TiiKZepUe-CKwTs_WiITUb1tk3gFq7FdIdnNbBA91i89cVt4"*/"BLdOBlol3QX1BUEQvsfIMvwg_r_zxd9Tn0TTqlt_y-Ecx5hrz8HW5qh1ecEWWOsHOw4A6pQyasNG77sQJYD2oRU");
+            $scope.pushNotification.registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: applicationServerKey
+            })
+                .then(function (subscription) {
+                    console.log('User is subscribed.');
+
+                    $scope.pushNotification.updateSubscriptionOnServer(subscription);
+
+                    $timeout(function () {
+                        $scope.pushNotification.isSubscribed = true;
+                    })
+                })
+                .catch(function (err) {
+                    console.log('Failed to subscribe the user: ', err);
+                });
+        },
+        unsubscribeUser: function () {
+            $scope.pushNotification.registration.pushManager.getSubscription()
+                .then(function (subscription) {
+                    if (subscription) {
+                        return subscription.unsubscribe();
+                    }
+                })
+                .catch(function (error) {
+                    console.log('Error unsubscribing', error);
+                })
+                .then(function () {
+                    $scope.pushNotification.updateSubscriptionOnServer(null);
+
+                    console.log('User is unsubscribed.');
+                    $scope.pushNotification.isSubscribed = false;
+                    $timeout(function () {
+                        $scope.pushNotification.enabled = false;
+                    })
+                });
+        }
+    }
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        console.log('Service Worker and Push is supported');
+        $scope.pushNotification.supported = true;
+
+        navigator.serviceWorker.register('/js/sw.js')
+            .then(function (swReg) {
+                console.log('Service Worker is registered', swReg);
+
+                $scope.pushNotification.registration = swReg;
+                $scope.pushNotification.init();
+            })
+            .catch(function (error) {
+                console.error('Service Worker Error', error);
+            });
+    } else {
+        console.warn('Push messaging is not supported');
+        $scope.pushNotification.supported = false;
+    }
+
     $scope.account = {};
 
     $scope.friends = [];
@@ -413,3 +524,18 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
 
 }]);
+
+function urlB64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
