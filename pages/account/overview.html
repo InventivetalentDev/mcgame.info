@@ -1,10 +1,86 @@
 <div>
     <br/>
     <h1>Account Overview</h1>
+    <br/>
 
-    <h2>Welcome back, {{ account.username }}!</h2>
+    <div class="row">
+        <div class="col s9">
+            <h3>Welcome back, {{ account.username }}!</h3>
 
-    <div>
-        You are playing <strong>{{ account.info.game }}</strong> on <strong>{{ account.info.server }}</strong>
+            <div>
+                You are playing <strong>{{ account.info.game }}</strong> on <strong>{{ account.info.server }}</strong>
+            </div>
+        </div>
+        <div class="col s3">
+            <h3>Friends</h3>
+            <div class="row">
+                <div class="input-field inline">
+                    <div class="col s9">
+                        <label for="addFriendName">Friend Name</label>
+                        <input id="addFriendName" name="addFriendName" type="text" ng-model="addFriendName">
+                    </div>
+                    <div class="col s3">
+                        <button class="right-align btn" ng-disabled="addFriendName.length<4" ng-click="addFriend()">&plus;</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <div>
+                    <h5>Your Friends</h5>
+                    <div ng-if="friends.length==0">
+                        You don't have any friends.... I'm very sorry.
+                    </div>
+                    <div ng-if="friends.length>0">
+                        <ul class="collection">
+                            <li class="collection-item" ng-repeat="friend in friends">
+                                <div>
+                                    {{ friend.username }}
+                                    <a href="#" class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">not_interested</i></a>
+                                </div>
+                                <div >
+                                    <!-- TODO: lastInfo -->
+                                    Playing <strong>{{ friend.info.game || "nothing" }}</strong> on <strong>{{ friend.info.server || "nowhere" }}</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div ng-if="friendRequests.incoming.length>0">
+                    <br/>
+                    <br/>
+                    <hr/>
+                    <h5>Friend Requests</h5>
+
+                    <ul class="collection">
+                        <li class="collection-item" ng-repeat="friend in friendRequests.incoming">
+                            <div>
+                                {{ friend.username }}
+                                <a href="#" class="secondary-content" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
+                                <a href="#" class="secondary-content" title="Decline Request" ng-click="declineFriend(friend.uuid)"><i class="material-icons red-text">not_interested</i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div ng-if="friendRequests.outgoing.length>0">
+                    <br/>
+                    <br/>
+                    <hr/>
+                    <h5>Requested Friends</h5>
+
+                    <ul class="collection">
+                        <li class="collection-item" ng-repeat="friend in friendRequests.outgoing">
+                            <div>
+                                {{ friend.username }}
+                                <a href="#" class="secondary-content" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">not_interested</i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

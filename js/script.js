@@ -1,6 +1,25 @@
 var app = angular.module("infoApp", ["ngCookies", "ui.router"]);
 
-app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.factory("httpAuthenticator", ["$cookies", function () {
+    return {
+        request: function (config) {
+            var usernameCookie = $cookies.get("username");
+            var uuidCookie = $cookies.get("uuid");
+            var accessTokenCookie = $cookies.get("accessToken");
+
+            if (accessTokenCookie)
+                config.headers["Access-Token"] = accessTokenCookie;
+            // if(uuidCookie)
+            //     config.data["uuid"] = uuidCookie;
+            // if(usernameCookie)
+            //     config.data["username"] = usernameCookie;
+
+            return config;
+        }
+    }
+}])
+
+app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
         .state("index", {
             url: "/",
@@ -35,6 +54,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", functio
     $urlRouterProvider.otherwise("/");
 
     $locationProvider.html5Mode(true);
+
+    // $httpProvider.interceptors.push("httpAuthenticator");
 }]);
 
 app.service("backend", function ($http) {
@@ -230,7 +251,7 @@ app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http",
     $state.go("login");
 }]);
 
-app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", function ($scope, $state, $stateParams, $http, $timeout,$interval, $cookies) {
+app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies) {
     var usernameCookie = $cookies.get("username");
     var uuidCookie = $cookies.get("uuid");
     var accessTokenCookie = $cookies.get("accessToken");
@@ -242,11 +263,117 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
     $scope.account = {};
 
-    $scope.refreshAccount = function () {
+    $scope.friends = [];
+    $scope.friendRequests = {
+        incoming: [],
+        outgoing: []
+    };
+
+    $scope.addFriendName = "";
+    $scope.addFriend = function () {
         $http({
             method: "POST",
+            url: "https://api.mcgame.info/account/friends/add",
+            data: {username: usernameCookie, uuid: uuidCookie, friend: $scope.addFriendName},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Friend request sent!", 4000)
+                $scope.addFriendName = "";
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+
+            $scope.refreshFriends();
+        })
+    };
+    $scope.removeFriend = function (uuid, username) {
+        if (confirm("Are you sure you want to remove " + username + " from your friends list?")) {
+            $http({
+                method: "POST",
+                url: "https://api.mcgame.info/account/friends/remove",
+                data: {username: usernameCookie, uuid: uuidCookie, friend: uuid},
+                headers: {"Access-Token": accessTokenCookie}
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.status == "ok") {
+                    Materialize.toast("Friend removeed", 4000)
+                } else {
+                    Materialize.toast('Error: ' + response.data.msg, 4000)
+                }
+
+                $scope.refreshFriends();
+            })
+        }
+    };
+    $scope.cancelRequest = function (uuid) {
+        console.log("cancelRequest " + uuid)
+        $http({
+            method: "POST",
+            url: "https://api.mcgame.info/account/friends/requests/cancel",
+            data: {username: usernameCookie, uuid: uuidCookie, friend: uuid},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Request cancelled", 4000)
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+
+            $scope.refreshFriends();
+        })
+    }
+
+    $scope.acceptFriend = function (uuid) {
+        console.log("acceptFriend " + uuid)
+        $http({
+            method: "POST",
+            url: "https://api.mcgame.info/account/friends/requests/accept",
+            data: {username: usernameCookie, uuid: uuidCookie, friend: uuid},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Friend accepted!", 4000)
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+
+            $scope.refreshFriends();
+        })
+    };
+    $scope.declineFriend = function (uuid) {
+        console.log("declineFriend " + uuid)
+        $http({
+            method: "POST",
+            url: "https://api.mcgame.info/account/friends/requests/decline",
+            data: {username: usernameCookie, uuid: uuidCookie, friend: uuid},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Friend declined!", 4000)
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+
+            $scope.refreshFriends();
+        })
+    };
+
+    $scope.refreshAccount = function () {
+        $http({
+            method: "GET",
             url: "https://api.mcgame.info/account",
-            data: {username: usernameCookie, uuid: uuidCookie, accessToken: accessTokenCookie}
+            params: {username: usernameCookie, uuid: uuidCookie},
+            headers: {"Access-Token": accessTokenCookie}
         }).then(function (response) {
             console.log(response);
 
@@ -258,9 +385,31 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         })
     };
     $scope.refreshAccount();
-
     $interval($scope.refreshAccount, 1000 * 60 * 10);
-    window.addEventListener("focus",function (event) {
+
+    $scope.refreshFriends = function () {
+        $http({
+            method: "GET",
+            url: "https://api.mcgame.info/account/friends",
+            params: {username: usernameCookie, uuid: uuidCookie},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                $scope.friends = response.data.friends;
+                $scope.friendRequests = response.data.requests;
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+        })
+    };
+    $scope.refreshFriends();
+
+    window.addEventListener("focus", function (event) {
         $scope.refreshAccount();
-    })
+        $scope.refreshFriends();
+    });
+
+
 }]);
