@@ -373,6 +373,40 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     }
 
     $scope.account = {};
+    $scope.updateGameInfo = function () {
+        $http({
+            method: "POST",
+            url: $scope.account.info.server ? "https://api.mcgame.info/join/server" : "https://api.mcgame.info/leave/server",
+            data: {username: usernameCookie, uuid: uuidCookie, serverIp:$scope.account.info.server},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Server updated", 4000)
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+
+            $scope.refreshAccount();
+        });
+        $http({
+            method: "POST",
+            url: $scope.account.info.game ? "https://api.mcgame.info/join/game" : "https://api.mcgame.info/leave/game",
+            data: {username: usernameCookie, uuid: uuidCookie, gameName:$scope.account.info.game},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Game updated", 4000)
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+
+            $scope.refreshAccount();
+        })
+    };
 
     $scope.friends = [];
     $scope.friendRequests = {
@@ -522,7 +556,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $scope.refreshFriends();
     });
 
-
+    $timeout(function () {
+        Materialize.updateTextFields();
+    })
 }]);
 
 function urlB64ToUint8Array(base64String) {

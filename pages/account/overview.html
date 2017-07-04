@@ -8,7 +8,23 @@
             <h3>Welcome back, {{ account.username }}!</h3>
 
             <div>
-                You are playing <strong>{{ account.info.game }}</strong> on <strong>{{ account.info.server }}</strong>
+                <div>
+                    You are playing <strong>{{ account.info.game }}</strong> on <strong>{{ account.info.server }}</strong>
+                </div>
+                <div>
+                   <div class="row">
+                       <div class="input-field col s6">
+                           <label for="infoServer">Server</label>
+                           <input id="infoServer" name="infoServer" type="text" ng-model="account.info.server">
+                       </div>
+                       <div class="input-field col s6">
+                           <label for="infoGame">Game</label>
+                           <input id="infoGame" name="infoGame" type="text" ng-model="account.info.game">
+                       </div>
+                   </div>
+
+                    <button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>
+                </div>
             </div>
 
             <br/>
