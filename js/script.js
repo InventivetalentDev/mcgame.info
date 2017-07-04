@@ -524,6 +524,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
             if (response.data.status == "ok") {
                 $scope.account = response.data.user;
+                $timeout(function () {
+                    Materialize.updateTextFields();
+                })
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
