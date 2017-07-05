@@ -37,7 +37,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             controller: "loginRegisterController"
         })
         .state("logout", {
-            url: "/logout",
+            url: "/logout?login",
             controller: "logoutController"
         })
         .state("changePassword", {
@@ -89,6 +89,18 @@ app.service("backend", function ($http) {
         return this.request(path, "POST", data || {}, {"Content-Type": "application/json"});
     };
 });
+
+app.controller("parentController", ["$scope", "$cookies", function ($scope, $cookies) {
+    $scope.cookies = {
+        username: "",
+        uuid: ""
+    };
+    $scope.refreshCookies = function () {
+        $scope.cookies.username = $cookies.get("username");
+        $scope.cookies.uuid = $cookies.get("uuid");
+    }
+    $scope.refreshCookies();
+}])
 
 app.controller("indexController", ["$scope", function ($scope) {
 
@@ -190,7 +202,8 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                     });
                     $cookies.put("accessToken", response.data.accessToken, {
                         expires: expires
-                    })
+                    });
+                    $scope.refreshCookies();
 
                     $timeout(function () {
                         $state.go("accountOverview", {}, {location: "replace", reload: true});
@@ -245,10 +258,17 @@ app.controller("changePasswordController", ["$scope", "$state", "$stateParams", 
 }]);
 
 app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $cookies) {
+    $cookies.remove("username");
     $cookies.remove("uuid");
     $cookies.remove("accessToken");
 
-    $state.go("login");
+    $scope.refreshCookies();
+
+    if ($stateParams.login) {
+        $state.go("login")
+    } else {
+        $state.go("index");
+    }
 }]);
 
 app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies) {
@@ -257,7 +277,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     var accessTokenCookie = $cookies.get("accessToken");
 
     if (!usernameCookie || !uuidCookie || !accessTokenCookie) {
-        $state.go("logout");
+        $state.go("logout",{login:true});
         return;
     }
 
@@ -373,11 +393,15 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     }
 
     $scope.account = {};
+    $scope.infoInput = {
+        game: "",
+        server: ""
+    }
     $scope.updateGameInfo = function () {
         $http({
             method: "POST",
             url: $scope.account.info.server ? "https://api.mcgame.info/join/server" : "https://api.mcgame.info/leave/server",
-            data: {username: usernameCookie, uuid: uuidCookie, serverIp:$scope.account.info.server},
+            data: {username: usernameCookie, uuid: uuidCookie, serverIp: $scope.infoInput.server},
             headers: {"Access-Token": accessTokenCookie}
         }).then(function (response) {
             console.log(response);
@@ -393,7 +417,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "POST",
             url: $scope.account.info.game ? "https://api.mcgame.info/join/game" : "https://api.mcgame.info/leave/game",
-            data: {username: usernameCookie, uuid: uuidCookie, gameName:$scope.account.info.game},
+            data: {username: usernameCookie, uuid: uuidCookie, gameName: $scope.infoInput.game},
             headers: {"Access-Token": accessTokenCookie}
         }).then(function (response) {
             console.log(response);
@@ -524,6 +548,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
             if (response.data.status == "ok") {
                 $scope.account = response.data.user;
+                $scope.infoInput = response.data.user.info;
                 $timeout(function () {
                     Materialize.updateTextFields();
                 })
@@ -563,6 +588,13 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         Materialize.updateTextFields();
     })
 }]);
+
+$(document).ready(function () {
+    $(".button-collapse").sideNav({
+        closeOnClick: true,
+        draggable: true
+    });
+})
 
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);

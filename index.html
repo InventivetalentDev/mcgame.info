@@ -40,14 +40,18 @@
                 height: 100%;
             }
 
-            .brand-logo>img {
+            .brand-logo > img {
                 vertical-align: middle;
-                max-height: 64px!important;
-                padding: 4px 0!important;
+                max-height: 64px !important;
+                padding: 4px 0 !important;
+            }
+
+            .text-muted {
+                opacity: 0.5;
             }
         </style>
     </head>
-    <body ng-cloak>
+    <body ng-cloak ng-controller="parentController">
         <div>
             <nav>
                 <div class="nav-wrapper row">
@@ -59,8 +63,29 @@
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
                             <li><a href="/account">Account</a></li>
                         </ul>
+
+                        <ul id="slide-out" class="side-nav" ng-init="refreshCookies()">
+                            <li>
+                                <div class="user-view">
+                                    <div class="background">
+                                        <img src="https://i.imgur.com/xJVAZ8n.jpg" style="position: relative;top: -138px;left: -230px;">
+                                    </div>
+                                    <a href="/account"><img class="responsive-img circle" src="https://minotar.net/avatar/steve" ng-src="{{ 'https://minotar.net/avatar/'+(cookies.username||'steve') }}"></a>
+                                    <a href="/account"><span class="white-text">{{ cookies.username || 'Please log in' }}</span></a>
+                                </div>
+                            </li>
+                            <li><a href="/account"><i class="material-icons">perm_identity</i>{{ cookies.username ? "Account" : "Login" }}</a></li>
+                            <li><a ng-if="cookies.uuid" href="/logout">Log Out</a></li>
+                            <li>
+                                <div class="divider"></div>
+                            </li>
+                            <li><a class="subheader">Subheader</a></li>
+                            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+                        </ul>
+                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
                     </div>
                 </div>
+
             </nav>
 
             <div class="container">
