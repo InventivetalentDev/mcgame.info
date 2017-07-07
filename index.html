@@ -29,40 +29,61 @@
 
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css" integrity="sha256-oiVjjd5Fuot9f/fgwH5IBBjsOA7TDdcfSK5I2EZ0zMw=" crossorigin="anonymous" media="screen,projection"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <base href="/">
 
         <style>
-            .brand-logo {
-                display: inline-block;
-                height: 100%;
-            }
+            /*.brand-logo {*/
+            /*display: inline-block;*/
+            /*height: 100%;*/
+            /*}*/
 
-            .brand-logo > img {
-                vertical-align: middle;
-                max-height: 64px !important;
-                padding: 4px 0 !important;
-            }
+            /*.brand-logo > img {*/
+            /*vertical-align: middle;*/
+            /*max-height: 64px !important;*/
+            /*padding: 4px 0 !important;*/
+            /*}*/
 
             .text-muted {
                 opacity: 0.5;
+            }
+
+            .material-icons {
+                display: inline-flex;
+                vertical-align: middle;
+            }
+
+            .material-icons.md-18 {
+                font-size: 18px;
+            }
+
+            .material-icons.md-24 {
+                font-size: 24px;
+            }
+
+            .material-icons.md-36 {
+                font-size: 36px;
+            }
+
+            .material-icons.md-48 {
+                font-size: 48px;
             }
         </style>
     </head>
     <body ng-cloak ng-controller="parentController">
         <div>
-            <nav>
+            <nav class="blue darken-3">
                 <div class="nav-wrapper row">
-                    <div class="col s12">
-                        <a href="/" class="brand-logo">
-                            <img src="/img/logo-64.png" class="circle responsive-img">
+                    <div class="col ds12">
+                        <a href="/" class="brand-logo center">
                             MC GameInfo
                         </a>
-                        <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li><a href="/account">Account</a></li>
-                        </ul>
+                        <!--<ul id="nav-mobile" class="right hide-on-med-and-down">-->
+                        <!--<li><a href="/account">Account</a></li>-->
+                        <!--</ul>-->
 
                         <ul id="slide-out" class="side-nav" ng-init="refreshCookies()">
                             <li>
@@ -70,11 +91,12 @@
                                     <div class="background">
                                         <img src="https://i.imgur.com/xJVAZ8n.jpg" style="position: relative;top: -138px;left: -230px;">
                                     </div>
-                                    <a href="/account"><img class="responsive-img circle" src="https://minotar.net/avatar/steve" ng-src="{{ 'https://minotar.net/avatar/'+(cookies.username||'steve') }}"></a>
-                                    <a href="/account"><span class="white-text">{{ cookies.username || 'Please log in' }}</span></a>
+                                    <a href="/account"><img class="responsive-img" src="https://minotar.net/avatar/steve/64" ng-src="{{ 'https://minotar.net/avatar/'+(cookies.username||'steve')+'/64' }}" style="width:64px;height:64px; border-radius: 10px;"></a>
+                                    <span class="white-text name">{{ cookies.username || 'Steve' }}</span>
+                                    <span class="white-text email">mail@mcgame.info</span>
                                 </div>
                             </li>
-                            <li><a href="/account"><i class="material-icons">perm_identity</i>{{ cookies.username ? "Account" : "Login" }}</a></li>
+                            <li><a href="/account"><i class="material-icons">person</i>{{ cookies.username ? "Account" : "Login" }}</a></li>
                             <li><a ng-if="cookies.uuid" href="/logout">Log Out</a></li>
                             <li>
                                 <div class="divider"></div>
@@ -82,14 +104,16 @@
                             <li><a class="subheader">Subheader</a></li>
                             <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
                         </ul>
-                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+                        <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
                     </div>
                 </div>
 
             </nav>
 
             <div class="container">
-                <div ui-view></div>
+                <div ui-view>
+                    <noscript>Please enable Javascript</noscript>
+                </div>
             </div>
         </div>
 
@@ -106,6 +130,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/x64-core.min.js" integrity="sha256-Ib4gtvPEQ6fWMwvsDag1O50UfORLaTwgfaswLOa+hR8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha512.min.js" integrity="sha256-6Tf1qTZChk7+heP/aqN6vflwFV9frcqqEPCtj8HrKyo=" crossorigin="anonymous"></script>
 
-        <script src="js/script.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" integrity="sha256-1hjUhpc44NwiNg8OwMu2QzJXhD8kcj+sJA3aCQZoUjg=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.1/angular-moment.min.js" integrity="sha256-BvdaZdPJc+x1dwsmn62ZkJ+4WepCjqP3xAFYrPP10F8=" crossorigin="anonymous"></script>
+
+        <script src="js/base.js"></script>
+        <script src="js/ctrl/parent.js"></script>
+        <script src="js/ctrl/loginRegister.js"></script>
+        <script src="js/ctrl/logout.js"></script>
+        <script src="js/ctrl/changePassword.js"></script>
+        <script src="js/ctrl/accountOverview.js"></script>
     </body>
 </html>
