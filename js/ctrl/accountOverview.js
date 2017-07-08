@@ -8,10 +8,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         return;
     }
 
-    $scope.navbar.tabs=[
-        {
-
-        }
+    $scope.navbar.tabs = [
+        {}
     ];
 
     $scope.pushNotification = {
@@ -189,6 +187,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
 
             $scope.refreshFriends();
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         })
     };
     $scope.removeFriend = function (uuid, username) {
@@ -208,6 +208,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 }
 
                 $scope.refreshFriends();
+            }, function (response) {
+                Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
             })
         }
     };
@@ -228,6 +230,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
 
             $scope.refreshFriends();
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         })
     }
 
@@ -248,6 +252,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
 
             $scope.refreshFriends();
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         })
     };
     $scope.declineFriend = function (uuid) {
@@ -267,6 +273,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
 
             $scope.refreshFriends();
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         })
     };
 
@@ -288,6 +296,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         })
     };
     $scope.refreshAccount();
@@ -308,6 +318,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         })
     };
     $scope.refreshFriends();

@@ -71,7 +71,9 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
-        });
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+        })
     };
 
     $scope.login = function () {
@@ -117,6 +119,8 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
         });
     };
 }]);

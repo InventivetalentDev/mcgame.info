@@ -35,6 +35,8 @@ app.controller("changePasswordController", ["$scope", "$state", "$stateParams", 
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
-        });
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+        })
     }
 }]);
