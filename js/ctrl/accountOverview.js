@@ -8,6 +8,12 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         return;
     }
 
+    $scope.navbar.tabs=[
+        {
+
+        }
+    ];
+
     $scope.pushNotification = {
         enabled: false,
         update: function () {

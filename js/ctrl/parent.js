@@ -8,4 +8,8 @@ app.controller("parentController", ["$scope", "$cookies", function ($scope, $coo
         $scope.cookies.uuid = $cookies.get("uuid");
     }
     $scope.refreshCookies();
+
+    $scope.navbar = {
+        tabs: []
+    }
 }])
