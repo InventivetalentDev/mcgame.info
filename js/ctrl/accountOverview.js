@@ -1,4 +1,4 @@
-app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment) {
+app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService) {
     var usernameCookie = $cookies.get("username");
     var uuidCookie = $cookies.get("uuid");
     var accessTokenCookie = $cookies.get("accessToken");
@@ -16,6 +16,10 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         {
             title: "Servers",
             href: "#servers"
+        },
+        {
+            title: "Settings",
+            href: "#settings"
         }
     ];
     $scope.navbar.initTabs();
@@ -364,6 +368,143 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         })
     };
     $scope.refreshFriends();
+
+
+    $scope.servers = [];
+    $scope.refreshServers = function () {
+        $http({
+            method: "GET",
+            url: "https://api.mcgame.info/account/servers",
+            params: {username: usernameCookie, uuid: uuidCookie},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                $scope.servers = response.data.servers;
+                $.each($scope.servers, function (index, server) {
+                    var i = index;
+                    $http({
+                        method: "POST",
+                        url: "https://api.mcgame.info/util/pingServer",
+                        data: {ip: server.ip}
+                    }).then(function (response) {
+                        if (response.data.status == "ok") {
+                            $scope.servers[i].ping = response.data.ping;
+                        }
+                        console.log($scope.servers)
+                    })
+                })
+
+                $timeout(function () {
+                    $(".tooltipped").tooltip();
+                }, 1000);
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
+        })
+    };
+    $scope.verifyServerDomain = function (serverIp, serverName) {
+        $http({
+            method: "POST",
+            url: "https://api.mcgame.info/servers/verify/domain",
+            data: {username: usernameCookie, uuid: uuidCookie, serverIp: serverIp, serverName: serverName},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                Materialize.toast("Domain verified!", 4000)
+
+                $scope.refreshServers();
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
+        })
+    }
+    $scope.refreshServers();
+
+    $scope.showAddServerModal = function () {
+        ModalService.showModal({
+            templateUrl: "/pages/modal/addServer.html",
+            controller: function ($scope, $http) {
+                $scope.serverName = "";
+                $scope.serverIp = "";
+                $scope.add = function () {
+                    if ($scope.serverName.length < 4)return
+                    if ($scope.serverIp.length < 4)return;
+
+                    $http({
+                        method: "POST",
+                        url: "https://api.mcgame.info/servers/add",
+                        data: {username: usernameCookie, uuid: uuidCookie, serverName: $scope.serverName, serverIp: $scope.serverIp},
+                        headers: {"Access-Token": accessTokenCookie}
+                    }).then(function (response) {
+                        console.log(response);
+
+                        if (response.data.status == "ok") {
+                            Materialize.toast("Server registered.", 4000);
+                            $scope.showDomainTokenModal($scope.serverName, $scope.serverIp);
+                        } else {
+                            Materialize.toast('Error: ' + response.data.msg, 4000)
+                        }
+                    }, function (response) {
+                        Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                        if (response.status == 403) {
+                            $state.go("login", {reload: true})
+                        }
+                    })
+                }
+            }
+        }).then(function (modal) {
+            modal.element.modal("open")
+        })
+    };
+    $scope.showDomainTokenModal = function (serverName, serverIp) {
+        $http({
+            method: "GET",
+            url: "https://api.mcgame.info/servers/verify/domain/token",
+            params: {username: usernameCookie, uuid: uuidCookie, serverName: serverName, serverIp: serverIp},
+            headers: {"Access-Token": accessTokenCookie}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                ModalService.showModal({
+                    templateUrl: "/pages/modal/domainToken.html",
+                    controller: function ($scope, $http, id, token, ip) {
+                        $scope.serverId = id;
+                        $scope.domainToken = token;
+                        $scope.serverIp = ip;
+                    },
+                    inputs: {
+                        id: response.data.serverId,
+                        token: response.data.domainToken,
+                        ip: serverIp
+                    }
+                }).then(function (modal) {
+                    modal.element.modal("open")
+                })
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
+        })
+    }
 
     window.addEventListener("focus", function (event) {
         $scope.refreshAccount();

@@ -1,4 +1,4 @@
-<div id="overview">
+<div id="overview" class="col s12">
     <br/>
     <h1>Account Overview</h1>
     <br/>
@@ -11,40 +11,10 @@
                 <div>
                     You are playing <strong>{{ account.info.game }}</strong> on <strong>{{ account.info.server }}</strong>
                 </div>
-                <div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <label for="infoGame">Game</label>
-                            <input id="infoGame" name="infoGame" type="text" ng-model="infoInput.game">
-                        </div>
-                        <div class="input-field col s6">
-                            <label for="infoServer">Server</label>
-                            <input id="infoServer" name="infoServer" type="text" ng-model="infoInput.server">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>
-                </div>
             </div>
 
             <br/>
             <br/>
-            <div>
-                <label>Push Notifications</label>
-                <div class="switch">
-                    <label>
-                        Off
-                        <input type="checkbox" ng-model="pushNotification.enabled" ng-change="pushNotification.update()" ng-disabled="!pushNotification.supported">
-                        <span class="lever"></span>
-                        On
-                    </label>
-                </div>
-                <div ng-if="!pushNotification.supported">
-                    Push Notifications are not supported
-                </div>
-
-                {{ pushNotification.enabled }}
-            </div>
         </div>
         <div class="col s12 m3">
             <h3>Friends</h3>
@@ -82,7 +52,7 @@
                                 <p ng-show="friend.info.server.length==0" class="text-muted">
                                     Last seen playing <strong>{{ friend.lastInfo.game || "nothing" }}</strong> on <strong>{{ friend.lastInfo.server || "nowhere" }}</strong>, <span am-time-ago="friend.lastInfo.lastUpdate"></span>
                                 </p>
-                                <a href="#" class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">clear</i></a>
+                                <a class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">clear</i></a>
                             </li>
                         </ul>
                     </div>
@@ -103,8 +73,8 @@
                                 <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title">{{ friend.username }}</span>
                                 <p>
-                                    <a href="#" class="" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
-                                    <a href="#" class="" title="Decline Request" ng-click="declineFriend(friend.uuid)"><i class="material-icons red-text">clear</i></a>
+                                    <a class="" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
+                                    <a class="" title="Decline Request" ng-click="declineFriend(friend.uuid)"><i class="material-icons red-text">clear</i></a>
                                 </p>
                             </li>
                         </ul>
@@ -126,7 +96,7 @@
                                 <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title">{{ friend.username }}</span>
                                 <p>
-                                    <a href="#" class="" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">clear</i></a>
+                                    <a class="" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">clear</i></a>
                                 </p>
                             </li>
                         </ul>
@@ -137,6 +107,64 @@
         </div>
     </div>
 </div>
-<div id="servers">
-    <h1>Your Servers</h1>
+
+<div id="servers" class="col s12">
+    <h1>Your Servers <button class="btn tooltipped" data-tooltip="Add your own server" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i></button></h1>
+
+    <div ng-show="servers.length==0">
+        You don't have any registered servers.
+        <button class="btn" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i> Add your server now!</button>
+    </div>
+    <div>
+        <ul class="collection">
+            <li class="collection-item avatar" ng-repeat="server in servers">
+                <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle"><!-- TODO: use actual server icon -->
+                <span class="title">{{ server.name }}</span>
+                <p>
+                    {{ server.ip }}
+                    <br/>
+                    <br/>
+                    <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Re-Check Domain record" ng-if="!server.domainVerified" ng-click="verifyServerDomain(server.ip,server.name)"><i class="material-icons">done</i></a>
+                    <a class="red-text" data-position="bottom" data-delay="20" data-tooltip="Delete Server"><i class="material-icons">delete</i></a>
+                </p>
+                <a class="secondary-content tooltipped" data-position="left" data-delay="20" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
+                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified"  ng-if="!server.domainVerified" ng-click="showDomainTokenModal(server.name,server.ip)" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="settings" class="col s12">
+    <h1>Settings</h1>
+
+    <div>
+        <label>Push Notifications</label>
+        <div class="switch" style="padding:10px;">
+            <label>
+                Off
+                <input type="checkbox" ng-model="pushNotification.enabled" ng-change="pushNotification.update()" ng-disabled="!pushNotification.supported">
+                <span class="lever"></span>
+                On
+            </label>
+        </div>
+        <div ng-if="!pushNotification.supported">
+            Push Notifications are not supported
+        </div>
+        <br/>
+    </div>
+    <div class="divider"></div>
+    <div>
+        <div class="row">
+            <div class="input-field col s6">
+                <label for="infoGame">Game</label>
+                <input id="infoGame" name="infoGame" type="text" ng-model="infoInput.game">
+            </div>
+            <div class="input-field col s6">
+                <label for="infoServer">Server</label>
+                <input id="infoServer" name="infoServer" type="text" ng-model="infoInput.server">
+            </div>
+        </div>
+
+        <button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>
+    </div>
 </div>

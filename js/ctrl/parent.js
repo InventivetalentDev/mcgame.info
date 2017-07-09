@@ -1,4 +1,4 @@
-app.controller("parentController", ["$scope", "$cookies", function ($scope, $cookies) {
+app.controller("parentController", ["$scope", "$cookies","$timeout", function ($scope, $cookies,$timeout) {
     $scope.cookies = {
         username: "",
         uuid: ""

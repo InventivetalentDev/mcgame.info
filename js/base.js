@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment","angularModalService"]);
 
 app.factory("httpAuthenticator", ["$cookies", function () {
     return {
@@ -107,6 +107,8 @@ $(document).ready(function () {
     });
 
     $("ul.tabs").tabs();
+
+    $(".tooltipped").tooltip();
 })
 
 function urlB64ToUint8Array(base64String) {

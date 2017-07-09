@@ -24,6 +24,23 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
 
             if (response.data.status == "ok") {
                 $scope.servers = response.data.servers;
+                $.each($scope.servers,function (index,server) {
+                    var i=index;
+                    $http({
+                        method:"POST",
+                        url:"https://api.mcgame.info/util/pingServer",
+                        data:{ip:server.ip}
+                    }).then(function (response) {
+                        if(response.data.status=="ok"){
+                            $scope.servers[i].ping=response.data.ping;
+                        }
+                        console.log($scope.servers)
+                    })
+                })
+
+                $timeout(function () {
+                    $(".tooltipped").tooltip();
+                }, 1000);
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }

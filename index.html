@@ -71,6 +71,10 @@
             .material-icons.md-48 {
                 font-size: 48px;
             }
+
+            a[ng-click]{
+                cursor: pointer;
+            }
         </style>
     </head>
     <body ng-cloak ng-controller="parentController">
@@ -108,7 +112,7 @@
                     </div>
                 </div>
                 <div class="nav-content" ng-show="navbar.tabs.length>0">
-                    <ul class="tabs tabs-transparent">
+                    <ul class="tabs tabs-transparent tabs-fixed-width">
                         <li class="tab" ng-repeat="tab in navbar.tabs" ng-class="{'disabled':tab.disabled}"><a href="{{ tab.href }}" ng-class="{'active':tab.active || locationHash == tab.href}">{{ tab.title }}</a></li>
                         <!--<li class="tab"><a class="active" href="#test2">Test 2</a></li>-->
                         <!--<li class="tab disabled"><a href="#test3">Disabled Tab</a></li>-->
@@ -139,6 +143,8 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" integrity="sha256-1hjUhpc44NwiNg8OwMu2QzJXhD8kcj+sJA3aCQZoUjg=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.1/angular-moment.min.js" integrity="sha256-BvdaZdPJc+x1dwsmn62ZkJ+4WepCjqP3xAFYrPP10F8=" crossorigin="anonymous"></script>
+
+        <script src="https://cdn.rawgit.com/dwmkerr/angular-modal-service/126c6ecf/dst/angular-modal-service.min.js"></script>
 
         <script src="js/base.js"></script>
         <script src="js/ctrl/parent.js"></script>
