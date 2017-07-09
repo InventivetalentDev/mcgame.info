@@ -1,4 +1,4 @@
-<div>
+<div id="overview">
     <br/>
     <h1>Account Overview</h1>
     <br/>
@@ -52,11 +52,11 @@
                 <div class="row">
                     <div class="col s12">
                         <form>
-                               <div class="input-field inline">
-                                   <label for="addFriendName">Friend Name</label>
-                                   <input id="addFriendName" name="addFriendName" type="text" ng-model="addFriendName">
-                               </div>
-                               <button class="right-align btn" ng-disabled="addFriendName.length<4" ng-click="addFriend()"><i class="material-icons">person_add</i></button>
+                            <div class="input-field inline">
+                                <label for="addFriendName">Friend Name</label>
+                                <input id="addFriendName" name="addFriendName" type="text" ng-model="addFriendName">
+                            </div>
+                            <button class="right-align btn" ng-disabled="addFriendName.length<4" ng-click="addFriend()"><i class="material-icons">person_add</i></button>
                         </form>
                     </div>
                 </div>
@@ -68,21 +68,21 @@
                     </div>
                     <div ng-if="friends.length>0">
                         <ul class="collection">
-                            <li class="collection-item" ng-repeat="friend in friends">
-                                <div>
-                                    <span style="font-weight:bold;">{{ friend.username }}</span>
-                                    <a href="#" class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">clear</i></a>
-                                </div>
-                                <div>
+                            <li class="collection-item avatar" ng-repeat="friend in friends">
+                                <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
+                                <span style="font-weight:bold;" class="title">
+                                    {{ friend.username }}
                                     <i class="material-icons" ng-class="{'green-text':friend.info.server.length>0,'red-text':friend.info.server.length==0}">{{ friend.info.server.length>0 ? "visibility" : "visibility_off" }}</i>
-                                    <div ng-show="friend.info.server.length>0">
-                                        Playing <strong>{{ friend.info.game || "nothing" }}</strong> on <strong>{{ friend.info.server || "nowhere" }}</strong>
-                                    </div>
+                                </span>
 
-                                    <div ng-show="friend.info.server.length==0" class="text-muted">
-                                        Last seen playing <strong>{{ friend.lastInfo.game || "nothing" }}</strong> on <strong>{{ friend.lastInfo.server || "nowhere" }}</strong>, <span am-time-ago="friend.lastInfo.lastUpdate"></span>
-                                    </div>
-                                </div>
+                                <p ng-show="friend.info.server.length>0">
+                                    Playing <strong>{{ friend.info.game || "nothing" }}</strong> on <strong>{{ friend.info.server || "nowhere" }}</strong>
+                                </p>
+
+                                <p ng-show="friend.info.server.length==0" class="text-muted">
+                                    Last seen playing <strong>{{ friend.lastInfo.game || "nothing" }}</strong> on <strong>{{ friend.lastInfo.server || "nowhere" }}</strong>, <span am-time-ago="friend.lastInfo.lastUpdate"></span>
+                                </p>
+                                <a href="#" class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">clear</i></a>
                             </li>
                         </ul>
                     </div>
@@ -99,12 +99,13 @@
                     </div>
                     <div ng-if="friendRequests.incoming.length>0">
                         <ul class="collection">
-                            <li class="collection-item" ng-repeat="friend in friendRequests.incoming">
-                                <div>
-                                    <span style="font-weight:bold;">{{ friend.username }}</span>
-                                    <a href="#" class="secondary-content" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
-                                    <a href="#" class="secondary-content" title="Decline Request" ng-click="declineFriend(friend.uuid)"><i class="material-icons red-text">clear</i></a>
-                                </div>
+                            <li class="collection-item avatar" ng-repeat="friend in friendRequests.incoming">
+                                <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
+                                <span style="font-weight:bold;" class="title">{{ friend.username }}</span>
+                                <p>
+                                    <a href="#" class="" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
+                                    <a href="#" class="" title="Decline Request" ng-click="declineFriend(friend.uuid)"><i class="material-icons red-text">clear</i></a>
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -121,11 +122,12 @@
                     </div>
                     <div ng-if="friendRequests.outgoing.length>0">
                         <ul class="collection">
-                            <li class="collection-item" ng-repeat="friend in friendRequests.outgoing">
-                                <div>
-                                    <span style="font-weight:bold;">{{ friend.username }}</span>
-                                    <a href="#" class="secondary-content" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">clear</i></a>
-                                </div>
+                            <li class="collection-item avatar" ng-repeat="friend in friendRequests.outgoing">
+                                <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
+                                <span style="font-weight:bold;" class="title">{{ friend.username }}</span>
+                                <p>
+                                    <a href="#" class="" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">clear</i></a>
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -135,4 +137,6 @@
         </div>
     </div>
 </div>
+<div id="servers">
+    <h1>Your Servers</h1>
 </div>

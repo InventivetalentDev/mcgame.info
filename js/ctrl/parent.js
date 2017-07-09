@@ -10,6 +10,18 @@ app.controller("parentController", ["$scope", "$cookies", function ($scope, $coo
     $scope.refreshCookies();
 
     $scope.navbar = {
-        tabs: []
+        tabs: [],
+        initTabs:function () {
+            $timeout(function () {
+                $("ul.tabs").tabs({
+                    onShow:function (tab) {
+                        console.log(tab)
+                        location.hash=tab[0].id
+                    }
+                });
+            }, 100);
+        }
     }
+
+    $scope.locationHash = location.hash;
 }])

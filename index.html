@@ -75,7 +75,7 @@
     </head>
     <body ng-cloak ng-controller="parentController">
         <div>
-            <nav class="blue darken-3">
+            <nav class="blue darken-3 nav-extended">
                 <div class="nav-wrapper row">
                     <div class="col ds12">
                         <a href="/" class="brand-logo center">
@@ -96,20 +96,20 @@
                                     <span class="white-text email">mail@mcgame.info</span>
                                 </div>
                             </li>
-                            <li><a href="/account"><i class="material-icons">person</i>{{ cookies.username ? "Account" : "Login" }}</a></li>
-                            <li><a ng-if="cookies.uuid" href="/logout">Log Out</a></li>
+                            <li><a href="#" ng-href="{{ cookies.uuid ? '/logout' : '/login' }}">{{ cookies.uuid ? "Log Out" : "Log In" }}</a></li>
                             <li>
                                 <div class="divider"></div>
                             </li>
-                            <li><a class="subheader">Subheader</a></li>
-                            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+                            <li><a class="subheader">Navigation</a></li>
+                            <li><a class="waves-effect" href="/account" ng-disabled="!cookies.uuid"><i class="material-icons">person</i> Account</a></li>
+                            <li><a class="waves-effect" href="/servers"><i class="material-icons">list</i> Server List</a></li>
                         </ul>
                         <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
                     </div>
                 </div>
                 <div class="nav-content" ng-show="navbar.tabs.length>0">
                     <ul class="tabs tabs-transparent">
-                        <li class="tab" ng-repeat="tab in navbar.tabs" ng-class="{'disabled':tab.disabled}"><a href="{{ tab.href }}" ng-class="{'active':tab.active}">{{ tab.title }}</a></li>
+                        <li class="tab" ng-repeat="tab in navbar.tabs" ng-class="{'disabled':tab.disabled}"><a href="{{ tab.href }}" ng-class="{'active':tab.active || locationHash == tab.href}">{{ tab.title }}</a></li>
                         <!--<li class="tab"><a class="active" href="#test2">Test 2</a></li>-->
                         <!--<li class="tab disabled"><a href="#test3">Disabled Tab</a></li>-->
                         <!--<li class="tab"><a href="#test4">Test 4</a></li>-->
@@ -146,5 +146,6 @@
         <script src="js/ctrl/logout.js"></script>
         <script src="js/ctrl/changePassword.js"></script>
         <script src="js/ctrl/accountOverview.js"></script>
+        <script src="js/ctrl/serverList.js"></script>
     </body>
 </html>

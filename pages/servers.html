@@ -1,3 +1,16 @@
 <div>
     <h1>Servers</h1>
+
+    <div>
+        <ul class="collection">
+            <li class="collection-item avatar" ng-repeat="server in servers">
+                <img src="/img/logo-64.png" alt="Server Icon" class="circle"><!-- TODO: use actual server icon -->
+                <span class="title">{{ server.name }}</span>
+                <p>
+                    {{ server.ip }}
+                </p>
+                <a href="#" class="secondary-content" ng-if="server.domainVerified" title="Verified Server"><i class="material-icons">verified_user</i></a>
+            </li>
+        </ul>
+    </div>
 </div>

@@ -9,8 +9,17 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     }
 
     $scope.navbar.tabs = [
-        {}
+        {
+            title: "Overview",
+            href: "#overview"
+        },
+        {
+            title: "Servers",
+            href: "#servers"
+        }
     ];
+    $scope.navbar.initTabs();
+
 
     $scope.pushNotification = {
         enabled: false,
@@ -144,7 +153,12 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
 
             $scope.refreshAccount();
-        });
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
+        })
         $http({
             method: "POST",
             url: $scope.account.info.game ? "https://api.mcgame.info/join/game" : "https://api.mcgame.info/leave/game",
@@ -160,6 +174,11 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
 
             $scope.refreshAccount();
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     };
 
@@ -189,6 +208,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             $scope.refreshFriends();
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     };
     $scope.removeFriend = function (uuid, username) {
@@ -210,6 +232,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 $scope.refreshFriends();
             }, function (response) {
                 Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                if (response.status == 403) {
+                    $state.go("login", {reload: true})
+                }
             })
         }
     };
@@ -232,6 +257,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             $scope.refreshFriends();
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     }
 
@@ -254,6 +282,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             $scope.refreshFriends();
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     };
     $scope.declineFriend = function (uuid) {
@@ -275,6 +306,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             $scope.refreshFriends();
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     };
 
@@ -297,7 +331,11 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
         }, function (response) {
+            console.log(response)
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     };
     $scope.refreshAccount();
@@ -320,6 +358,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
         })
     };
     $scope.refreshFriends();

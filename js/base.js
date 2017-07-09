@@ -50,6 +50,11 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             templateUrl: "/pages/account/overview.html",
             controller: "accountOverviewController"
         })
+        .state("serverList",{
+            url:"/servers",
+            templateUrl:"/pages/servers.html",
+            controller:"serverListController"
+        })
     $urlRouterProvider.when("", "/");
     $urlRouterProvider.otherwise("/");
 
@@ -100,6 +105,8 @@ $(document).ready(function () {
         closeOnClick: true,
         draggable: true
     });
+
+    $("ul.tabs").tabs();
 })
 
 function urlB64ToUint8Array(base64String) {
