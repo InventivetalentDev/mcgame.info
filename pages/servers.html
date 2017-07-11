@@ -14,4 +14,11 @@
             </li>
         </ul>
     </div>
+    <div>
+        <ul class="pagination center-align">
+            <li class="disabled" ng-class="{'disabled':pagination.page<=1}"><a ng-click="pagination.page=max(pagination.page-1,1); refreshServers()"><i class="material-icons">chevron_left</i></a></li>
+            <li ng-repeat="page in range(pagination.pages)" class="waves-effect" ng-class="{'active':page+1==pagination.page}"  ng-click="pagination.page=page+1; refreshServers()"><a href="#">{{ page+1 }}</a></li>
+            <li class="waves-effect" ng-class="{'disabled':pagination.page>=pagination.pages}"><a ng-click="pagination.page=min(pagination.page+1,pagination.pages); refreshServers()"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </div>
 </div>

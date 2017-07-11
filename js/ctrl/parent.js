@@ -1,4 +1,4 @@
-app.controller("parentController", ["$scope", "$cookies","$timeout", function ($scope, $cookies,$timeout) {
+app.controller("parentController", ["$scope", "$cookies", "$timeout", function ($scope, $cookies, $timeout) {
     $scope.cookies = {
         username: "",
         uuid: ""
@@ -11,12 +11,12 @@ app.controller("parentController", ["$scope", "$cookies","$timeout", function ($
 
     $scope.navbar = {
         tabs: [],
-        initTabs:function () {
+        initTabs: function () {
             $timeout(function () {
                 $("ul.tabs").tabs({
-                    onShow:function (tab) {
+                    onShow: function (tab) {
                         console.log(tab)
-                        location.hash=tab[0].id
+                        location.hash = tab[0].id
                     }
                 });
             }, 100);
@@ -24,4 +24,14 @@ app.controller("parentController", ["$scope", "$cookies","$timeout", function ($
     }
 
     $scope.locationHash = location.hash;
+
+    $scope.range = function(count){
+        var a = [];
+        for (var i = 0; i < count; i++) {
+            a.push(i)
+        }
+        return a;
+    }
+    $scope.max=Math.max;
+    $scope.min=Math.min;
 }])

@@ -13,26 +13,30 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
     ];
 
     $scope.servers = [];
+    $scope.pagination = {page: 1, pages: 0};
     $scope.refreshServers = function () {
+        console.log($scope.pagination)
         $http({
             method: "GET",
             url: "https://api.mcgame.info/servers",
-            params: {},
+            params: {page:$scope.pagination.page},
             headers: {}
         }).then(function (response) {
             console.log(response);
 
             if (response.data.status == "ok") {
                 $scope.servers = response.data.servers;
-                $.each($scope.servers,function (index,server) {
-                    var i=index;
+                $scope.pagination = response.data.pagination;
+                console.log($scope.pagination)
+                $.each($scope.servers, function (index, server) {
+                    var i = index;
                     $http({
-                        method:"POST",
-                        url:"https://api.mcgame.info/util/pingServer",
-                        data:{ip:server.ip}
+                        method: "POST",
+                        url: "https://api.mcgame.info/util/pingServer",
+                        data: {ip: server.ip}
                     }).then(function (response) {
-                        if(response.data.status=="ok"){
-                            $scope.servers[i].ping=response.data.ping;
+                        if (response.data.status == "ok") {
+                            $scope.servers[i].ping = response.data.ping;
                         }
                         console.log($scope.servers)
                     })
@@ -48,7 +52,7 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
             console.log(response)
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
             if (response.status == 403) {
-                $state.go("login",{reload:true})
+                $state.go("login", {reload: true})
             }
         })
     };
@@ -57,7 +61,6 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
 
 
     window.addEventListener("focus", function (event) {
-        $scope.refreshServers();
     });
 
     $timeout(function () {

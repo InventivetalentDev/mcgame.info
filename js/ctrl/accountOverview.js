@@ -371,17 +371,19 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
 
     $scope.servers = [];
+    $scope.pagination = {page: 1, pages: 0};
     $scope.refreshServers = function () {
         $http({
             method: "GET",
             url: "https://api.mcgame.info/account/servers",
-            params: {username: usernameCookie, uuid: uuidCookie},
+            params: {username: usernameCookie, uuid: uuidCookie, page: $scope.pagination.page},
             headers: {"Access-Token": accessTokenCookie}
         }).then(function (response) {
             console.log(response);
 
             if (response.data.status == "ok") {
                 $scope.servers = response.data.servers;
+                $scope.pagination = response.data.pagination;
                 $.each($scope.servers, function (index, server) {
                     var i = index;
                     $http({
@@ -437,7 +439,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.showAddServerModal = function () {
         ModalService.showModal({
             templateUrl: "/pages/modal/addServer.html",
-            controller: function ($scope, $http) {
+            controller: function ($scope, $http, showDomainTokenModal, refreshServers) {
                 $scope.serverName = "";
                 $scope.serverIp = "";
                 $scope.add = function () {
@@ -454,7 +456,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
                         if (response.data.status == "ok") {
                             Materialize.toast("Server registered.", 4000);
-                            $scope.showDomainTokenModal($scope.serverName, $scope.serverIp);
+                            showDomainTokenModal($scope.serverName, $scope.serverIp);
                         } else {
                             Materialize.toast('Error: ' + response.data.msg, 4000)
                         }
@@ -465,6 +467,10 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         }
                     })
                 }
+            },
+            inputs: {
+                showDomainTokenModal: $scope.showDomainTokenModal,
+                refreshServers: $scope.refreshServers
             }
         }).then(function (modal) {
             modal.element.modal("open")
@@ -504,6 +510,30 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 $state.go("login", {reload: true})
             }
         })
+    };
+    $scope.deleteServer = function (serverId, serverName, serverIp) {
+        if (confirm("Are you sure you want to remove " + serverName + " from your servers?")) {
+            $http({
+                method: "POST",
+                url: "https://api.mcgame.info/servers/delete",
+                data: {username: usernameCookie, uuid: uuidCookie, serverId: serverId, serverName: serverName, serverIp: serverIp},
+                headers: {"Access-Token": accessTokenCookie}
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.status == "ok") {
+                    Materialize.toast("Server deleted.", 4000);
+                    $scope.refreshServers();
+                } else {
+                    Materialize.toast('Error: ' + response.data.msg, 4000)
+                }
+            }, function (response) {
+                Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                if (response.status == 403) {
+                    $state.go("login", {reload: true})
+                }
+            })
+        }
     }
 
     window.addEventListener("focus", function (event) {
