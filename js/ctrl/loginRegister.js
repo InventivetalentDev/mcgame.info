@@ -1,4 +1,4 @@
-app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window) {
+app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window",'vcRecaptchaService', function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window,vcRecaptchaService) {
     $scope.state = $state;
 
     console.log($stateParams)
@@ -17,10 +17,36 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
         Materialize.updateTextFields();
     })
 
+    $scope.loginRegisterSubmit=function () {
+        if($state.is('register'))
+            $scope.register();
+        if($state.is('login'))
+            $scope.login();
+    };
+
+    $scope.captcha={
+        key:"6LcMxCgUAAAAAJY0b5DLi9seYBuDQtgBlNZAvH6E",
+        response:null,
+        onCreate:function () {
+            console.log("onCreate captcha")
+        },
+        onSuccess:function () {
+            console.log("onSuccess captcha")
+        },
+        onExpire:function () {
+            console.log("onExpire captcha")
+        }
+    }
+
     $scope.register = function () {
         console.log("register()")
         if ($scope.username.length < 4 || $scope.username.length > 16) {
             Materialize.toast('Invalid Username', 4000)
+            return;
+        }
+        console.log("reCaptcha: "+$scope.captcha.response)
+        if(!$scope.captcha.response||$scope.captcha.response.length<1) {
+            Materialize.toast("Invalid reCaptcha", 4000);
             return;
         }
         $http({
@@ -58,7 +84,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                                 }
                             }
                         }, false);
-                        var loginPopup = window.open("https://api.mcgame.info/account/register?username=" + $scope.username, "Login", "width=750,height=500");
+                        var loginPopup = window.open("https://api.mcgame.info/account/register?username=" + $scope.username+"&captcha="+$scope.captchaResponse, "Login", "width=750,height=500");
                         try {
                             loginPopup.focus();
                         } catch (e) {
@@ -82,11 +108,16 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
             Materialize.toast("Invalid username length", 4000)
             return;
         }
+        console.log("reCaptcha: "+$scope.captcha.response)
+        if(!$scope.captcha.response||$scope.captcha.response.length<1) {
+            Materialize.toast("Invalid reCaptcha", 4000);
+            return;
+        }
 
         $http({
             method: "POST",
             url: "https://api.mcgame.info/account/login",
-            data: {username: $scope.username, password: CryptoJS.SHA512($scope.username + $scope.password).toString(CryptoJS.enc.Hex), token: $scope.tokenLogin},
+            data: {username: $scope.username, password: CryptoJS.SHA512($scope.username + $scope.password).toString(CryptoJS.enc.Hex), token: $scope.tokenLogin,captcha:$scope.captchaResponse},
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
             console.log(response);

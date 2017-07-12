@@ -5,7 +5,7 @@
 
         <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px;">
             <div>
-                <form class="col s12" method="post">
+                <form class="col s12" method="post" ng-submit="loginRegisterSubmit()">
                     <div class="row">
                         <div class="input-field col s12">
                             <input type="text" class="validate" id="username" name="username" minlength="4" maxlength="16" ng-model="username">
@@ -18,11 +18,14 @@
                             <label for="password">Password</label>
                         </div>
                     </div>
+                    <div class="row">
+                        <div vc-recaptcha key="captcha.key" ng-model="captcha.response"></div>
+                    </div>
                     <br/>
                     <div>
                         <div class="row">
-                            <button ng-if="state.is('login')" ng-click="login()" type="submit" class="col s12 btn btn-large waves-effect">Login</button>
-                            <button ng-if="state.is('register')" ng-click="register()" type="submit" class="col s12 btn btn-large waves-effect">Register</button>
+                            <button ng-if="state.is('login')" type="submit" class="col s12 btn btn-large waves-effect">Login</button>
+                            <button ng-if="state.is('register')" type="submit" class="col s12 btn btn-large waves-effect">Register</button>
                         </div>
                     </div>
                 </form>

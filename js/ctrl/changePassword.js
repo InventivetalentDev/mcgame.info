@@ -1,5 +1,5 @@
 app.controller("changePasswordController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $cookies) {
-    $scope.username = $stateParams.username || "";
+    $scope.username = $stateParams.username || $scope.cookies.username || "";
     $scope.oldPassword = "";
     $scope.password = "";
 

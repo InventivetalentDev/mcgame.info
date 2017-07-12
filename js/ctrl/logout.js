@@ -5,7 +5,5 @@ app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http",
 
     $scope.refreshCookies();
 
-    if ($stateParams.go) {
-        $state.go($stateParams.go)
-    }
+        $state.go($stateParams.go||"index")
 }]);

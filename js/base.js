@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment","angularModalService"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment","angularModalService","vcRecaptcha"]);
 
 app.factory("httpAuthenticator", ["$cookies", function () {
     return {
