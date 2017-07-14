@@ -139,6 +139,12 @@
             <li class="waves-effect" ng-class="{'disabled':pagination.page>=pagination.pages}"><a ng-click="pagination.page=min(pagination.page+1,pagination.pages); refreshServers()"><i class="material-icons">chevron_right</i></a></li>
         </ul>
     </div>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large tooltipped" data-tooltip="Add your own server" data-position="left" ng-click="showAddServerModal()">
+            <i class="material-icons">playlist_add</i>
+        </a>
+    </div>
 </div>
 
 <div id="settings" class="col s12">

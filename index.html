@@ -100,13 +100,13 @@
                                     <span class="white-text email">mail@mcgame.info</span>
                                 </div>
                             </li>
-                            <li><a href="#" ng-href="{{ cookies.uuid ? '/logout?go=index' : '/login' }}">{{ cookies.uuid ? "Log Out" : "Log In" }}</a></li>
-                            <li>
-                                <div class="divider"></div>
-                            </li>
                             <li><a class="subheader">Navigation</a></li>
                             <li><a class="waves-effect" href="/account" ng-disabled="!cookies.uuid"><i class="material-icons">person</i> Account</a></li>
                             <li><a class="waves-effect" href="/servers"><i class="material-icons">list</i> Server List</a></li>
+                            <li>
+                                <div class="divider"></div>
+                            </li>
+                            <li><a href="#" ng-href="{{ cookies.uuid ? '/logout?go=index' : '/login' }}">{{ cookies.uuid ? "Log Out" : "Log In" }}</a></li>
                         </ul>
                         <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
                     </div>

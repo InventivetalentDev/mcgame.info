@@ -4,12 +4,15 @@ self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
     console.log('[Service Worker] Push had this data: ' + event.data.text());
 
-    const title = "MC GameInfo";
+    var data = event.data.json();
+
+    const title = data.title || "MC GameInfo";
     const options = {
-        body: event.data.text(),
-        icon: '/img/logo-256.png',
-        badge: '/img/logo-256.png'
+        body: data.body,
+        icon: data.icon || '/img/logo-256.png',
+        badge: '/img/logo-badge-128.png'
     };
+    console.log(options)
 
     event.waitUntil(self.registration.showNotification(title, options));
 });
