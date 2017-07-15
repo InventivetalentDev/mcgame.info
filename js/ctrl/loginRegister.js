@@ -84,7 +84,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                                 }
                             }
                         }, false);
-                        var loginPopup = window.open("https://api.mcgame.info/account/register?username=" + $scope.username+"&captcha="+$scope.captchaResponse, "Login", "width=750,height=500");
+                        var loginPopup = window.open("https://api.mcgame.info/account/register?username=" + $scope.username+"&captcha="+$scope.captcha.response, "Login", "width=750,height=500");
                         try {
                             loginPopup.focus();
                         } catch (e) {
@@ -117,7 +117,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
         $http({
             method: "POST",
             url: "https://api.mcgame.info/account/login",
-            data: {username: $scope.username, password: CryptoJS.SHA512($scope.username + $scope.password).toString(CryptoJS.enc.Hex), token: $scope.tokenLogin,captcha:$scope.captchaResponse},
+            data: {username: $scope.username, password: CryptoJS.SHA512($scope.username + $scope.password).toString(CryptoJS.enc.Hex), token: $scope.tokenLogin,captcha:$scope.captcha.response},
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
             console.log(response);
