@@ -49,8 +49,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 console.log(response);
 
                 if (response.data.status == "ok") {
-                    Materialize.toast("Push Notifications enabled", 4000)
-                    $scope.pushNotification.enabled = true;
+                    Materialize.toast(response.data.msg, 4000)
+                    $scope.pushNotification.enabled = subscription!=null;
                 } else {
                     Materialize.toast('Error: ' + response.data.msg, 4000)
                     $scope.pushNotification.enabled = false;
