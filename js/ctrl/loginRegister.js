@@ -1,4 +1,6 @@
 app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window",'vcRecaptchaService', function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window,vcRecaptchaService) {
+    $scope.navbar.tabs = []; $scope.navbar.initTabs();
+
     $scope.state = $state;
 
     console.log($stateParams)
@@ -132,16 +134,16 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                     var now = new $window.Date();
                     var expires = new $window.Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
 
-                    $cookies.put("username", response.data.username, {
-                        expires: expires
-                    });
+                    // $cookies.put("username", response.data.username, {
+                    //     expires: expires
+                    // });
                     $cookies.put("uuid", response.data.uuid, {
                         expires: expires
                     });
-                    $cookies.put("accessToken", response.data.accessToken, {
-                        expires: expires
-                    });
-                    $scope.refreshCookies();
+                    // $cookies.put("accessToken", response.data.accessToken, {
+                    //     expires: expires
+                    // });
+                    // $scope.refreshCookies();
 
                     $timeout(function () {
                         $state.go("accountOverview", {}, {location: "replace", reload: true});

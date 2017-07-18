@@ -1,9 +1,23 @@
 app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $cookies) {
-    $cookies.remove("username");
+    $scope.navbar.tabs = [];
+    $scope.navbar.initTabs();
+
     $cookies.remove("uuid");
-    $cookies.remove("accessToken");
 
-    $scope.refreshCookies();
+    $http({
+        method: "POST",
+        url: "https://api.mcgame.info/account/logout"
+    }).then(function (response) {
+        console.log(response);
 
-        $state.go($stateParams.go||"index")
+        if (response.data.status == "ok") {
+            $timeout(function () {
+                $state.go($stateParams.go || "index")
+            }, 100);
+        } else {
+            Materialize.toast('Error: ' + response.data.msg, 4000)
+        }
+    }, function (response) {
+        Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+    });
 }]);

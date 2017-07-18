@@ -1,16 +1,5 @@
 app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment) {
-    var usernameCookie = $cookies.get("username");
-    var uuidCookie = $cookies.get("uuid");
-    var accessTokenCookie = $cookies.get("accessToken");
-
-    if (!usernameCookie || !uuidCookie || !accessTokenCookie) {
-        $state.go("logout", {go: "login"});
-        return;
-    }
-
-    $scope.navbar.tabs = [
-        {}
-    ];
+    $scope.navbar.tabs = [    ]; $scope.navbar.initTabs();
 
     $scope.servers = [];
     $scope.pagination = {page: 1, pages: 0};
@@ -58,10 +47,6 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
     };
     $scope.refreshServers();
     $interval($scope.refreshServers, 1000 * 60 * 10);
-
-
-    window.addEventListener("focus", function (event) {
-    });
 
     $timeout(function () {
         Materialize.updateTextFields();

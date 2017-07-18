@@ -1,24 +1,5 @@
 var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment","angularModalService","vcRecaptcha"]);
 
-app.factory("httpAuthenticator", ["$cookies", function () {
-    return {
-        request: function (config) {
-            var usernameCookie = $cookies.get("username");
-            var uuidCookie = $cookies.get("uuid");
-            var accessTokenCookie = $cookies.get("accessToken");
-
-            if (accessTokenCookie)
-                config.headers["Access-Token"] = accessTokenCookie;
-            // if(uuidCookie)
-            //     config.data["uuid"] = uuidCookie;
-            // if(usernameCookie)
-            //     config.data["username"] = usernameCookie;
-
-            return config;
-        }
-    }
-}])
-
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
         .state("index", {
@@ -60,7 +41,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
 
     $locationProvider.html5Mode(true);
 
-    // $httpProvider.interceptors.push("httpAuthenticator");
+    // Required for session cookies to be sent in $http
+    $httpProvider.defaults.withCredentials = true;
 }]);
 
 app.service("backend", function ($http) {
@@ -96,7 +78,8 @@ app.service("backend", function ($http) {
 });
 
 app.controller("indexController", ["$scope", function ($scope) {
-
+    $scope.navbar.tabs=[];
+$scope.navbar.initTabs();
 }]);
 
 
