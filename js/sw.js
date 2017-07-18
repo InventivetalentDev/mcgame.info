@@ -12,6 +12,7 @@ self.addEventListener('push', function (event) {
         icon: data.icon || '/img/logo-256.png',
         badge: '/img/logo-badge-128.png'
     };
+    // https://stackoverflow.com/questions/30795431/icon-not-displaying-in-notification-white-square-shown-instead
     console.log(options)
 
     event.waitUntil(self.registration.showNotification(title, options));
