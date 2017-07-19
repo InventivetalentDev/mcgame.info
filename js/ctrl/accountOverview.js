@@ -50,7 +50,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
                 if (response.data.status == "ok") {
                     Materialize.toast(response.data.msg, 4000)
-                    $scope.pushNotification.enabled = subscription!=null;
+                    $scope.pushNotification.enabled = subscription != null;
                 } else {
                     Materialize.toast('Error: ' + response.data.msg, 4000)
                     $scope.pushNotification.enabled = false;
@@ -143,7 +143,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "POST",
             url: $scope.account.info.server ? "https://api.mcgame.info/join/server" : "https://api.mcgame.info/leave/server",
-            data: { uuid: $cookies.get("uuid"), serverIp: $scope.infoInput.server}
+            data: {uuid: $cookies.get("uuid"), serverIp: $scope.infoInput.server}
         }).then(function (response) {
             console.log(response);
 
@@ -194,7 +194,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "POST",
             url: "https://api.mcgame.info/account/friends/add",
-            data: { uuid: $cookies.get("uuid"), friend: $scope.addFriendName}
+            data: {uuid: $cookies.get("uuid"), friend: $scope.addFriendName}
         }).then(function (response) {
             console.log(response);
 
@@ -266,7 +266,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "POST",
             url: "https://api.mcgame.info/account/friends/requests/accept",
-            data: { uuid: $cookies.get("uuid"), friend: uuid}
+            data: {uuid: $cookies.get("uuid"), friend: uuid}
         }).then(function (response) {
             console.log(response);
 
@@ -316,7 +316,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "GET",
             url: "https://api.mcgame.info/account/friends",
-            params: { uuid: $cookies.get("uuid")}
+            params: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
 
@@ -342,7 +342,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "GET",
             url: "https://api.mcgame.info/account/servers",
-            params: { uuid: $cookies.get("uuid"), page: $scope.pagination.page}
+            params: {uuid: $cookies.get("uuid"), page: $scope.pagination.page}
         }).then(function (response) {
             console.log(response);
 
@@ -376,11 +376,11 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
         })
     };
-    $scope.verifyServerDomain = function (serverIp, serverName) {
+    $scope.verifyServerDomain = function (serverId) {
         $http({
             method: "POST",
-            url: "https://api.mcgame.info/servers/verify/domain",
-            data: { uuid: $cookies.get("uuid"), serverIp: serverIp, serverName: serverName}
+            url: "https://api.mcgame.info/servers/"+serverId+"/verify/domain",
+            data: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
 
@@ -440,11 +440,11 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             modal.element.modal("open")
         })
     };
-    $scope.showDomainTokenModal = function (serverName, serverIp) {
+    $scope.showDomainTokenModal = function (serverId,serverIp) {
         $http({
             method: "GET",
-            url: "https://api.mcgame.info/servers/verify/domain/token",
-            params: { uuid: $cookies.get("uuid"), serverName: serverName, serverIp: serverIp}
+            url: "https://api.mcgame.info/servers/"+serverId+"/token/domain",
+            params: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
 
@@ -478,7 +478,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         if (confirm("Are you sure you want to remove " + serverName + " from your servers?")) {
             $http({
                 method: "POST",
-                url: "https://api.mcgame.info/servers/delete",
+                url: "https://api.mcgame.info/servers/" + serverId + "/delete",
                 data: {uuid: $cookies.get("uuid"), serverId: serverId, serverName: serverName, serverIp: serverIp}
             }).then(function (response) {
                 console.log(response);
