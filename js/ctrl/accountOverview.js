@@ -341,7 +341,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.refreshServers = function () {
         $http({
             method: "GET",
-            url: "https://api.mcgame.info/account/servers",
+            url: "https://api.mcgame.info/servers/mine",
             params: {uuid: $cookies.get("uuid"), page: $scope.pagination.page}
         }).then(function (response) {
             console.log(response);
