@@ -420,6 +420,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         if (response.data.status == "ok") {
                             Materialize.toast("Server registered.", 4000);
                             showDomainTokenModal($scope.serverName, $scope.serverIp);
+                            refreshServers();
                         } else {
                             Materialize.toast('Error: ' + response.data.msg, 4000)
                         }
