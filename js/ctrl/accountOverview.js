@@ -474,6 +474,38 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
         })
     };
+    $scope.showApiInfo = function (serverId) {
+        $http({
+            method: "GET",
+            url: "https://api.mcgame.info/servers/"+serverId+"/token/request",
+            params: {uuid: $cookies.get("uuid")}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                ModalService.showModal({
+                    templateUrl: "/pages/modal/requestToken.html",
+                    controller: function ($scope, $http, id, token) {
+                        $scope.serverId = id;
+                        $scope.requestToken = token;
+                    },
+                    inputs: {
+                        id: response.data.serverId,
+                        token: response.data.requestToken
+                    }
+                }).then(function (modal) {
+                    modal.element.modal("open")
+                })
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            if (response.status == 403) {
+                $state.go("login", {reload: true})
+            }
+        })
+    };
     $scope.deleteServer = function (serverId, serverName, serverIp) {
         if (confirm("Are you sure you want to remove " + serverName + " from your servers?")) {
             $http({
@@ -498,7 +530,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         }
     }
 
-    $window.focus = function () {
+    $window.onfocus  = function () {
+        console.log("onfocus")
         $scope.refreshAccount();
         $scope.refreshFriends();
     };

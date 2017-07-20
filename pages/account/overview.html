@@ -125,6 +125,7 @@
                     <br/>
                     <br/>
                     <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Re-Check Domain record" ng-if="!server.domainVerified" ng-click="verifyServerDomain(server.id)"><i class="material-icons">done</i></a>
+                    <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Show API Info" ng-if="server.domainVerified" ng-click="showApiInfo(server.id)"><i class="material-icons">info_outline</i></a>
                     <a class="red-text" data-position="bottom" data-delay="20" data-tooltip="Delete Server" ng-click="deleteServer(server.id,server.name,server.ip)"><i class="material-icons">delete</i></a>
                 </p>
                 <a class="secondary-content tooltipped" data-position="left" data-delay="20" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>

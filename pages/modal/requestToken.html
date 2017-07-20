@@ -1,12 +1,43 @@
 <div class="modal">
     <div class="modal-content">
         <h4>Start sending data</h4>
-<!--TODO-->
-        <p>
-            The domain name <code>{{ serverIp }}</code> has not been verified yet.
-            <br/>
-            <br/>
-            Please add a new <code>TXT</code> record to your domain:
-        </p>
+
+        <div>
+            <table class="striped">
+                <tbody>
+                <tr>
+                    <td><strong>Server ID</strong></td>
+                    <td>
+                        <code>{{ serverId }}</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Request Token</strong></td>
+                    <td>
+                        <code>{{ requestToken }}</code>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr/>
+        <div>
+            <p>
+                The easiest way to connect your server to <strong>MCGameInfo</strong> is by installing the plugin for <strong>Bungeecord or Bukkit</strong>.<br/>
+                Update its config.yml file with the following information:<br/>
+            </p>
+            <div>
+            <pre style="background-color: #f2f2f2;">
+# You can get the required ID and Token by adding your server at https://mcgame.info/account#servers
+server:
+
+  # Unique ID for your server
+  id: "{{ serverId }}"
+
+  # Request Token for your server
+  token: "{{ requestToken }}"
+                </pre>
+            </div>
+        </div>
     </div>
 </div>
