@@ -1,5 +1,12 @@
 app.controller("changePasswordController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $cookies) {
-    $scope.navbar.tabs = []; $scope.navbar.initTabs();
+    $interval(function () {
+        console.info("CHANGE PASSWORD")
+    }, 1000)
+
+
+    $scope.navbar.tabs = [];
+    $scope.navbar.initTabs();
+    $scope.footer.visible = false;
 
     $scope.username = $stateParams.username || $scope.account.username || "";
     $scope.oldPassword = "";

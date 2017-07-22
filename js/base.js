@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment","angularModalService","vcRecaptcha"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha"]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
@@ -31,10 +31,10 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             templateUrl: "/pages/account/overview.html",
             controller: "accountOverviewController"
         })
-        .state("serverList",{
-            url:"/servers",
-            templateUrl:"/pages/servers.html",
-            controller:"serverListController"
+        .state("serverList", {
+            url: "/servers",
+            templateUrl: "/pages/servers.html",
+            controller: "serverListController"
         })
     $urlRouterProvider.when("", "/");
     $urlRouterProvider.otherwise("/");
@@ -78,8 +78,9 @@ app.service("backend", function ($http) {
 });
 
 app.controller("indexController", ["$scope", function ($scope) {
-    $scope.navbar.tabs=[];
-$scope.navbar.initTabs();
+    $scope.navbar.tabs = [];
+    $scope.navbar.initTabs();
+    $scope.footer.visible = true;
 }]);
 
 

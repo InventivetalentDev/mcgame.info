@@ -8,6 +8,10 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     //     return;
     // }
 
+    $interval(function () {
+        console.info("ACCOUNT")
+    }, 1000)
+
     $scope.navbar.tabs = [
         {
             title: "Overview",
@@ -23,6 +27,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         }
     ];
     $scope.navbar.initTabs();
+    $scope.footer.visible=true;
 
 
     $scope.pushNotification = {
@@ -115,8 +120,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                     })
                 });
         },
-        triggers:{},
-        refreshTriggers:function () {
+        triggers: {},
+        refreshTriggers: function () {
             $http({
                 method: "GET",
                 url: "https://api.mcgame.info/account/pushNotification/triggers",
@@ -136,11 +141,11 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 }
             })
         },
-        updateTriggers:function () {
+        updateTriggers: function () {
             $http({
                 method: "POST",
                 url: "https://api.mcgame.info/account/pushNotification/triggers",
-                data: {uuid: $cookies.get("uuid"),triggers:$scope.pushNotification.triggers}
+                data: {uuid: $cookies.get("uuid"), triggers: $scope.pushNotification.triggers}
             }).then(function (response) {
                 console.log(response);
 
@@ -421,7 +426,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.verifyServerDomain = function (serverId) {
         $http({
             method: "POST",
-            url: "https://api.mcgame.info/servers/"+serverId+"/verify/domain",
+            url: "https://api.mcgame.info/servers/" + serverId + "/verify/domain",
             data: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
@@ -482,10 +487,10 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             modal.element.modal("open")
         })
     };
-    $scope.showDomainTokenModal = function (serverId,serverIp) {
+    $scope.showDomainTokenModal = function (serverId, serverIp) {
         $http({
             method: "GET",
-            url: "https://api.mcgame.info/servers/"+serverId+"/token/domain",
+            url: "https://api.mcgame.info/servers/" + serverId + "/token/domain",
             params: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
@@ -519,7 +524,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.showApiInfo = function (serverId) {
         $http({
             method: "GET",
-            url: "https://api.mcgame.info/servers/"+serverId+"/token/request",
+            url: "https://api.mcgame.info/servers/" + serverId + "/token/request",
             params: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
@@ -572,7 +577,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         }
     }
 
-    $window.onfocus  = function () {
+    $window.onfocus = function () {
         console.log("onfocus")
         $scope.refreshAccount();
         $scope.refreshFriends();

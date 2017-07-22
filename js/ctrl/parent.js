@@ -24,6 +24,9 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
             }, 100);
         }
     };
+    $scope.footer={
+        visible:true
+    };
 
     $scope.account = {};
     $scope.refreshAccount = function (silent) {

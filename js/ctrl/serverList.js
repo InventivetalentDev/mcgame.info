@@ -1,5 +1,13 @@
 app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment) {
-    $scope.navbar.tabs = [    ]; $scope.navbar.initTabs();
+    $interval(function () {
+        console.info("SERVER LIST")
+    }, 1000)
+
+
+    $scope.navbar.tabs = [];
+    $scope.navbar.initTabs();
+    $scope.footer.visible = true;
+
 
     $scope.servers = [];
     $scope.pagination = {page: 1, pages: 0};
@@ -8,7 +16,7 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
         $http({
             method: "GET",
             url: "https://api.mcgame.info/servers",
-            params: {page:$scope.pagination.page},
+            params: {page: $scope.pagination.page},
             headers: {}
         }).then(function (response) {
             console.log(response);

@@ -1,6 +1,13 @@
-app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $cookies) {
+app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$interval", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $interval) {
+    $interval(function () {
+        console.info("LOGOUT")
+    }, 1000)
+
+
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
+    $scope.footer.visible = false;
+
 
     $cookies.remove("uuid");
 
