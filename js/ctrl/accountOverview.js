@@ -612,27 +612,46 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         })
     };
     $scope.deleteServer = function (serverId, serverName, serverIp) {
-        if (confirm("Are you sure you want to remove " + serverName + " from your servers?")) {
-            $http({
-                method: "POST",
-                url: "https://api.mcgame.info/servers/" + serverId + "/delete",
-                data: {uuid: $cookies.get("uuid"), serverId: serverId, serverName: serverName, serverIp: serverIp}
-            }).then(function (response) {
-                console.log(response);
-
-                if (response.data.status == "ok") {
-                    Materialize.toast("Server deleted.", 4000);
-                    $scope.refreshServers();
-                } else {
-                    Materialize.toast('Error: ' + response.data.msg, 4000)
-                }
-            }, function (response) {
-                Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
-                if (response.status == 403) {
-                    $state.go("login", {reload: true})
-                }
-            })
+        // Remove the item without sending an update to the server
+        for (var i = 0; i < $scope.servers.length; i++) {
+            if ($scope.servers[i].id === serverId) {
+                $scope.servers.splice(i, 1);
+                break;
+            }
         }
+
+        var undone = false;
+        var $undo = $("<button class='btn-flat toast-action'>Undo</button>");
+        angular.element($undo).bind("click", function () {
+            console.log("UNDO CLICKED")
+            undone = true;
+            toast.remove();
+        });
+        var toast = Materialize.toast($("<span>Server deleted</span>").add($undo), 10000, "", function () {
+            if(!undone) {
+                $http({
+                    method: "POST",
+                    url: "https://api.mcgame.info/servers/" + serverId + "/delete",
+                    data: {uuid: $cookies.get("uuid"), serverId: serverId, serverName: serverName, serverIp: serverIp}
+                }).then(function (response) {
+                    console.log(response);
+
+                    if (response.data.status == "ok") {
+                       console.info("Server deleted")
+                        $scope.refreshServers();
+                    } else {
+                        Materialize.toast('Error: ' + response.data.msg, 4000)
+                    }
+                }, function (response) {
+                    Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                    if (response.status == 403) {
+                        $state.go("login", {reload: true})
+                    }
+                })
+            }else{
+                $scope.refreshServers();
+            }
+        })
     }
 
     $window.onfocus = function () {
