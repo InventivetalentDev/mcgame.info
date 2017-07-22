@@ -43,7 +43,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             console.log(subscription)
             $http({
                 method: "POST",
-                url: "https://api.mcgame.info/account/pushNotification/update",
+                url: "https://api.mcgame.info/account/pushNotification/subscription",
                 data: {subscription: subscription, uuid: $cookies.get("uuid")}
             }).then(function (response) {
                 console.log(response);
@@ -114,8 +114,50 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         $scope.pushNotification.enabled = false;
                     })
                 });
+        },
+        triggers:{},
+        refreshTriggers:function () {
+            $http({
+                method: "GET",
+                url: "https://api.mcgame.info/account/pushNotification/triggers",
+                params: {uuid: $cookies.get("uuid")}
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.status == "ok") {
+                    $scope.pushNotification.triggers = response.data.triggers;
+                } else {
+                    Materialize.toast('Error: ' + response.data.msg, 4000)
+                }
+            }, function (response) {
+                Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                if (response.status == 403) {
+                    $state.go("login", {reload: true})
+                }
+            })
+        },
+        updateTriggers:function () {
+            $http({
+                method: "POST",
+                url: "https://api.mcgame.info/account/pushNotification/triggers",
+                data: {uuid: $cookies.get("uuid"),triggers:$scope.pushNotification.triggers}
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.status == "ok") {
+                    console.info("Triggers updated")
+                } else {
+                    Materialize.toast('Error: ' + response.data.msg, 4000)
+                }
+            }, function (response) {
+                Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                if (response.status == 403) {
+                    $state.go("login", {reload: true})
+                }
+            })
         }
-    }
+    };
+    $scope.pushNotification.refreshTriggers();
     if ('serviceWorker' in navigator && 'PushManager' in window) {
         console.log('Service Worker and Push is supported');
         $scope.pushNotification.supported = true;

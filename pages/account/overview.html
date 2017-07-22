@@ -109,10 +109,12 @@
 </div>
 
 <div id="servers" class="col s12">
-    <h1>Your Servers <button class="btn tooltipped" data-tooltip="Add your own server" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i></button></h1>
+    <h1>Your Servers
+        <button class="btn tooltipped" data-tooltip="Add your own server" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i></button>
+    </h1>
 
-    <div ng-show="servers.length==0">
-        You don't have any registered servers.
+    <div ng-show="servers.length==0" class="text-centered">
+        You don't have any registered servers.<br/>
         <button class="btn" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i> Add your server now!</button>
     </div>
     <div>
@@ -129,14 +131,14 @@
                     <a class="red-text" data-position="bottom" data-delay="20" data-tooltip="Delete Server" ng-click="deleteServer(server.id,server.name,server.ip)"><i class="material-icons">delete</i></a>
                 </p>
                 <a class="secondary-content tooltipped" data-position="left" data-delay="20" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
-                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified"  ng-if="!server.domainVerified" ng-click="showDomainTokenModal(server.id,server.ip)" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
+                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" ng-click="showDomainTokenModal(server.id,server.ip)" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
             </li>
         </ul>
     </div>
     <div>
         <ul class="pagination center-align">
             <li class="disabled" ng-class="{'disabled':pagination.page<=1}"><a ng-click="pagination.page=max(pagination.page-1,1); refreshServers()"><i class="material-icons">chevron_left</i></a></li>
-            <li ng-repeat="page in range(pagination.pages)" class="waves-effect" ng-class="{'active':page+1==pagination.page}"  ng-click="pagination.page=page+1; refreshServers()"><a href="#">{{ page+1 }}</a></li>
+            <li ng-repeat="page in range(pagination.pages)" class="waves-effect" ng-class="{'active':page+1==pagination.page}" ng-click="pagination.page=page+1; refreshServers()"><a href="#">{{ page+1 }}</a></li>
             <li class="waves-effect" ng-class="{'disabled':pagination.page>=pagination.pages}"><a ng-click="pagination.page=min(pagination.page+1,pagination.pages); refreshServers()"><i class="material-icons">chevron_right</i></a></li>
         </ul>
     </div>
@@ -163,6 +165,21 @@
         </div>
         <div ng-if="!pushNotification.supported">
             Push Notifications are not supported
+        </div>
+        <br/>
+        <div>
+            Notification Triggers
+            <div ng-repeat="(name,enabled) in pushNotification.triggers">
+                <div class="switch" style="padding:10px;">
+                    {{ name }}
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="pushNotification.triggers[name]" ng-change="pushNotification.updateTriggers()" ng-disabled="!pushNotification.supported || !pushNotification.enabled">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+            </div>
         </div>
         <br/>
     </div>
