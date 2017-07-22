@@ -76,10 +76,21 @@
             a[ng-click] {
                 cursor: pointer;
             }
+
+            /* Sticky Footer */
+            body {
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
+            }
+
+            main {
+                flex: 1 0 auto;
+            }
         </style>
     </head>
     <body ng-cloak ng-controller="parentController">
-        <div>
+        <header>
             <nav class="blue darken-3 nav-extended">
                 <div class="nav-wrapper row">
                     <div class="col ds12">
@@ -121,51 +132,51 @@
                     </ul>
                 </div>
             </nav>
+        </header>
 
-            <div>
-                <div class="container" style="margin-bottom:50px;">
-                    <div ui-view>
-                        <noscript>Please enable Javascript</noscript>
+        <main>
+            <div class="container" style="margin-bottom:50px;">
+                <div ui-view>
+                    <noscript>Please enable Javascript</noscript>
+                </div>
+            </div>
+        </main>
+
+        <footer class="page-footer indigo darken-1" style="margin-top:100px;" ng-show="footer.visible">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">About</h5>
+                        <p class="grey-text text-lighten-4">MCGameInfo allows you to share the Minecaft Games you're playing with your friends. You can also get notified about your friends' games.</p>
+
+
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">...</h5>
+                        <ul>
+                            <li><a class="white-text" href="#!">Link 1</a></li>
+                            <li><a class="white-text" href="#!">Link 2</a></li>
+                            <li><a class="white-text" href="#!">Link 3</a></li>
+                            <li><a class="white-text" href="#!">Link 4</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">Connect</h5>
+                        <ul>
+                            <li><a class="white-text" href="https://twitter.com/mcgameinfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+                            <li><a class="white-text" href="https://github.com/mcgameinfo" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a></li>
+                            <li><a class="white-text" href="#!">Link 3</a></li>
+                            <li><a class="white-text" href="#!">Link 4</a></li>
+                        </ul>
                     </div>
                 </div>
-
-                <footer class="page-footer indigo darken-1" style="margin-top:100px;" ng-show="footer.visible">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col l6 s12">
-                                <h5 class="white-text">About</h5>
-                                <p class="grey-text text-lighten-4">MCGameInfo allows you to share the Minecaft Games you're playing with your friends. You can also get notified about your friends' games.</p>
-
-
-                            </div>
-                            <div class="col l3 s12">
-                                <h5 class="white-text">...</h5>
-                                <ul>
-                                    <li><a class="white-text" href="#!">Link 1</a></li>
-                                    <li><a class="white-text" href="#!">Link 2</a></li>
-                                    <li><a class="white-text" href="#!">Link 3</a></li>
-                                    <li><a class="white-text" href="#!">Link 4</a></li>
-                                </ul>
-                            </div>
-                            <div class="col l3 s12">
-                                <h5 class="white-text">Connect</h5>
-                                <ul>
-                                    <li><a class="white-text" href="https://twitter.com/mcgameinfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
-                                    <li><a class="white-text" href="https://github.com/mcgameinfo" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a></li>
-                                    <li><a class="white-text" href="#!">Link 3</a></li>
-                                    <li><a class="white-text" href="#!">Link 4</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer-copyright">
-                        <div class="container">
-                            Made by <a class="cyan-text" href="https://inventivetalent.org">inventivetalent</a>
-                        </div>
-                    </div>
-                </footer>
             </div>
-        </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    Made by <a class="cyan-text" href="https://inventivetalent.org">inventivetalent</a>
+                </div>
+            </div>
+        </footer>
 
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
