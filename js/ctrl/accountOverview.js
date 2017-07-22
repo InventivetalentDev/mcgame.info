@@ -23,7 +23,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         }
     ];
     $scope.navbar.initTabs();
-    $scope.footer.visible=true;
+    $scope.footer.visible = true;
 
 
     $scope.pushNotification = {
@@ -257,49 +257,89 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         })
     };
     $scope.removeFriend = function (uuid, username) {
-        if (confirm("Are you sure you want to remove " + username + " from your friends list?")) {
-            $http({
-                method: "POST",
-                url: "https://api.mcgame.info/account/friends/remove",
-                data: {uuid: $cookies.get("uuid"), friend: uuid}
-            }).then(function (response) {
-                console.log(response);
-
-                if (response.data.status == "ok") {
-                    Materialize.toast("Friend removeed", 4000)
-                } else {
-                    Materialize.toast('Error: ' + response.data.msg, 4000)
-                }
-
-                $scope.refreshFriends();
-            }, function (response) {
-                Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
-                if (response.status == 403) {
-                    $state.go("login", {reload: true})
-                }
-            })
+        // Remove the item without sending an update to the server
+        for (var i = 0; i < $scope.friends.length; i++) {
+            if ($scope.friends[i].uuid === uuid) {
+                $scope.friends.splice(i, 1);
+                break;
+            }
         }
+
+        var undone = false;
+        var $undo = $("<button class='btn-flat toast-action'>Undo</button>");
+        angular.element($undo).bind("click", function () {
+            console.log("UNDO CLICKED")
+            undone = true;
+            toast.remove();
+        });
+        var toast = Materialize.toast($("<span>Friend removed</span>").add($undo), 10000, "", function () {
+            if(!undone) {
+                $http({
+                    method: "POST",
+                    url: "https://api.mcgame.info/account/friends/remove",
+                    data: {uuid: $cookies.get("uuid"), friend: uuid}
+                }).then(function (response) {
+                    console.log(response);
+
+                    if (response.data.status == "ok") {
+                        console.info("Friend removed")
+                    } else {
+                        Materialize.toast('Error: ' + response.data.msg, 4000)
+                    }
+
+                    $scope.refreshFriends();
+                }, function (response) {
+                    Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                    if (response.status == 403) {
+                        $state.go("login", {reload: true})
+                    }
+                })
+            }else{
+                $scope.refreshFriends();
+            }
+        })
     };
     $scope.cancelRequest = function (uuid) {
-        console.log("cancelRequest " + uuid)
-        $http({
-            method: "POST",
-            url: "https://api.mcgame.info/account/friends/requests/cancel",
-            data: {uuid: $cookies.get("uuid"), friend: uuid}
-        }).then(function (response) {
-            console.log(response);
-
-            if (response.data.status == "ok") {
-                Materialize.toast("Request cancelled", 4000)
-            } else {
-                Materialize.toast('Error: ' + response.data.msg, 4000)
+        // Remove the item without sending an update to the server
+        for (var i = 0; i < $scope.friendRequests.outgoing.length; i++) {
+            if ($scope.friendRequests.outgoing[i].uuid === uuid) {
+                $scope.friendRequests.outgoing.splice(i, 1);
+                break;
             }
+        }
 
-            $scope.refreshFriends();
-        }, function (response) {
-            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
-            if (response.status == 403) {
-                $state.go("login", {reload: true})
+        var undone = false;
+        var $undo = $("<button class='btn-flat toast-action'>Undo</button>");
+        angular.element($undo).bind("click", function () {
+            console.log("UNDO CLICKED")
+            undone = true;
+            toast.remove();
+        });
+        var toast = Materialize.toast($("<span>Friend request cancelled</span>").add($undo), 7500, "", function () {
+            console.log("cancelRequest " + uuid)
+            if (!undone) {
+                $http({
+                    method: "POST",
+                    url: "https://api.mcgame.info/account/friends/requests/cancel",
+                    data: {uuid: $cookies.get("uuid"), friend: uuid}
+                }).then(function (response) {
+                    console.log(response);
+
+                    if (response.data.status == "ok") {
+                        console.info("Request cancelled")
+                    } else {
+                        Materialize.toast('Error: ' + response.data.msg, 4000)
+                    }
+
+                    $scope.refreshFriends();
+                }, function (response) {
+                    Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                    if (response.status == 403) {
+                        $state.go("login", {reload: true})
+                    }
+                })
+            } else {
+                $scope.refreshFriends();
             }
         })
     }
@@ -328,25 +368,47 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         })
     };
     $scope.declineFriend = function (uuid) {
-        console.log("declineFriend " + uuid)
-        $http({
-            method: "POST",
-            url: "https://api.mcgame.info/account/friends/requests/decline",
-            data: {uuid: $cookies.get("uuid"), friend: uuid}
-        }).then(function (response) {
-            console.log(response);
-
-            if (response.data.status == "ok") {
-                Materialize.toast("Friend declined!", 4000)
-            } else {
-                Materialize.toast('Error: ' + response.data.msg, 4000)
+        // Remove the item without sending an update to the server
+        for (var i = 0; i < $scope.friendRequests.incoming.length; i++) {
+            if ($scope.friendRequests.incoming[i].uuid === uuid) {
+                $scope.friendRequests.incoming.splice(i, 1);
+                break;
             }
+        }
 
-            $scope.refreshFriends();
-        }, function (response) {
-            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
-            if (response.status == 403) {
-                $state.go("login", {reload: true})
+        var undone = false;
+        var $undo = $("<button class='btn-flat toast-action'>Undo</button>");
+        angular.element($undo).bind("click", function () {
+            console.log("UNDO CLICKED")
+            undone = true;
+            toast.remove();
+        });
+        var toast = Materialize.toast($("<span>Friend request declined</span>").add($undo), 7500, "", function () {
+            console.log("declineFriend " + uuid)
+            console.log("Undone: " + undone)
+            if (!undone) {// Update on the server if it wasn't undone
+                $http({
+                    method: "POST",
+                    url: "https://api.mcgame.info/account/friends/requests/decline",
+                    data: {uuid: $cookies.get("uuid"), friend: uuid}
+                }).then(function (response) {
+                    console.log(response);
+
+                    if (response.data.status == "ok") {
+                        console.info("Friend request declined")
+                    } else {
+                        Materialize.toast('Error: ' + response.data.msg, 4000)
+                    }
+
+                    $scope.refreshFriends();
+                }, function (response) {
+                    Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+                    if (response.status == 403) {
+                        $state.go("login", {reload: true})
+                    }
+                });
+            } else {// Refresh from server if it was undone
+                $scope.refreshFriends();
             }
         })
     };
@@ -579,7 +641,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $scope.refreshFriends();
     };
     $scope.$on('$destroy', function () {
-       $window.onfocus=false;
+        $window.onfocus = false;
     });
 
     $timeout(function () {
