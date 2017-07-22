@@ -1,8 +1,4 @@
 app.controller("changePasswordController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", function ($scope, $state, $stateParams, $http, $timeout, $cookies) {
-    $interval(function () {
-        console.info("CHANGE PASSWORD")
-    }, 1000)
-
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();

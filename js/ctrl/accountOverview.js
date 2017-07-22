@@ -8,10 +8,6 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     //     return;
     // }
 
-    $interval(function () {
-        console.info("ACCOUNT")
-    }, 1000)
-
     $scope.navbar.tabs = [
         {
             title: "Overview",
@@ -582,6 +578,9 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $scope.refreshAccount();
         $scope.refreshFriends();
     };
+    $scope.$on('$destroy', function () {
+       $window.onfocus=false;
+    });
 
     $timeout(function () {
         Materialize.updateTextFields();

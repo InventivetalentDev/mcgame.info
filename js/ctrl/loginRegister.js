@@ -1,9 +1,4 @@
 app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval) {
-    $interval(function () {
-        console.info("LOGIN REGISTER")
-    }, 1000)
-
-
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = false;

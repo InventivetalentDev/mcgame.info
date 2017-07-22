@@ -1,8 +1,4 @@
 app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment) {
-    $interval(function () {
-        console.info("SERVER LIST")
-    }, 1000)
-
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
