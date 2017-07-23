@@ -154,33 +154,52 @@
     <h1>Settings</h1>
 
     <div>
-        <label>Push Notifications</label>
-        <div class="switch" style="padding:10px;">
-            <label>
-                Off
-                <input type="checkbox" ng-model="pushNotification.enabled" ng-change="pushNotification.update()" ng-disabled="!pushNotification.supported">
-                <span class="lever"></span>
-                On
-            </label>
-        </div>
-        <div ng-if="!pushNotification.supported">
-            Push Notifications are not supported
-        </div>
-        <br/>
-        <div>
-            Notification Triggers
-            <div ng-repeat="(name,enabled) in pushNotification.triggers">
-                <div class="switch" style="padding:10px;">
-                    {{ name }}
-                    <label>
-                        Off
-                        <input type="checkbox" ng-model="pushNotification.triggers[name]" ng-change="pushNotification.updateTriggers()" ng-disabled="!pushNotification.supported || !pushNotification.enabled">
-                        <span class="lever"></span>
-                        On
-                    </label>
+        <div class="row">
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s6">
+                        <span ng-if="pushNotification.supported">
+                            Push Notifications
+                        </span>
+                        <span ng-if="!pushNotification.supported">
+                            Push Notifications are not supported
+                        </span>
+                    </div>
+                    <div class="col s6">
+                        <div class="switch" style="padding:10px;">
+                            <label>
+                                Off
+                                <input type="checkbox" ng-model="pushNotification.enabled" ng-change="pushNotification.update()" ng-disabled="!pushNotification.supported">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                <h4>Notification Triggers</h4>
+                <div>
+                    <div ng-repeat="(name,enabled) in pushNotification.triggers" class="row">
+                        <div class="col s6">
+                            {{ name }}
+                        </div>
+                        <div class="col s6">
+                            <div class="switch" style="padding:10px;">
+                                <label>
+                                    Off
+                                    <input type="checkbox" ng-model="pushNotification.triggers[name]" ng-change="pushNotification.updateTriggers()" ng-disabled="!pushNotification.supported || !pushNotification.enabled">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+
         <br/>
     </div>
     <div class="divider"></div>
