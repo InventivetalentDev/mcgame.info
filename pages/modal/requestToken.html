@@ -20,7 +20,9 @@
                 </tbody>
             </table>
         </div>
-        <hr/>
+
+        <div class="divider"></div>
+
         <div>
             <p>
                 The easiest way to connect your server to <strong>MCGameInfo</strong> is by installing the plugin for <strong>Bungeecord or Bukkit</strong>.<br/>
@@ -36,6 +38,39 @@ server:
 
   # Request Token for your server
   token: "{{ requestToken }}"
+                </pre>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+            <p>
+                If you're not interested in writing any code, simply enable <code style="background-color: #f2f2f2;">gameDetector.enabled</code> in the config and adjust the settings.
+                The plugin will automatically update the game based on server/world names. <br/>
+                <br/>
+                Otherwise, you can call the following API methods:
+            </p>
+            <div>
+            <pre style="background-color: #f2f2f2;">
+// Bukkit/Spigot
+GameInfoClient client =
+		((org.inventivetalent.mcgameinfo.bukkit.Plugin) Bukkit.getPluginManager().getPlugin("MCGameInfo")).getClient();
+
+// Bungeecord
+GameInfoClient client =
+		((org.inventivetalent.mcgameinfo.bungee.Plugin) ProxyServer.getInstance().getPluginManager().getPlugin("MCGameInfo")).getClient();
+
+
+// Join Methods
+client.joinServer(String username, UUID uuid);
+
+client.joinGame(String username, UUID uuid, String gameName);
+
+// Leave Methods
+client.leaveGame(String username, UUID uuid);
+
+client.leaveServer(String username, UUID uuid);
                 </pre>
             </div>
         </div>
