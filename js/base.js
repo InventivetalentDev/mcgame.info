@@ -36,6 +36,19 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             templateUrl: "/pages/servers.html",
             controller: "serverListController"
         })
+
+        .state("termsOfService",{
+            url:"/legal/tos",
+            templateUrl:"/pages/legal/terms-of-service.html"
+        })
+        .state("privacy",{
+            url:"/legal/privacy",
+            templateUrl:"/pages/legal/privacy.html"
+        })
+        .state("imprint",{
+            url:"/legal/imprint",
+            templateUrl:"/pages/legal/imprint.html"
+        })
     $urlRouterProvider.when("", "/");
     $urlRouterProvider.otherwise("/");
 
