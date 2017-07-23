@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="nav-content" ng-show="navbar.tabs.length>0">
-                    <ul class="tabs tabs-transparent tabs-fixed-width">
+                    <ul class="tabs tabs-transparent tabs-fixed-width" style="overflow-x: hidden;">
                         <li class="tab" ng-repeat="tab in navbar.tabs" ng-class="{'disabled':tab.disabled}"><a href="{{ tab.href }}" ng-class="{'active':tab.active || locationHash == tab.href}">{{ tab.title }}</a></li>
                         <!--<li class="tab"><a class="active" href="#test2">Test 2</a></li>-->
                         <!--<li class="tab disabled"><a href="#test3">Disabled Tab</a></li>-->
@@ -148,8 +148,6 @@
                     <div class="col l6 s12">
                         <h5 class="white-text">About</h5>
                         <p class="grey-text text-lighten-4">MCGameInfo allows you to share the Minecaft Games you're playing with your friends. You can also get notified about your friends' games.</p>
-
-
                     </div>
                     <div class="col l3 s12">
                         <h5 class="white-text">Legal Stuff</h5>
