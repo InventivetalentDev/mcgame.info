@@ -273,7 +273,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             toast.remove();
         });
         var toast = Materialize.toast($("<span>Friend removed</span>").add($undo), 10000, "", function () {
-            if(!undone) {
+            if (!undone) {
                 $http({
                     method: "POST",
                     url: "https://api.mcgame.info/account/friends/remove",
@@ -294,7 +294,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         $state.go("login", {reload: true})
                     }
                 })
-            }else{
+            } else {
                 $scope.refreshFriends();
             }
         })
@@ -542,6 +542,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 refreshServers: $scope.refreshServers
             }
         }).then(function (modal) {
+            modal.element.modal()
             modal.element.modal("open")
         })
     };
@@ -567,6 +568,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         ip: serverIp
                     }
                 }).then(function (modal) {
+                    modal.element.modal()
                     modal.element.modal("open")
                 })
             } else {
@@ -599,6 +601,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         token: response.data.requestToken
                     }
                 }).then(function (modal) {
+                    modal.element.modal()
                     modal.element.modal("open")
                 })
             } else {
@@ -628,7 +631,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             toast.remove();
         });
         var toast = Materialize.toast($("<span>Server deleted</span>").add($undo), 10000, "", function () {
-            if(!undone) {
+            if (!undone) {
                 $http({
                     method: "POST",
                     url: "https://api.mcgame.info/servers/" + serverId + "/delete",
@@ -637,7 +640,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                     console.log(response);
 
                     if (response.data.status == "ok") {
-                       console.info("Server deleted")
+                        console.info("Server deleted")
                         $scope.refreshServers();
                     } else {
                         Materialize.toast('Error: ' + response.data.msg, 4000)
@@ -648,7 +651,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         $state.go("login", {reload: true})
                     }
                 })
-            }else{
+            } else {
                 $scope.refreshServers();
             }
         })
