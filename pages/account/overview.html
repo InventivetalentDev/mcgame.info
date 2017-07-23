@@ -166,7 +166,7 @@
                         </span>
                     </div>
                     <div class="col s6">
-                        <div class="switch" style="padding:10px;">
+                        <div class="switch">
                             <label>
                                 Off
                                 <input type="checkbox" ng-model="pushNotification.enabled" ng-change="pushNotification.update()" ng-disabled="!pushNotification.supported">
@@ -185,7 +185,7 @@
                             {{ name }}
                         </div>
                         <div class="col s6">
-                            <div class="switch" style="padding:10px;">
+                            <div class="switch">
                                 <label>
                                     Off
                                     <input type="checkbox" ng-model="pushNotification.triggers[name]" ng-change="pushNotification.updateTriggers()" ng-disabled="!pushNotification.supported || !pushNotification.enabled">
