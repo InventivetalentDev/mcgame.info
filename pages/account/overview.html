@@ -133,6 +133,9 @@
                 </p>
                 <a class="secondary-content tooltipped" data-position="left" data-delay="20" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
                 <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" ng-click="showDomainTokenModal(server.id,server.ip)" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
+                <div class="progress" ng-hide="server.ping">
+                    <div class="indeterminate"></div>
+                </div>
             </li>
         </ul>
     </div>
