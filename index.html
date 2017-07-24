@@ -118,6 +118,7 @@
                             <li>
                                 <div class="divider"></div>
                             </li>
+                            <li><a href="#" ng-if="account.uuid" ng-href="/account/changePassword">Change Password</a></li>
                             <li><a href="#" ng-href="{{ account.uuid ? '/logout?go=index' : '/login' }}">{{ account.uuid ? "Log Out" : "Log In" }}</a></li>
                         </ul>
                         <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>

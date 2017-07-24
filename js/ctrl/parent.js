@@ -40,10 +40,12 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
             if (response.data.status == "ok") {
                 $scope.account = response.data.user;
             } else {
+                $scope.account={}
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
         }, function (response) {
             console.log(response)
+            $scope.account={}
             if(!silent) {
                 Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
                 if (response.status == 403) {
