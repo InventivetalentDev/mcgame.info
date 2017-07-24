@@ -147,11 +147,11 @@
         </ul>
     </div>
 
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large tooltipped" data-tooltip="Add your own server" data-position="left" ng-click="showAddServerModal()">
-            <i class="material-icons">playlist_add</i>
-        </a>
-    </div>
+    <!--<div class="fixed-action-btn">-->
+    <!--<a class="btn-floating btn-large tooltipped" data-tooltip="Add your own server" data-position="left" ng-click="showAddServerModal()">-->
+    <!--<i class="material-icons">playlist_add</i>-->
+    <!--</a>-->
+    <!--</div>-->
 </div>
 
 <div id="settings" class="col s12">
@@ -221,4 +221,34 @@
 
         <button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>
     </div>
+
+    <div class="divider"></div>
+
+    <div>
+        <a href="/account/changePassword" class="btn btn-flat">Change Password</a>
+    </div>
+</div>
+
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large blue lighten-2">
+        <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+        <li>
+            <a class="btn-floating blue tooltipped" data-tooltip="Add your own server" data-position="left" ng-click="showAddServerModal()">
+                <i class="material-icons">playlist_add</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating red tooltipped" data-tooltip="Change Password" data-position="left" href="/account/changePassword">
+                <i class="material-icons">vpn_key</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating red tooltipped" data-tooltip="Logout" data-position="left" href="#" ui-sref="logout">
+                <i class="material-icons">power_settings_new</i>
+            </a>
+        </li>
+    </ul>
 </div>
