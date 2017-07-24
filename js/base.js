@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha","ngSanitize"]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider

@@ -1,4 +1,4 @@
-app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment) {
+app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce",function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment,$sce) {
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
@@ -21,19 +21,39 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
                 $scope.servers = response.data.servers;
                 $scope.pagination = response.data.pagination;
                 console.log($scope.pagination)
+                // $.each($scope.servers, function (index, server) {
+                //     var i = index;
+                //     $http({
+                //         method: "POST",
+                //         url: "https://api.mcgame.info/util/pingServer",
+                //         data: {ip: server.ip}
+                //     }).then(function (response) {
+                //         if (response.data.status == "ok") {
+                //             $scope.servers[i].ping = response.data.ping;
+                //         }
+                //         console.log($scope.servers)
+                //     })
+                // })
+                var ips = [];
                 $.each($scope.servers, function (index, server) {
-                    var i = index;
-                    $http({
-                        method: "POST",
-                        url: "https://api.mcgame.info/util/pingServer",
-                        data: {ip: server.ip}
-                    }).then(function (response) {
-                        if (response.data.status == "ok") {
-                            $scope.servers[i].ping = response.data.ping;
-                        }
-                        console.log($scope.servers)
+                    ips.push(server.ip)
+                });
+                $http({
+                    method: "GET",
+                    url: "https://mcapi.ca/query/" + ips.join(",") + "/multi",
+                    withCredentials: false
+                }).then(function (response) {
+                    console.log(response.data)
+                    $.each(response.data, function (name, ping) {
+                        ping.trustedMotd=$sce.trustAsHtml(ping.htmlmotd)
+                        $.each($scope.servers, function (index, server) {
+                            if (server.ip == name || server.ip + ":25565" == name || server.ip == ping.hostname) {
+                                server.ping = ping;
+                            }
+                        })
                     })
-                })
+                });
+
 
                 $timeout(function () {
                     $(".tooltipped").tooltip();

@@ -120,10 +120,11 @@
     <div>
         <ul class="collection">
             <li class="collection-item avatar" ng-repeat="server in servers">
-                <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle"><!-- TODO: use actual server icon -->
+                <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle">
                 <span class="title">{{ server.name }}</span>
                 <p>
-                    {{ server.ip }}
+                    <span ng-bind-html="server.ping.trustedMotd"><!-- MOTD --></span><br/>
+                    <code>{{ server.ip }}</code>
                     <br/>
                     <br/>
                     <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Re-Check Domain record" ng-if="!server.domainVerified" ng-click="verifyServerDomain(server.id)"><i class="material-icons">done</i></a>

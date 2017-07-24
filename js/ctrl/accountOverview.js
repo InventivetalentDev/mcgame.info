@@ -1,4 +1,4 @@
-app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window) {
+app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window","$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window,$sce) {
     // var usernameCookie = $cookies.get("username");
     // var uuidCookie = $cookies.get("uuid");
     // var accessTokenCookie = $cookies.get("accessToken");
@@ -444,29 +444,52 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.servers = [];
     $scope.pagination = {page: 1, pages: 0};
     $scope.refreshServers = function () {
+        console.log($scope.pagination)
         $http({
             method: "GET",
-            url: "https://api.mcgame.info/servers/mine",
-            params: {uuid: $cookies.get("uuid"), page: $scope.pagination.page}
+            url: "https://api.mcgame.info/servers",
+            params: {page: $scope.pagination.page},
+            headers: {}
         }).then(function (response) {
             console.log(response);
 
             if (response.data.status == "ok") {
                 $scope.servers = response.data.servers;
                 $scope.pagination = response.data.pagination;
+                console.log($scope.pagination)
+                // $.each($scope.servers, function (index, server) {
+                //     var i = index;
+                //     $http({
+                //         method: "POST",
+                //         url: "https://api.mcgame.info/util/pingServer",
+                //         data: {ip: server.ip}
+                //     }).then(function (response) {
+                //         if (response.data.status == "ok") {
+                //             $scope.servers[i].ping = response.data.ping;
+                //         }
+                //         console.log($scope.servers)
+                //     })
+                // })
+                var ips = [];
                 $.each($scope.servers, function (index, server) {
-                    var i = index;
-                    $http({
-                        method: "POST",
-                        url: "https://api.mcgame.info/util/pingServer",
-                        data: {ip: server.ip}
-                    }).then(function (response) {
-                        if (response.data.status == "ok") {
-                            $scope.servers[i].ping = response.data.ping;
-                        }
-                        console.log($scope.servers)
+                    ips.push(server.ip)
+                });
+                $http({
+                    method: "GET",
+                    url: "https://mcapi.ca/query/" + ips.join(",") + "/multi",
+                    withCredentials: false
+                }).then(function (response) {
+                    console.log(response.data)
+                    $.each(response.data, function (name, ping) {
+                        ping.trustedMotd=$sce.trustAsHtml(ping.htmlmotd)
+                        $.each($scope.servers, function (index, server) {
+                            if (server.ip == name || server.ip + ":25565" == name || server.ip == ping.hostname) {
+                                server.ping = ping;
+                            }
+                        })
                     })
-                })
+                });
+
 
                 $timeout(function () {
                     $(".tooltipped").tooltip();
@@ -475,6 +498,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
         }, function (response) {
+            console.log(response)
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
             if (response.status == 403) {
                 $state.go("login", {reload: true})

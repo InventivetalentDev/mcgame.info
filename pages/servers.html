@@ -7,17 +7,18 @@
                 <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle">
                 <span class="title">{{ server.name }}</span>
                 <p>
-                    {{ server.ip }}
+                    <span ng-bind-html="server.ping.trustedMotd"><!-- MOTD --></span><br/>
+                    <code>{{ server.ip }}</code>
                 </p>
                 <a class="secondary-content tooltipped" data-position="left" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
-                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified"  ng-if="!server.domainVerified" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
+                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
             </li>
         </ul>
     </div>
     <div>
         <ul class="pagination center-align">
             <li class="disabled" ng-class="{'disabled':pagination.page<=1}"><a ng-click="pagination.page=max(pagination.page-1,1); refreshServers()"><i class="material-icons">chevron_left</i></a></li>
-            <li ng-repeat="page in range(pagination.pages)" class="waves-effect" ng-class="{'active':page+1==pagination.page}"  ng-click="pagination.page=page+1; refreshServers()"><a href="#">{{ page+1 }}</a></li>
+            <li ng-repeat="page in range(pagination.pages)" class="waves-effect" ng-class="{'active':page+1==pagination.page}" ng-click="pagination.page=page+1; refreshServers()"><a href="#">{{ page+1 }}</a></li>
             <li class="waves-effect" ng-class="{'disabled':pagination.page>=pagination.pages}"><a ng-click="pagination.page=min(pagination.page+1,pagination.pages); refreshServers()"><i class="material-icons">chevron_right</i></a></li>
         </ul>
     </div>
