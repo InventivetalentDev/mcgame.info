@@ -476,12 +476,17 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 });
                 $http({
                     method: "GET",
-                    url: "https://mcapi.ca/query/" + ips.join(",") + "/multi",
+                    url: "https://mcapi.ca/query/" + ips.join(",") + "/" + ($scope.servers.length > 1 ? "multi" : "info"),
                     withCredentials: false
                 }).then(function (response) {
                     console.log(response.data)
-                    $.each(response.data, function (name, ping) {
-                        ping.trustedMotd=$sce.trustAsHtml(ping.htmlmotd)
+                    var data = response.data;
+                    if ($scope.servers.length <= 1) {// convert data into an object, if the response only contains 1 server
+                        data = {};
+                        data[$scope.servers[0].ip] = response.data;
+                    }
+                    $.each(data, function (name, ping) {
+                        ping.trustedMotd = $sce.trustAsHtml(ping.htmlmotd)
                         $.each($scope.servers, function (index, server) {
                             if (server.ip == name || server.ip + ":25565" == name || server.ip == ping.hostname) {
                                 server.ping = ping;
@@ -489,7 +494,6 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                         })
                     })
                 });
-
 
                 $timeout(function () {
                     $(".tooltipped").tooltip();
