@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha","ngSanitize"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize"]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
@@ -37,17 +37,23 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             controller: "serverListController"
         })
 
-        .state("termsOfService",{
-            url:"/legal/tos",
-            templateUrl:"/pages/legal/terms-of-service.html"
+        .state("downloadPlugin", {
+            url: "/download/plugin",
+            controller: "redirectController",
+            params: {to: "https://download.inventivetalent.org/idl/MCGameInfo"}
         })
-        .state("privacy",{
-            url:"/legal/privacy",
-            templateUrl:"/pages/legal/privacy.html"
+
+        .state("termsOfService", {
+            url: "/legal/tos",
+            templateUrl: "/pages/legal/terms-of-service.html"
         })
-        .state("imprint",{
-            url:"/legal/imprint",
-            templateUrl:"/pages/legal/imprint.html"
+        .state("privacy", {
+            url: "/legal/privacy",
+            templateUrl: "/pages/legal/privacy.html"
+        })
+        .state("imprint", {
+            url: "/legal/imprint",
+            templateUrl: "/pages/legal/imprint.html"
         })
     $urlRouterProvider.when("", "/");
     $urlRouterProvider.otherwise("/");
@@ -95,6 +101,12 @@ app.controller("indexController", ["$scope", function ($scope) {
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
 }]);
+
+app.controller("redirectController", ["$scope", "$state", "$stateParams", "$timeout", function ($scope, $state, $stateParams, $timeout) {
+    if ($stateParams.to) {
+        window.open($stateParams.to, $stateParams.target || "_self");
+    }
+}])
 
 
 $(document).ready(function () {
