@@ -1,4 +1,4 @@
-app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window","$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window,$sce) {
+app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window, $sce) {
     // var usernameCookie = $cookies.get("username");
     // var uuidCookie = $cookies.get("uuid");
     // var accessTokenCookie = $cookies.get("accessToken");
@@ -225,6 +225,29 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
             }
         })
     };
+
+
+    $scope.ranks = {};
+    $scope.refreshRanks = function () {
+        $http({
+            method: "GET",
+            url: "https://api.mcgame.info/ranks",
+            params: {uuid: $cookies.get("uuid")}
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status == "ok") {
+                response.data.ranks.forEach(function (rank) {
+                    $scope.ranks[rank.id] = rank;
+                })
+            } else {
+                Materialize.toast('Error: ' + response.data.msg, 4000)
+            }
+        }, function (response) {
+            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+        })
+    };
+    $scope.refreshRanks()
 
     $scope.friends = [];
     $scope.friendRequests = {
