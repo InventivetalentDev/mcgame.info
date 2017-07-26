@@ -668,7 +668,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.deleteServer = function (serverId, serverName, serverIp) {
         // Remove the item without sending an update to the server
         for (var i = 0; i < $scope.servers.length; i++) {
-            if ($scope.servers[i].id === serverId) {
+            if ($scope.servers[i].uuid === serverId) {
                 $scope.servers.splice(i, 1);
                 break;
             }
