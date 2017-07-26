@@ -40,7 +40,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
         .state("downloadPlugin", {
             url: "/download/plugin",
             controller: "redirectController",
-            params: {to: "https://download.inventivetalent.org/idl/MCGameInfo"}
+            params: {to: "http://download.inventivetalent.org/gh/MCGameInfoPlugin"}
         })
 
         .state("termsOfService", {
