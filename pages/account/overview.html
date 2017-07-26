@@ -1,6 +1,6 @@
 <div id="overview" class="col s12">
     <br/>
-    <h1>Account Overview</h1>
+    <h1><img src="" ng-src="{{ 'https://minotar.net/avatar/'+account.username+'/128' }}" alt="Avatar" class="responsive-img" style="vertical-align: middle;border-radius: 10px;"> Account Overview</h1>
     <br/>
 
     <div class="row">
@@ -118,6 +118,7 @@
         <button class="btn" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i> Add your server now!</button>
     </div>
     <div>
+        {{ servers }}
         <ul class="collection">
             <li class="collection-item avatar" ng-repeat="server in servers">
                 <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle">
@@ -127,12 +128,12 @@
                     <code>{{ server.ip }}</code>
                     <br/>
                     <br/>
-                    <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Re-Check Domain record" ng-if="!server.domainVerified" ng-click="verifyServerDomain(server.id)"><i class="material-icons">done</i></a>
-                    <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Show API Info" ng-if="server.domainVerified" ng-click="showApiInfo(server.id)"><i class="material-icons">info_outline</i></a>
-                    <a class="red-text" data-position="bottom" data-delay="20" data-tooltip="Delete Server" ng-click="deleteServer(server.id,server.name,server.ip)"><i class="material-icons">delete</i></a>
+                    <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Re-Check Domain record" ng-if="!server.domainVerified" ng-click="verifyServerDomain(server.uuid)"><i class="material-icons">done</i></a>
+                    <a class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Show API Info" ng-if="server.domainVerified" ng-click="showApiInfo(server.uuid)"><i class="material-icons">info_outline</i></a>
+                    <a class="red-text" data-position="bottom" data-delay="20" data-tooltip="Delete Server" ng-click="deleteServer(server.uuid,server.name,server.ip)"><i class="material-icons">delete</i></a>
                 </p>
                 <a class="secondary-content tooltipped" data-position="left" data-delay="20" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
-                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" ng-click="showDomainTokenModal(server.id,server.ip)" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
+                <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" ng-click="showDomainTokenModal(server.uuid,server.ip)" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
                 <div class="progress" ng-hide="server.ping">
                     <div class="indeterminate"></div>
                 </div>
