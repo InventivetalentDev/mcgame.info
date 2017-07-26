@@ -118,7 +118,6 @@
         <button class="btn" ng-click="showAddServerModal()"><i class="material-icons">playlist_add</i> Add your server now!</button>
     </div>
     <div>
-        {{ servers }}
         <ul class="collection">
             <li class="collection-item avatar" ng-repeat="server in servers">
                 <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle">
