@@ -470,9 +470,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         console.log($scope.pagination)
         $http({
             method: "GET",
-            url: "https://api.mcgame.info/servers",
-            params: {page: $scope.pagination.page},
-            headers: {}
+            url: "https://api.mcgame.info/servers/mine",
+            params: {uuid:$cookies.get("uuid"),page: $scope.pagination.page}
         }).then(function (response) {
             console.log(response);
 
