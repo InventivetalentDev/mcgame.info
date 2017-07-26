@@ -58,6 +58,22 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
     $urlRouterProvider.when("", "/");
     $urlRouterProvider.otherwise("/");
 
+    // https://github.com/angular-ui/ui-router/issues/50#issuecomment-50039600
+    $urlRouterProvider.rule(function ($injector, $location) {
+        var path = $location.url();
+
+        // check to see if the path has a trailing slash
+        if ('/' === path[path.length - 1]) {
+            return path.replace(/\/$/, '');
+        }
+
+        if (path.indexOf('/?') > -1) {
+            return path.replace('/?', '?');
+        }
+
+        return false;
+    });
+
     $locationProvider.html5Mode(true);
 
     // Required for session cookies to be sent in $http
