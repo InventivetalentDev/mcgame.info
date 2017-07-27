@@ -8,13 +8,13 @@
                 <form class="col s12" method="post" ng-submit="loginRegisterSubmit()">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input type="text" class="validate" id="username" name="username" minlength="4" maxlength="16" ng-model="username">
+                            <input type="text" class="validate" id="username" name="username" minlength="4" maxlength="16" ng-model="username" ng-disabled="tokenLogin" required>
                             <label for="username">Minecraft Username</label>
                         </div>
                     </div>
-                    <div class="row" ng-if="state.is('login')">
+                    <div class="row" ng-show="state.is('login')">
                         <div class="input-field col s12">
-                            <input type="password" class="validate" id="password" name="password" minlength="8" ng-model="password" ng-disabled="tokenLogin">
+                            <input type="password" class="validate" id="password" name="password" minlength="8" ng-model="password" ng-disabled="tokenLogin" required>
                             <label for="password">Password</label>
                         </div>
                     </div>
