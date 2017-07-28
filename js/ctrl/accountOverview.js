@@ -178,53 +178,53 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $scope.pushNotification.supported = false;
     }
 
-    $scope.infoInput = {
-        game: "",
-        server: ""
-    }
-    $scope.updateGameInfo = function () {
-        $http({
-            method: "POST",
-            url: $scope.account.info.server ? "https://api.mcgame.info/join/server" : "https://api.mcgame.info/leave/server",
-            data: {uuid: $cookies.get("uuid"), serverIp: $scope.infoInput.server}
-        }).then(function (response) {
-            console.log(response);
-
-            if (response.data.status == "ok") {
-                Materialize.toast("Server updated", 4000)
-            } else {
-                Materialize.toast('Error: ' + response.data.msg, 4000)
-            }
-
-            $scope.refreshAccount();
-        }, function (response) {
-            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
-            if (response.status == 403) {
-                $state.go("login", {reload: true})
-            }
-        })
-        $http({
-            method: "POST",
-            url: $scope.account.info.game ? "https://api.mcgame.info/join/game" : "https://api.mcgame.info/leave/game",
-            data: {username: usernameCookie, uuid: uuidCookie, gameName: $scope.infoInput.game},
-            headers: {"Access-Token": accessTokenCookie}
-        }).then(function (response) {
-            console.log(response);
-
-            if (response.data.status == "ok") {
-                Materialize.toast("Game updated", 4000)
-            } else {
-                Materialize.toast('Error: ' + response.data.msg, 4000)
-            }
-
-            $scope.refreshAccount();
-        }, function (response) {
-            Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
-            if (response.status == 403) {
-                $state.go("login", {reload: true})
-            }
-        })
-    };
+    // $scope.infoInput = {
+    //     game: "",
+    //     server: ""
+    // }
+    // $scope.updateGameInfo = function () {
+    //     $http({
+    //         method: "POST",
+    //         url: $scope.account.info.server ? "https://api.mcgame.info/join/server" : "https://api.mcgame.info/leave/server",
+    //         data: {uuid: $cookies.get("uuid"), serverIp: $scope.infoInput.server}
+    //     }).then(function (response) {
+    //         console.log(response);
+    //
+    //         if (response.data.status == "ok") {
+    //             Materialize.toast("Server updated", 4000)
+    //         } else {
+    //             Materialize.toast('Error: ' + response.data.msg, 4000)
+    //         }
+    //
+    //         $scope.refreshAccount();
+    //     }, function (response) {
+    //         Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+    //         if (response.status == 403) {
+    //             $state.go("login", {reload: true})
+    //         }
+    //     })
+    //     $http({
+    //         method: "POST",
+    //         url: $scope.account.info.game ? "https://api.mcgame.info/join/game" : "https://api.mcgame.info/leave/game",
+    //         data: {username: usernameCookie, uuid: uuidCookie, gameName: $scope.infoInput.game},
+    //         headers: {"Access-Token": accessTokenCookie}
+    //     }).then(function (response) {
+    //         console.log(response);
+    //
+    //         if (response.data.status == "ok") {
+    //             Materialize.toast("Game updated", 4000)
+    //         } else {
+    //             Materialize.toast('Error: ' + response.data.msg, 4000)
+    //         }
+    //
+    //         $scope.refreshAccount();
+    //     }, function (response) {
+    //         Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+    //         if (response.status == 403) {
+    //             $state.go("login", {reload: true})
+    //         }
+    //     })
+    // };
 
 
     $scope.ranks = {};
