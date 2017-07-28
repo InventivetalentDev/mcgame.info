@@ -503,7 +503,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 }).then(function (response) {
                     console.log(response.data)
                     var data = response.data;
-                    if ($scope.servers.length <= 1) {// convert data into an object, if the response only contains 1 server
+                    if ($scope.servers.length == 1) {// convert data into an object, if the response only contains 1 server
                         data = {};
                         data[$scope.servers[0].ip] = response.data;
                     }
