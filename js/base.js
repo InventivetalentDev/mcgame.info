@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage"]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
@@ -78,6 +78,22 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
 
     // Required for session cookies to be sent in $http
     $httpProvider.defaults.withCredentials = true;
+    $httpProvider.interceptors.push(['$location', '$localStorage', function ($location, $localStorage) {
+        return {
+            'request': function (config) {
+                if (config.url.indexOf("https://api.mcgame.info") == 0) {
+                    config.headers = config.headers || {};
+                    if ($localStorage.uuid) {
+                        config.headers["X-User-Uuid"] = $localStorage.uuid;
+                    }
+                    if ($localStorage.token) {
+                        config.headers.Authorization = 'Bearer ' + $localStorage.token;
+                    }
+                }
+                return config;
+            }
+        };
+    }]);
 }]);
 
 app.service("backend", function ($http) {

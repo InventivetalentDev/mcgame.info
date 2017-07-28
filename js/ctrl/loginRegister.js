@@ -1,4 +1,4 @@
-app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval) {
+app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage) {
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = false;
@@ -144,16 +144,11 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                     var now = new $window.Date();
                     var expires = new $window.Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
 
-                    // $cookies.put("username", response.data.username, {
-                    //     expires: expires
-                    // });
                     $cookies.put("uuid", response.data.uuid, {
                         expires: expires
                     });
-                    // $cookies.put("accessToken", response.data.accessToken, {
-                    //     expires: expires
-                    // });
-                    // $scope.refreshCookies();
+                    $localStorage.uuid=response.data.uuid;
+                    $localStorage.token = response.data.token;
 
                     $timeout(function () {
                         $state.go("accountOverview", {}, {location: "replace", reload: true});
