@@ -91,7 +91,7 @@
     </head>
     <body ng-cloak ng-controller="parentController">
         <header>
-            <nav class="blue darken-3 nav-extended">
+            <nav ng-class="theme.color" class="darken-3 nav-extended">
                 <div class="nav-wrapper row">
                     <div class="col ds12">
                         <a href="/" class="brand-logo center">
@@ -142,7 +142,7 @@
             </div>
         </main>
 
-        <footer class="page-footer indigo darken-1" style="margin-top:100px;" ng-show="footer.visible">
+        <footer ng-class="theme.color" class="page-footer darken-1" style="margin-top:100px;" ng-show="footer.visible">
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">

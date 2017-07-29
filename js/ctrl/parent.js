@@ -9,6 +9,10 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
     // }
     // $scope.refreshCookies();
 
+    $scope.theme={
+        color:"blue"
+    };
+
     $scope.navbar = {
         tabs: [],
         initTabs: function () {
