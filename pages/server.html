@@ -16,9 +16,9 @@
                     <a ng-repeat="player in server.players" ng-href="{{ '/u/'+player.username }}" style="padding: 8px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
                         <img src="https://minotar.net/avatar/steve/16" ng-src="{{ 'https://minotar.net/avatar/'+player.username+'/64' }}">
                     </a>
-                    <div ng-if="(server.ping.players.online-server.players.length)>0">{{ (server.ping.players.online-server.players.length) | number:0 }} more players online</div>
+                    <div ng-if="(server.ping.players.online-server.players.length)>0"><strong>{{ (server.ping.players.online-server.players.length) | number:0 }}</strong> more players online</div>
                 </div>
-                <span ng-if="server.players.length==0">No players online which are registered on MCGameInfo<span ng-if="server.ping.players.online">, but {{ server.ping.players.online | number:0 }} other players are online</span></span>
+                <span ng-if="server.players.length==0">No players online which are registered on MCGameInfo<span ng-if="server.ping.players.online">, but <strong>{{ server.ping.players.online | number:0 }}</strong> other players are online</span></span>
             </div>
         </div>
     </div>

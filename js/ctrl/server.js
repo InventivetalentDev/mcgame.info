@@ -25,7 +25,7 @@ app.controller("serverController", ["$scope", "$state", "$stateParams", "$http",
                     var data = response.data;
 
                     data.trustedMotd = $sce.trustAsHtml(data.htmlmotd)
-                    $scope.server.ping = ping;
+                    $scope.server.ping = data;
                 });
             } else {
                 $scope.server = {}
