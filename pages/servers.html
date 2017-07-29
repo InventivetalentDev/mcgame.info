@@ -10,11 +10,17 @@
                     <span ng-bind-html="server.ping.trustedMotd"><!-- MOTD --></span><br/>
                     <code>{{ server.ip }}</code>
                 </p>
+                <!--<div class="progress" ng-hide="server.ping">-->
+                <!--<div class="indeterminate"></div>-->
+                <!--</div>-->
+                <div>
+                    <a ng-repeat="player in server.players" style="padding: 2px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
+                        <img src="https://minotar.net/avatar/steve/16" ng-src="{{ 'https://minotar.net/avatar/'+player.username+'/16' }}">
+                    </a>
+                </div>
+
                 <a class="secondary-content tooltipped" data-position="left" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
                 <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
-                <div class="progress" ng-hide="server.ping">
-                    <div class="indeterminate"></div>
-                </div>
             </li>
         </ul>
     </div>
