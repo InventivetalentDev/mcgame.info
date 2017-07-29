@@ -4,8 +4,8 @@ app.controller("serverController", ["$scope", "$state", "$stateParams", "$http",
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
 
-    $scope.server={};
-    $scope.refreshServer=function () {
+    $scope.server = {};
+    $scope.refreshServer = function () {
         $http({
             method: "GET",
             url: "https://api.mcgame.info/servers/" + $stateParams.server,
@@ -14,7 +14,19 @@ app.controller("serverController", ["$scope", "$state", "$stateParams", "$http",
         }).then(function (response) {
             if (response.data.status == "ok") {
                 $scope.server = response.data.server;
-                $scope.server.players=response.data.players;
+                $scope.server.players = response.data.players;
+
+                $http({
+                    method: "GET",
+                    url: "https://mcapi.ca/query/" + $scope.server.ip + "/info",
+                    withCredentials: false
+                }).then(function (response) {
+                    console.log(response.data)
+                    var data = response.data;
+
+                    data.trustedMotd = $sce.trustAsHtml(data.htmlmotd)
+                    $scope.server.ping = ping;
+                });
             } else {
                 $scope.server = {}
                 Materialize.toast('Error: ' + response.data.msg, 4000)
