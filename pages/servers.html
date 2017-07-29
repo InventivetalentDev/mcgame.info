@@ -14,7 +14,7 @@
                 <!--<div class="indeterminate"></div>-->
                 <!--</div>-->
                 <div>
-                    <a ng-repeat="player in server.players" style="padding: 2px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
+                    <a ng-repeat="player in server.players" ng-href="{{ '/u/'+player.username }}" style="padding: 2px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
                         <img src="https://minotar.net/avatar/steve/16" ng-src="{{ 'https://minotar.net/avatar/'+player.username+'/16' }}">
                     </a>
                 </div>
