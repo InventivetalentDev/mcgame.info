@@ -34,29 +34,23 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
                 //         console.log($scope.servers)
                 //     })
                 // })
-                var ips = [];
                 $.each($scope.servers, function (index, server) {
-                    ips.push(server.ip)
-                });
-                $http({
-                    method: "GET",
-                    url: "https://mcapi.ca/query/" + ips.join(",") + "/" + ($scope.servers.length > 1 ? "multi" : "info"),
-                    withCredentials: false
-                }).then(function (response) {
-                    console.log(response.data)
-                    var data = response.data;
-                    if ($scope.servers.length == 1) {// convert data into an object, if the response only contains 1 server
-                        data = {};
-                        data[$scope.servers[0].ip] = response.data;
-                    }
-                    $.each(data, function (name, ping) {
-                        ping.trustedMotd = $sce.trustAsHtml(ping.htmlmotd)
-                        $.each($scope.servers, function (index, server) {
-                            if (server.ip == name || server.ip + ":25565" == name || server.ip == ping.hostname) {
-                                server.ping = ping;
-                            }
-                        })
-                    })
+                    $http({
+                        method: "GET",
+                        url: "https://mcapi.ca/query/" + server.ip + "/info",
+                        withCredentials: false
+                    }).then(function (response) {
+                        console.log(response.data)
+                        var ping = response.data;
+                        if (!ping.error) {
+                            ping.trustedMotd = $sce.trustAsHtml(ping.htmlmotd)
+                            $.each($scope.servers, function (index, server) {
+                                if (server.ip == ping.hostname || server.ip == ping.hostname + ":25565" || server.ip == ping.hostname + ":" + ping.port) {
+                                    server.ping = ping;
+                                }
+                            })
+                        }
+                    });
                 });
 
                 $timeout(function () {
