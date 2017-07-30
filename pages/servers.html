@@ -9,6 +9,7 @@
                 <p>
                     <span ng-bind-html="server.ping.trustedMotd"><!-- MOTD --></span><br/>
                     <code>{{ server.ip }}</code>
+                    <span class="pull-right" ng-show="server.ping">{{ server.playerCount }}/{{ server.ping.players.online }}/{{ server.ping.players.max }}</span>
                 </p>
                 <!--<div class="progress" ng-hide="server.ping">-->
                 <!--<div class="indeterminate"></div>-->
