@@ -7,6 +7,11 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
     console.log($scope.footerVisible)
 
     $scope.state = $state;
+    if($scope.state.is('login')){
+        $scope.meta.title = "Login | MCGameInfo";
+    }else if($scope.stats.is('register')){
+        $scope.meta.title = "Register | MCGameInfo";
+    }
 
     console.log($stateParams)
 

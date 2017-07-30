@@ -4,6 +4,7 @@ app.controller("logoutController", ["$scope", "$state", "$stateParams", "$http",
     $scope.navbar.initTabs();
     $scope.footer.visible = false;
 
+    $scope.meta.title = "Logout | MCGameInfo";
 
     $cookies.remove("uuid");
     delete $localStorage.uuid;

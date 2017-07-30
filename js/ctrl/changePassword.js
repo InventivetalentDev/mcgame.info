@@ -4,6 +4,8 @@ app.controller("changePasswordController", ["$scope", "$state", "$stateParams", 
     $scope.navbar.initTabs();
     $scope.footer.visible = false;
 
+    $scope.meta.title = "Change Password | MCGameInfo";
+
     $scope.username = $stateParams.username || $scope.account.username || "";
     $scope.oldPassword = "";
     $scope.password = "";

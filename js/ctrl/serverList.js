@@ -4,6 +4,7 @@ app.controller("serverListController", ["$scope", "$state", "$stateParams", "$ht
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
 
+    $scope.meta.title = "Servers | MCGameInfo";
 
     $scope.servers = [];
     $scope.pagination = {page: 1, pages: 0};

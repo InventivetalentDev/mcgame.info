@@ -25,6 +25,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
 
+    $scope.meta.title = "Account | MCGameInfo";
 
     $scope.pushNotification = {
         enabled: false,

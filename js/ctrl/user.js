@@ -14,6 +14,8 @@ app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "
         }).then(function (response) {
             if (response.data.status == "ok") {
                 $scope.user = response.data.user;
+
+                $scope.meta.title = $scope.user.username + " | MCGameInfo";
             } else {
                 $scope.user = {}
                 Materialize.toast('Error: ' + response.data.msg, 4000)

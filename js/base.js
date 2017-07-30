@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage","updateMeta"]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
@@ -142,6 +142,8 @@ app.controller("indexController", ["$scope", function ($scope) {
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
+
+    $scope.meta.title = "MCGameInfo";
 }]);
 
 app.controller("redirectController", ["$scope", "$state", "$stateParams", "$timeout", function ($scope, $state, $stateParams, $timeout) {

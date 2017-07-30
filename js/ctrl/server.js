@@ -16,6 +16,8 @@ app.controller("serverController", ["$scope", "$state", "$stateParams", "$http",
                 $scope.server = response.data.server;
                 $scope.server.players = response.data.players;
 
+                $scope.meta.title = $scope.server.name + " | MCGameInfo";
+
                 $http({
                     method: "GET",
                     url: "https://mcapi.ca/query/" + $scope.server.ip + "/info",
