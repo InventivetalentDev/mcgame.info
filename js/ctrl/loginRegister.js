@@ -1,4 +1,4 @@
-app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage) {
+app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage","ModalService", "$sce",function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage,ModalService,$sce) {
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = false;
@@ -79,11 +79,15 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                     console.log(response)
                     if (response.data.valid) {
                         //                    backend.post("/account/register",{test:"test"})
+                        var authModal=undefined;
                         window.addEventListener("message", function (event) {
-                            if (event.origin != "https://mcgame.info")
-                                return;
                             console.log(event);
+                            if (event.origin != "https://api.mcgame.info")
+                                return;
                             if (event.data) {
+                                if(authModal) {
+                                    authModal.element.modal("close");
+                                }
                                 var result = JSON.parse(event.data);
                                 if (result.status === "ok") {
                                     Materialize.toast('User registered!', 1000)
@@ -96,12 +100,27 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                                 }
                             }
                         }, false);
-                        var loginPopup = window.open("https://api.mcgame.info/account/register?username=" + $scope.username + "&captcha=" + $scope.captcha.response, "Login", "width=750,height=500");
-                        try {
-                            loginPopup.focus();
-                        } catch (e) {
-                            Materialize.toast('Please enable Popups', 4000)
-                        }
+                        // var loginPopup = window.open("https://api.mcgame.info/account/register?username=" + $scope.username + "&captcha=" + $scope.captcha.response, "Login", "width=750,height=500");
+                        // try {
+                        //     loginPopup.focus();
+                        // } catch (e) {
+                        //     Materialize.toast('Please enable Popups', 4000)
+                        // }
+                        ModalService.showModal({
+                            templateUrl: "/pages/modal/mcauth.html",
+                            controller: function ($scope, iframeUrl) {
+                                $scope.iframeSrc = $sce.trustAsResourceUrl(iframeUrl);
+                            },
+                            inputs: {
+                                iframeUrl:"https://api.mcgame.info/account/register?username=" + $scope.username + "&captcha=" + $scope.captcha.response
+                            }
+                        }).then(function (modal) {
+                            authModal=modal;
+                            modal.element.modal({
+                                dismissible: false
+                            })
+                            modal.element.modal("open")
+                        })
                     } else {
                         Materialize.toast('Unknown Username', 4000)
                     }
