@@ -1,4 +1,4 @@
-app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce) {
+app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", "$window",function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce,$window) {
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
