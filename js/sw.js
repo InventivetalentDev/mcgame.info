@@ -30,7 +30,7 @@ self.addEventListener("notificationclick", function (event) {
         focusOrOpenWindow(event, event.notification.data.clickUrl);
     } else {
         if (event.notification.data.actionUrls) {
-            if(event.notification.data.actionUrls[event.action]){
+            if (event.notification.data.actionUrls[event.action]) {
                 focusOrOpenWindow(event, event.notification.data.actionUrls[event.action]);
             }
         }

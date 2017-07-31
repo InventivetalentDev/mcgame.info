@@ -1,4 +1,4 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage","updateMeta"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage", "updateMeta"]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
@@ -36,15 +36,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             templateUrl: "/pages/servers.html",
             controller: "serverListController"
         })
-        .state("server",{
-            url:"/s/:server",
-            templateUrl:"/pages/server.html",
-            controller:"serverController"
+        .state("server", {
+            url: "/s/:server",
+            templateUrl: "/pages/server.html",
+            controller: "serverController"
         })
-        .state("user",{
-            url:"/u/:user",
-            templateUrl:"/pages/user.html",
-            controller:"userController"
+        .state("user", {
+            url: "/u/:user",
+            templateUrl: "/pages/user.html",
+            controller: "userController"
         })
 
         .state("downloadPlugin", {

@@ -1,6 +1,6 @@
 <style>
-    .friend-collection a{
-        color:inherit;
+    .friend-collection a {
+        color: inherit;
     }
 </style>
 <div id="overview" class="col s12">
@@ -46,7 +46,9 @@
                             <li class="collection-item avatar" ng-repeat="friend in friends">
                                 <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title">
-                                    <span data-rank="{{ friend.rank }}" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><a ng-href="{{ '/u/'+friend.username }}" class="tooltipped" data-tooltip="{{ ranks[friend.rank].name }}" data-position="top" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><i class="fa" ng-class="ranks[friend.rank].icon" ng-show="ranks[friend.rank] && ranks[friend.rank].show" aria-hidden="true"></i> {{ friend.username }}</a></span>
+                                    <span data-rank="{{ friend.rank }}" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><a ng-href="{{ '/u/'+friend.username }}" class="tooltipped" data-tooltip="{{ ranks[friend.rank].name }}" data-position="top" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><i class="fa" ng-class="ranks[friend.rank].icon"
+                                                                                                                                                                                                                                                                                                                                                            ng-show="ranks[friend.rank] && ranks[friend.rank].show"
+                                                                                                                                                                                                                                                                                                                                                            aria-hidden="true"></i> {{ friend.username }}</a></span>
                                     <i class="material-icons" ng-class="{'green-text':friend.info.server,'red-text':friend.info.server==0}">{{ friend.info.server ? "visibility" : "visibility_off" }}</i>
                                 </span>
 
@@ -213,18 +215,18 @@
     </div>
     <div class="divider"></div>
     <!--<div>-->
-        <!--<div class="row">-->
-            <!--<div class="input-field col s6">-->
-                <!--<label for="infoGame">Game</label>-->
-                <!--<input id="infoGame" name="infoGame" type="text" ng-model="infoInput.game">-->
-            <!--</div>-->
-            <!--<div class="input-field col s6">-->
-                <!--<label for="infoServer">Server</label>-->
-                <!--<input id="infoServer" name="infoServer" type="text" ng-model="infoInput.server">-->
-            <!--</div>-->
-        <!--</div>-->
+    <!--<div class="row">-->
+    <!--<div class="input-field col s6">-->
+    <!--<label for="infoGame">Game</label>-->
+    <!--<input id="infoGame" name="infoGame" type="text" ng-model="infoInput.game">-->
+    <!--</div>-->
+    <!--<div class="input-field col s6">-->
+    <!--<label for="infoServer">Server</label>-->
+    <!--<input id="infoServer" name="infoServer" type="text" ng-model="infoInput.server">-->
+    <!--</div>-->
+    <!--</div>-->
 
-        <!--<button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>-->
+    <!--<button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>-->
     <!--</div>-->
 
     <div class="divider"></div>

@@ -1,4 +1,4 @@
-app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage","ModalService", "$sce",function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage,ModalService,$sce) {
+app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage", "ModalService", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage, ModalService, $sce) {
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = false;
@@ -7,9 +7,9 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
     console.log($scope.footerVisible)
 
     $scope.state = $state;
-    if($scope.state.is('login')){
+    if ($scope.state.is('login')) {
         $scope.meta.title = "Login | MCGameInfo";
-    }else if($scope.stats.is('register')){
+    } else if ($scope.stats.is('register')) {
         $scope.meta.title = "Register | MCGameInfo";
     }
 
@@ -43,11 +43,11 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
 
     $scope.captcha = {
         key: "6LcMxCgUAAAAAJY0b5DLi9seYBuDQtgBlNZAvH6E",
-        widgetId:null,
+        widgetId: null,
         response: null,
         onCreate: function (widgetId) {
             console.log("onCreate captcha");
-            $scope.captcha.widgetId=widgetId;
+            $scope.captcha.widgetId = widgetId;
         },
         onSuccess: function (response) {
             console.log("onSuccess captcha")
@@ -88,13 +88,13 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                     console.log(response)
                     if (response.data.valid) {
                         //                    backend.post("/account/register",{test:"test"})
-                        var authModal=undefined;
+                        var authModal = undefined;
                         window.addEventListener("message", function (event) {
                             console.log(event);
                             if (event.origin != "https://api.mcgame.info")
                                 return;
                             if (event.data) {
-                                if(authModal) {
+                                if (authModal) {
                                     authModal.element.modal("close");
                                 }
                                 var result = JSON.parse(event.data);
@@ -122,10 +122,10 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                                 $scope.iframeSrc = $sce.trustAsResourceUrl(iframeUrl);
                             },
                             inputs: {
-                                iframeUrl:"https://api.mcgame.info/account/register?username=" + $scope.username + "&captcha=" + $scope.captcha.response
+                                iframeUrl: "https://api.mcgame.info/account/register?username=" + $scope.username + "&captcha=" + $scope.captcha.response
                             }
                         }).then(function (modal) {
-                            authModal=modal;
+                            authModal = modal;
                             modal.element.modal({
                                 dismissible: false
                             })
@@ -179,7 +179,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                     $cookies.put("uuid", response.data.uuid, {
                         expires: expires
                     });
-                    $localStorage.uuid=response.data.uuid;
+                    $localStorage.uuid = response.data.uuid;
                     $localStorage.token = response.data.token;
 
                     $timeout(function () {

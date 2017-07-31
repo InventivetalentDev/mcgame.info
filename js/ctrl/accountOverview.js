@@ -451,14 +451,14 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
             if (response.data.status == "ok") {
                 $scope.friends = response.data.friends;
-                $.each($scope.friends,function (index,friend) {
-                    friend.latestInfo={
-                        server:undefined,
-                        game:undefined,
-                        lastUpdated:undefined
+                $.each($scope.friends, function (index, friend) {
+                    friend.latestInfo = {
+                        server: undefined,
+                        game: undefined,
+                        lastUpdated: undefined
                     };
-                    if(friend.lastInfo.length>0) {
-                        friend.latestInfo=friend.lastInfo[friend.lastInfo.length-1];
+                    if (friend.lastInfo.length > 0) {
+                        friend.latestInfo = friend.lastInfo[friend.lastInfo.length - 1];
                     }
                 })
                 $scope.friendRequests = response.data.requests;
@@ -484,7 +484,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "GET",
             url: "https://api.mcgame.info/servers/mine",
-            params: {uuid:$cookies.get("uuid"),page: $scope.pagination.page}
+            params: {uuid: $cookies.get("uuid"), page: $scope.pagination.page}
         }).then(function (response) {
             console.log(response);
 
@@ -569,8 +569,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 $scope.serverName = "";
                 $scope.serverIp = "";
                 $scope.add = function () {
-                    if ($scope.serverName.length < 4)return
-                    if ($scope.serverIp.length < 4)return;
+                    if ($scope.serverName.length < 4) return
+                    if ($scope.serverIp.length < 4) return;
 
                     $http({
                         method: "POST",
