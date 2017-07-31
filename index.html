@@ -3,7 +3,8 @@
         <title ng-bind="meta.title">MCGameInfo</title>
         <update-title title="{{ meta.title }}"></update-title>
 
-        <link id="favicon" rel="shortcut icon" type="image/png" href="https://mcgame.info/favicon.png"/>
+        <link rel="shortcut icon" type="image/png" href="{{ meta.image || 'https://mcgame.info/favicon.png' }}"/>
+        <update-link rel="shortcut icon" type="image/png" href="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-link>
 
         <!-- SEO -->
         <meta name="keywords" content="mcgameinfo,mcgame,minecraft,game,server,info,mc,friends,servers">
@@ -15,14 +16,14 @@
         <meta property="og:title" content="MC GameInfo">
         <update-meta property="og:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>
         <meta property="og:image" content="https://mcgame.info/favicon.png">
-        <!--<update-meta property="og:image" content="{{head.pageIcon || '/favicon.png'}}"></update-meta>-->
+        <update-meta property="og:image" content="{{meta.image || 'https://mcgame.info/favicon.png'}}"></update-meta>
         <meta property="og:description" content="Let your Friends know what you're playing and share your Minecraft game/server with Friends">
         <!--<update-meta property="og:description" content="{{head.pageDescription}}"></update-meta>-->
 
         <meta property="twitter:title" content="MC GameInfo">
         <update-meta property="twitter:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>
         <meta property="twitter:image" content="https://mcgame.info/favicon.png">
-        <!--<update-meta property="twitter:image" content="{{head.pageIcon || '/favicon.png'}}"></update-meta>-->
+        <update-meta property="twitter:image" content="{{meta.image || 'https://mcgame.info/favicon.png'}}"></update-meta>
         <meta property="twitter:description" content="Let your Friends know what you're playing and share your Minecraft game/server with Friends">
         <!--<update-meta property="twitter:description" content="{{head.pageDescription}}"></update-meta>-->
         <meta property="twitter:site" content="@MCGameInfo">

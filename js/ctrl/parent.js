@@ -14,7 +14,8 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "
     };
 
     $scope.meta = {
-        title: "MCGameInfo"
+        title: "MCGameInfo",
+        image: "https://mcgame.info/favicon.png"
     }
 
     $scope.navbar = {

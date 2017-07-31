@@ -16,6 +16,7 @@ app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "
                 $scope.user = response.data.user;
 
                 $scope.meta.title = $scope.user.username + " | MCGameInfo";
+                $scope.meta.image = $sce.trustAsResourceUrl("https://minotar.net/avatar/" + $scope.user.username + "/128");
             } else {
                 $scope.user = {}
                 Materialize.toast('Error: ' + response.data.msg, 4000)
