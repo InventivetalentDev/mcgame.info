@@ -43,15 +43,18 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
 
     $scope.captcha = {
         key: "6LcMxCgUAAAAAJY0b5DLi9seYBuDQtgBlNZAvH6E",
+        widgetId:null,
         response: null,
-        onCreate: function () {
-            console.log("onCreate captcha")
+        onCreate: function (widgetId) {
+            console.log("onCreate captcha");
+            $scope.captcha.widgetId=widgetId;
         },
-        onSuccess: function () {
+        onSuccess: function (response) {
             console.log("onSuccess captcha")
         },
         onExpire: function () {
-            console.log("onExpire captcha")
+            console.log("onExpire captcha");
+            vcRecaptchaService.reload($scope.captcha.widgetId);
         }
     }
 
@@ -64,6 +67,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
         console.log("reCaptcha: " + $scope.captcha.response)
         if (!$scope.captcha.response || $scope.captcha.response.length < 1) {
             Materialize.toast("Invalid reCaptcha", 4000);
+            vcRecaptchaService.reload($scope.captcha.widgetId)
             return;
         }
         $http({
@@ -102,6 +106,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                                     }, 500);
                                 } else {
                                     Materialize.toast('Error: ' + result.msg, 4000)
+                                    vcRecaptchaService.reload($scope.captcha.widgetId)
                                 }
                             }
                         }, false);
@@ -132,9 +137,11 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                 });
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
+                vcRecaptchaService.reload($scope.captcha.widgetId)
             }
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            vcRecaptchaService.reload($scope.captcha.widgetId)
         })
     };
 
@@ -147,6 +154,7 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
         console.log("reCaptcha: " + $scope.captcha.response)
         if (!$scope.captcha.response || $scope.captcha.response.length < 1) {
             Materialize.toast("Invalid reCaptcha", 4000);
+            vcRecaptchaService.reload($scope.captcha.widgetId)
             return;
         }
 
@@ -180,9 +188,11 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
                 }
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
+                vcRecaptchaService.reload($scope.captcha.widgetId)
             }
         }, function (response) {
             Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
+            vcRecaptchaService.reload($scope.captcha.widgetId)
         });
     };
 }]);
