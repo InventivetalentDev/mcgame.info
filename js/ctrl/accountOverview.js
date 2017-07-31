@@ -451,7 +451,19 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
             if (response.data.status == "ok") {
                 $scope.friends = response.data.friends;
+                $.each($scope.friends,function (index,friend) {
+                    friend.latestInfo={
+                        server:undefined,
+                        game:undefined,
+                        lastUpdated:undefined
+                    };
+                    if(friend.lastInfo.length>0) {
+                        friend.latestInfo=friend.lastInfo[friend.lastInfo.length-1];
+                    }
+                })
                 $scope.friendRequests = response.data.requests;
+
+                console.log($scope.friends)
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }

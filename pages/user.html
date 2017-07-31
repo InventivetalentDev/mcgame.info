@@ -1,6 +1,33 @@
 <div>
     <h1><img src="" ng-src="{{ 'https://minotar.net/avatar/'+user.username+'/128' }}" alt="Avatar" class="responsive-img" style="vertical-align: middle;border-radius: 10px;"> {{ user.username }}</h1>
-    <p>
-        Coming Soon!&trade;
-    </p>
+    <div class="row">
+        <div class="col s9">
+            <p>
+                Coming Soon!&trade;
+            </p>
+        </div>
+        <div class="col s3">
+            <h3>Recent Games & Servers</h3>
+
+            <div>
+                <div style="font-size: 16px">
+                    <span ng-show="user.info.server">User is <span class="lime-text">online</span>, playing <strong>{{ user.info.game || 'nothing' }}</strong> on <strong>{{ user.info.server.name }}</strong></span>
+                    <span ng-show="!user.info.server">User is currently <span class="red-text">offline</span></span>
+                </div>
+                <br/>
+                <div class="divider"></div>
+                <br/>
+                <ul class="collection">
+                    <li class="collection-item" ng-repeat="info in user.lastInfo">
+                        <!--<img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">-->
+                        <span style="font-weight:bold;" class="title"><a style="color:inherit" ng-href="{{ '/s/'+info.server.name }}">{{ info.server.name }}</a></span>
+
+                        <p ng-show="info.game">
+                            Playing <strong>{{ info.game }}</strong>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

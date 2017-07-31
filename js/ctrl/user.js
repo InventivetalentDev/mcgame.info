@@ -29,6 +29,13 @@ app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "
     }
     $scope.refreshUser();
 
+    $window.onfocus = function () {
+        console.log("onfocus")
+        $scope.refreshUser();
+    };
+    $scope.$on('$destroy', function () {
+        $window.onfocus = false;
+    });
 
     $timeout(function () {
         Materialize.updateTextFields();
