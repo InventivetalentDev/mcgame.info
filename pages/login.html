@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div vc-recaptcha key="captcha.key" ng-model="captcha.response"></div>
+                        <div vc-recaptcha key="captcha.key" ng-model="captcha.response" on-create="captcha.onCreate(widgetId)" on-success="captcha.onSuccess(response)" on-expire="captcha.onExpire()"></div>
                     </div>
                     <br/>
                     <div>

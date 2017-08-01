@@ -1,7 +1,10 @@
 <html ng-app="infoApp">
     <head>
-        <title>MCGameInfo</title>
-        <link id="favicon" rel="shortcut icon" type="image/png" href="https://mcgame.info/favicon.png"/>
+        <title ng-bind="ngMeta.title">MCGameInfo</title>
+        <!--<update-title title="{{ meta.title }}"></update-title>-->
+
+        <link rel="icon" type="image/png" href="{{ ngMeta.image || 'https://mcgame.info/favicon.png' }}"/>
+        <!--<update-link rel="icon" type="image/png" href="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-link>-->
 
         <!-- SEO -->
         <meta name="keywords" content="mcgameinfo,mcgame,minecraft,game,server,info,mc,friends,servers">
@@ -11,16 +14,16 @@
 
         <meta property="og:type" content="website">
         <meta property="og:title" content="MC GameInfo">
-        <!--<update-meta property="og:title" content="{{head.pageTitle || 'MineSkin'}}"></update-meta>-->
-        <meta property="og:image" content="https://mcgame.info/favicon.png">
-        <!--<update-meta property="og:image" content="{{head.pageIcon || '/favicon.png'}}"></update-meta>-->
+        <!--<update-meta property="og:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>-->
+        <meta property="og:image" content="{{ ngMeta.image || 'https://mcgame.info/favicon.png' }}">
+        <!--<update-meta property="og:image" content="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-meta>-->
         <meta property="og:description" content="Let your Friends know what you're playing and share your Minecraft game/server with Friends">
         <!--<update-meta property="og:description" content="{{head.pageDescription}}"></update-meta>-->
 
         <meta property="twitter:title" content="MC GameInfo">
-        <!--<update-meta property="twitter:title" content="{{head.pageTitle || 'MineSkin'}}"></update-meta>-->
-        <meta property="twitter:image" content="https://mcgame.info/favicon.png">
-        <!--<update-meta property="twitter:image" content="{{head.pageIcon || '/favicon.png'}}"></update-meta>-->
+        <!--<update-meta property="twitter:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>-->
+        <meta property="twitter:image" content="{{ ngMeta.image || 'https://mcgame.info/favicon.png' }}">
+        <!--<update-meta property="twitter:image" content="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-meta>-->
         <meta property="twitter:description" content="Let your Friends know what you're playing and share your Minecraft game/server with Friends">
         <!--<update-meta property="twitter:description" content="{{head.pageDescription}}"></update-meta>-->
         <meta property="twitter:site" content="@MCGameInfo">
@@ -30,7 +33,7 @@
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" integrity="sha256-mkKV3FUh67dtli09bVbaYyM1526XgR92cz1uKarE1jo=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" integrity="sha256-mkKV3FUh67dtli09bVbaYyM1526XgR92cz1uKarE1jo=" crossorigin="anonymous"/>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -88,6 +91,14 @@
                 flex: 1 0 auto;
             }
         </style>
+
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-2604356629473365",
+                enable_page_level_ads: true
+            });
+        </script>
     </head>
     <body ng-cloak ng-controller="parentController">
         <header>
@@ -180,6 +191,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-cookies.min.js" integrity="sha256-KYao/9ufihAPfOpLlVPFDjECsFXMQqBhlbLn3FBsgvw=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js" integrity="sha256-FPRibkFAa4FnfmKmMCV4sX162vfxgb3aOyN4kL+3bvA=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js" integrity="sha256-0YzDSJS0qH+wpvug+Im1cMB9CX919NMtHj0d2VVHPp4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-meta/1.0.0/ngMeta.min.js" integrity="sha256-ozIo0gq6Sx8v/G9Tuaw8a70PT5leMat+Z3JeWyxZxzA=" crossorigin="anonymous"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js" integrity="sha256-FMocp8pp1WruAK6GtjNDtuGAALCt/dCsVtw7oSjvPX0=" crossorigin="anonymous"></script>
 
@@ -193,6 +205,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.1/angular-moment.min.js" integrity="sha256-BvdaZdPJc+x1dwsmn62ZkJ+4WepCjqP3xAFYrPP10F8=" crossorigin="anonymous"></script>
 
         <script src="https://cdn.rawgit.com/dwmkerr/angular-modal-service/126c6ecf/dst/angular-modal-service.min.js"></script>
+        <script src="https://cdn.rawgit.com/jvandemo/angular-update-meta/b743b3b8/dist/update-meta.min.js"></script>
 
         <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async="" defer=""></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-recaptcha/4.1.0/angular-recaptcha.min.js" integrity="sha256-pu0tCDQtmALCUwcXLIay2O6tQrF+JmXYDYXHtOm0Ceg=" crossorigin="anonymous"></script>
@@ -204,5 +217,7 @@
         <script src="js/ctrl/changePassword.js"></script>
         <script src="js/ctrl/accountOverview.js"></script>
         <script src="js/ctrl/serverList.js"></script>
+        <script src="js/ctrl/server.js"></script>
+        <script src="js/ctrl/user.js"></script>
     </body>
 </html>

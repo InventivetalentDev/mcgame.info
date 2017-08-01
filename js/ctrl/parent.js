@@ -1,4 +1,5 @@
 app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "$state", "ModalService", function ($scope, $cookies, $timeout, $http, $state, ModalService) {
+
     $scope.cookies = {
         username: "",
         uuid: ""
@@ -12,6 +13,11 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "
     $scope.theme = {
         color: "blue"
     };
+
+    $scope.meta = {
+        title: "MCGameInfo",
+        image: "https://mcgame.info/favicon.png"
+    }
 
     $scope.navbar = {
         tabs: [],

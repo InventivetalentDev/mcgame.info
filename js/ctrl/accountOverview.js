@@ -1,4 +1,4 @@
-app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window, $sce) {
+app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window", "$sce",'ngMeta', function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window, $sce,ngMeta) {
     // var usernameCookie = $cookies.get("username");
     // var uuidCookie = $cookies.get("uuid");
     // var accessTokenCookie = $cookies.get("accessToken");
@@ -25,6 +25,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
 
+    ngMeta.setTitle('Account');
 
     $scope.pushNotification = {
         enabled: false,
@@ -450,7 +451,19 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
 
             if (response.data.status == "ok") {
                 $scope.friends = response.data.friends;
+                $.each($scope.friends, function (index, friend) {
+                    friend.latestInfo = {
+                        server: undefined,
+                        game: undefined,
+                        lastUpdated: undefined
+                    };
+                    if (friend.lastInfo.length > 0) {
+                        friend.latestInfo = friend.lastInfo[friend.lastInfo.length - 1];
+                    }
+                })
                 $scope.friendRequests = response.data.requests;
+
+                console.log($scope.friends)
             } else {
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
@@ -471,7 +484,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
         $http({
             method: "GET",
             url: "https://api.mcgame.info/servers/mine",
-            params: {uuid:$cookies.get("uuid"),page: $scope.pagination.page}
+            params: {uuid: $cookies.get("uuid"), page: $scope.pagination.page}
         }).then(function (response) {
             console.log(response);
 
@@ -492,29 +505,23 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 //         console.log($scope.servers)
                 //     })
                 // })
-                var ips = [];
                 $.each($scope.servers, function (index, server) {
-                    ips.push(server.ip)
-                });
-                $http({
-                    method: "GET",
-                    url: "https://mcapi.ca/query/" + ips.join(",") + "/" + ($scope.servers.length > 1 ? "multi" : "info"),
-                    withCredentials: false
-                }).then(function (response) {
-                    console.log(response.data)
-                    var data = response.data;
-                    if ($scope.servers.length == 1) {// convert data into an object, if the response only contains 1 server
-                        data = {};
-                        data[$scope.servers[0].ip] = response.data;
-                    }
-                    $.each(data, function (name, ping) {
-                        ping.trustedMotd = $sce.trustAsHtml(ping.htmlmotd)
-                        $.each($scope.servers, function (index, server) {
-                            if (server.ip == name || server.ip + ":25565" == name || server.ip == ping.hostname) {
-                                server.ping = ping;
-                            }
-                        })
-                    })
+                    $http({
+                        method: "GET",
+                        url: "https://mcapi.ca/query/" + server.ip + "/info",
+                        withCredentials: false
+                    }).then(function (response) {
+                        console.log(response.data)
+                        var ping = response.data;
+                        if (!ping.error) {
+                            ping.trustedMotd = $sce.trustAsHtml(ping.htmlmotd)
+                            $.each($scope.servers, function (index, server) {
+                                if (server.ip == ping.hostname || server.ip == ping.hostname + ":25565" || server.ip == ping.hostname + ":" + ping.port) {
+                                    server.ping = ping;
+                                }
+                            })
+                        }
+                    });
                 });
 
                 $timeout(function () {
@@ -562,8 +569,8 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
                 $scope.serverName = "";
                 $scope.serverIp = "";
                 $scope.add = function () {
-                    if ($scope.serverName.length < 4)return
-                    if ($scope.serverIp.length < 4)return;
+                    if ($scope.serverName.length < 4) return
+                    if ($scope.serverIp.length < 4) return;
 
                     $http({
                         method: "POST",

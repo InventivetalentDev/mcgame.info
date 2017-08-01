@@ -1,0 +1,25 @@
+<div>
+    <h1><img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '' }}" alt="Server Icon" class="circle"> {{ server.name }}
+        <small><code>{{ server.ip }}</code></small>
+    </h1>
+    <div class="row">
+        <div class="col s10">
+            <p>
+                Coming Soon!&trade;
+            </p>
+        </div>
+        <div class="col s2">
+            <h3>Players</h3>
+
+            <div>
+                <div ng-if="server.players.length>0">
+                    <a ng-repeat="player in server.players" ng-href="{{ '/u/'+player.username }}" style="padding: 8px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
+                        <img src="https://minotar.net/avatar/steve/16" ng-src="{{ 'https://minotar.net/avatar/'+player.username+'/64' }}">
+                    </a>
+                    <div ng-if="(server.ping.players.online-server.players.length)>0"><strong>{{ (server.ping.players.online-server.players.length) | number:0 }}</strong> more players online</div>
+                </div>
+                <span ng-if="server.players.length==0">No players online which are registered on MCGameInfo<span ng-if="server.ping.players.online">, but <strong>{{ server.ping.players.online | number:0 }}</strong> other players are online</span></span>
+            </div>
+        </div>
+    </div>
+</div>

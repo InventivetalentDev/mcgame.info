@@ -1,3 +1,8 @@
+<style>
+    .friend-collection a {
+        color: inherit;
+    }
+</style>
 <div id="overview" class="col s12">
     <br/>
     <h1><img src="" ng-src="{{ 'https://minotar.net/avatar/'+account.username+'/128' }}" alt="Avatar" class="responsive-img" style="vertical-align: middle;border-radius: 10px;"> Account Overview</h1>
@@ -36,21 +41,23 @@
                     <div ng-if="friends.length==0">
                         You don't have any friends.... I'm very sorry.
                     </div>
-                    <div ng-if="friends.length>0">
+                    <div ng-if="friends.length>0" class="friend-collection">
                         <ul class="collection">
                             <li class="collection-item avatar" ng-repeat="friend in friends">
                                 <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title">
-                                    <span data-rank="{{ friend.rank }}" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><a class="tooltipped" data-tooltip="{{ ranks[friend.rank].name }}" data-position="top" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><i class="fa" ng-class="ranks[friend.rank].icon" ng-show="ranks[friend.rank] && ranks[friend.rank].show" aria-hidden="true"></i></a> {{ friend.username }}</span>
+                                    <span data-rank="{{ friend.rank }}" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><a ng-href="{{ '/u/'+friend.username }}" class="tooltipped" data-tooltip="{{ ranks[friend.rank].name }}" data-position="top" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><i class="fa" ng-class="ranks[friend.rank].icon"
+                                                                                                                                                                                                                                                                                                                                                            ng-show="ranks[friend.rank] && ranks[friend.rank].show"
+                                                                                                                                                                                                                                                                                                                                                            aria-hidden="true"></i> {{ friend.username }}</a></span>
                                     <i class="material-icons" ng-class="{'green-text':friend.info.server,'red-text':friend.info.server==0}">{{ friend.info.server ? "visibility" : "visibility_off" }}</i>
                                 </span>
 
                                 <p ng-show="friend.info.server">
-                                    Playing <strong>{{ friend.info.game || "nothing" }}</strong> on <strong>{{ friend.info.server.name || "nowhere" }}</strong>
+                                    Playing <strong>{{ friend.info.game || "nothing" }}</strong> on <a ng-href="{{ (friend.info.server.name ? '/s/'+friend.info.server.name:'') }}"><strong>{{ friend.info.server.name || "nowhere" }}</strong></a>
                                 </p>
 
                                 <p ng-show="!friend.info.server" class="text-muted">
-                                    Last seen playing <strong>{{ friend.lastInfo.game || "nothing" }}</strong> on <strong>{{ friend.lastInfo.server.name || "nowhere" }}</strong>, <span am-time-ago="friend.lastInfo.lastUpdate"></span>
+                                    Last seen playing <strong>{{ friend.latestInfo.game || "nothing" }}</strong> on <a ng-href="{{ (friend.latestInfo.server.name ? '/s/'+friend.latestInfo.server.name:'') }}"><strong>{{ friend.latestInfo.server.name || "nowhere" }}</strong></a>, <span am-time-ago="friend.lastInfo.lastUpdate"></span>
                                 </p>
                                 <a class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">clear</i></a>
                             </li>
@@ -67,11 +74,11 @@
                     <div ng-if="friendRequests.incoming.length==0">
                         No requests
                     </div>
-                    <div ng-if="friendRequests.incoming.length>0">
+                    <div ng-if="friendRequests.incoming.length>0" class="friend-collection">
                         <ul class="collection">
                             <li class="collection-item avatar" ng-repeat="friend in friendRequests.incoming">
                                 <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
-                                <span style="font-weight:bold;" class="title">{{ friend.username }}</span>
+                                <span style="font-weight:bold;" class="title"><a ng-href="{{ '/u/'+friend.username }}">{{ friend.username }}</a></span>
                                 <p>
                                     <a class="" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
                                     <a class="" title="Decline Request" ng-click="declineFriend(friend.uuid)"><i class="material-icons red-text">clear</i></a>
@@ -90,11 +97,11 @@
                     <div ng-if="friendRequests.outgoing.length==0">
                         No requests
                     </div>
-                    <div ng-if="friendRequests.outgoing.length>0">
+                    <div ng-if="friendRequests.outgoing.length>0" class="friend-collection">
                         <ul class="collection">
                             <li class="collection-item avatar" ng-repeat="friend in friendRequests.outgoing">
                                 <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
-                                <span style="font-weight:bold;" class="title">{{ friend.username }}</span>
+                                <span style="font-weight:bold;" class="title"><a ng-href="{{ '/u/'+friend.username }}">{{ friend.username }}</a></span>
                                 <p>
                                     <a class="" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">clear</i></a>
                                 </p>
@@ -121,7 +128,7 @@
         <ul class="collection">
             <li class="collection-item avatar" ng-repeat="server in servers">
                 <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle">
-                <span class="title">{{ server.name }}</span>
+                <a style="color:inherit" ng-href="{{ '/s/'+server.name }}"><span class="title">{{ server.name }}</span></a>
                 <p>
                     <span ng-bind-html="server.ping.trustedMotd"><!-- MOTD --></span><br/>
                     <code>{{ server.ip }}</code>
@@ -208,18 +215,18 @@
     </div>
     <div class="divider"></div>
     <!--<div>-->
-        <!--<div class="row">-->
-            <!--<div class="input-field col s6">-->
-                <!--<label for="infoGame">Game</label>-->
-                <!--<input id="infoGame" name="infoGame" type="text" ng-model="infoInput.game">-->
-            <!--</div>-->
-            <!--<div class="input-field col s6">-->
-                <!--<label for="infoServer">Server</label>-->
-                <!--<input id="infoServer" name="infoServer" type="text" ng-model="infoInput.server">-->
-            <!--</div>-->
-        <!--</div>-->
+    <!--<div class="row">-->
+    <!--<div class="input-field col s6">-->
+    <!--<label for="infoGame">Game</label>-->
+    <!--<input id="infoGame" name="infoGame" type="text" ng-model="infoInput.game">-->
+    <!--</div>-->
+    <!--<div class="input-field col s6">-->
+    <!--<label for="infoServer">Server</label>-->
+    <!--<input id="infoServer" name="infoServer" type="text" ng-model="infoInput.server">-->
+    <!--</div>-->
+    <!--</div>-->
 
-        <!--<button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>-->
+    <!--<button type="submit" class="btn" ng-click="updateGameInfo()">Update Info</button>-->
     <!--</div>-->
 
     <div class="divider"></div>

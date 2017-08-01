@@ -5,16 +5,23 @@
         <ul class="collection">
             <li class="collection-item avatar" ng-repeat="server in servers">
                 <img src="/img/logo-64.png" ng-src="{{ server.ping ? server.ping.favicon : '/img/logo-64.png' }}" alt="Server Icon" class="circle">
-                <span class="title">{{ server.name }}</span>
+                <a style="color:inherit" ng-href="{{ '/s/'+server.name }}"><span class="title">{{ server.name }}</span></a>
                 <p>
                     <span ng-bind-html="server.ping.trustedMotd"><!-- MOTD --></span><br/>
                     <code>{{ server.ip }}</code>
+                    <span class="pull-right" ng-show="server.ping" title="MCGI players/Online/Max">{{ server.playerCount }}/{{ server.ping.players.online }}/{{ server.ping.players.max }}</span>
                 </p>
+                <!--<div class="progress" ng-hide="server.ping">-->
+                <!--<div class="indeterminate"></div>-->
+                <!--</div>-->
+                <div>
+                    <a ng-repeat="player in server.players" ng-href="{{ '/u/'+player.username }}" style="padding: 2px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
+                        <img src="https://minotar.net/avatar/steve/16" ng-src="{{ 'https://minotar.net/avatar/'+player.username+'/16' }}">
+                    </a>
+                </div>
+
                 <a class="secondary-content tooltipped" data-position="left" data-tooltip="Domain is verified" ng-if="server.domainVerified" title="Domain is verified"><i class="material-icons">verified_user</i></a>
                 <a class="secondary-content tooltipped orange-text" data-position="left" data-delay="20" data-tooltip="Domain is not yet verified" ng-if="!server.domainVerified" title="Domain is not yet verified"><i class="material-icons">warning</i></a>
-                <div class="progress" ng-hide="server.ping">
-                    <div class="indeterminate"></div>
-                </div>
             </li>
         </ul>
     </div>
