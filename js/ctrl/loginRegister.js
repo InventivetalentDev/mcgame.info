@@ -6,6 +6,8 @@ app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "
 
     console.log($scope.footerVisible)
 
+    $scope.state = $state;
+
     console.log($stateParams)
 
     console.log("FROM: ")
