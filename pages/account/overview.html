@@ -5,7 +5,7 @@
 </style>
 <div id="overview" class="col s12">
     <br/>
-    <h1><img src="" ng-src="{{ 'https://minotar.net/avatar/'+account.username+'/128' }}" alt="Avatar" class="responsive-img" style="vertical-align: middle;border-radius: 10px;"> Account Overview</h1>
+    <h1><img src="" ng-src="{{ 'https://crafatar.com/avatars/'+account.uuid+'?size=128' }}" alt="Avatar" class="responsive-img" style="vertical-align: middle;border-radius: 10px;"> Account Overview</h1>
     <br/>
 
     <div class="row">
@@ -44,7 +44,7 @@
                     <div ng-if="friends.length>0" class="friend-collection">
                         <ul class="collection">
                             <li class="collection-item avatar" ng-repeat="friend in friends">
-                                <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
+                                <img src="" ng-src="{{ 'https://crafatar.com/avatars/'+friend.uuid+'?size=64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title">
                                     <span data-rank="{{ friend.rank }}" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><a ng-href="{{ '/u/'+friend.username }}" class="tooltipped" data-tooltip="{{ ranks[friend.rank].name }}" data-position="top" ng-style="ranks[friend.rank].show && {'color': ranks[friend.rank].color}"><i class="fa" ng-class="ranks[friend.rank].icon"
                                                                                                                                                                                                                                                                                                                                                             ng-show="ranks[friend.rank] && ranks[friend.rank].show"
@@ -77,7 +77,7 @@
                     <div ng-if="friendRequests.incoming.length>0" class="friend-collection">
                         <ul class="collection">
                             <li class="collection-item avatar" ng-repeat="friend in friendRequests.incoming">
-                                <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
+                                <img src="" ng-src="{{ 'https://crafatar.com/avatars/'+friend.uuid+'?size=64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title"><a ng-href="{{ '/u/'+friend.username }}">{{ friend.username }}</a></span>
                                 <p>
                                     <a class="" title="Accept Request" ng-click="acceptFriend(friend.uuid)"><i class="material-icons lime-text">done</i></a>
@@ -100,7 +100,7 @@
                     <div ng-if="friendRequests.outgoing.length>0" class="friend-collection">
                         <ul class="collection">
                             <li class="collection-item avatar" ng-repeat="friend in friendRequests.outgoing">
-                                <img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">
+                                <img src="" ng-src="{{ 'https://crafatar.com/avatars/'+friend.uuid+'?size=64' }}" alt="Avatar" class="circle">
                                 <span style="font-weight:bold;" class="title"><a ng-href="{{ '/u/'+friend.username }}">{{ friend.username }}</a></span>
                                 <p>
                                     <a class="" title="Cancel Request" ng-click="cancelRequest(friend.uuid)"><i class="material-icons red-text">clear</i></a>

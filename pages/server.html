@@ -14,7 +14,7 @@
             <div>
                 <div ng-if="server.players.length>0">
                     <a ng-repeat="player in server.players" ng-href="{{ '/u/'+player.username }}" style="padding: 8px;" class="tooltipped" data-position="bottom" data-tooltip="{{ player.username }}">
-                        <img src="https://minotar.net/avatar/steve/16" ng-src="{{ 'https://minotar.net/avatar/'+player.username+'/64' }}">
+                        <img src="https://crafatar.com/avatars/steve?size=16" ng-src="{{ 'https://crafatar.com/avatars/'+player.uuid+'?size=64' }}">
                     </a>
                     <div ng-if="(server.ping.players.online-server.players.length)>0"><strong>{{ (server.ping.players.online-server.players.length) | number:0 }}</strong> more players online</div>
                 </div>

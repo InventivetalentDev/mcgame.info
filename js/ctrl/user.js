@@ -16,7 +16,7 @@ app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "
                 $scope.user = response.data.user;
 
                 ngMeta.setTitle($scope.user.username)
-                ngMeta.setTag('image', $sce.trustAsResourceUrl("https://minotar.net/avatar/" + $scope.user.username + "/128"));
+                ngMeta.setTag('image', $sce.trustAsResourceUrl("https://crafatar.com/avatars/" + $scope.user.uuid + "?size=128"));
             } else {
                 $scope.user = {}
                 Materialize.toast('Error: ' + response.data.msg, 4000)
