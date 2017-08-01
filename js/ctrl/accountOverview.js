@@ -1,4 +1,4 @@
-app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window, $sce) {
+app.controller("accountOverviewController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "ModalService", "$window", "$sce",'ngMeta', function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, ModalService, $window, $sce,ngMeta) {
     // var usernameCookie = $cookies.get("username");
     // var uuidCookie = $cookies.get("uuid");
     // var accessTokenCookie = $cookies.get("accessToken");
@@ -25,7 +25,7 @@ app.controller("accountOverviewController", ["$scope", "$state", "$stateParams",
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
 
-    $scope.meta.title = "Account | MCGameInfo";
+    ngMeta.setTitle('Account');
 
     $scope.pushNotification = {
         enabled: false,

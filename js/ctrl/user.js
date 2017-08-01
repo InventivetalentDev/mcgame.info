@@ -1,4 +1,4 @@
-app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", "$window",function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce,$window) {
+app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", "$window", 'ngMeta', function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce, $window, ngMeta) {
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
@@ -15,8 +15,8 @@ app.controller("userController", ["$scope", "$state", "$stateParams", "$http", "
             if (response.data.status == "ok") {
                 $scope.user = response.data.user;
 
-                $scope.meta.title = $scope.user.username + " | MCGameInfo";
-                $scope.meta.image = $sce.trustAsResourceUrl("https://minotar.net/avatar/" + $scope.user.username + "/128");
+                ngMeta.setTitle($scope.user.username)
+                ngMeta.setTag('image', $sce.trustAsResourceUrl("https://minotar.net/avatar/" + $scope.user.username + "/128"));
             } else {
                 $scope.user = {}
                 Materialize.toast('Error: ' + response.data.msg, 4000)

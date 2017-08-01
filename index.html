@@ -1,10 +1,10 @@
 <html ng-app="infoApp">
     <head>
-        <title ng-bind="meta.title">MCGameInfo</title>
-        <update-title title="{{ meta.title }}"></update-title>
+        <title ng-bind="ngMeta.title">MCGameInfo</title>
+        <!--<update-title title="{{ meta.title }}"></update-title>-->
 
-        <link rel="shortcut icon" type="image/png" href="{{ meta.image || 'https://mcgame.info/favicon.png' }}"/>
-        <update-link rel="shortcut icon" type="image/png" href="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-link>
+        <link rel="icon" type="image/png" href="{{ ngMeta.image || 'https://mcgame.info/favicon.png' }}"/>
+        <!--<update-link rel="icon" type="image/png" href="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-link>-->
 
         <!-- SEO -->
         <meta name="keywords" content="mcgameinfo,mcgame,minecraft,game,server,info,mc,friends,servers">
@@ -14,16 +14,16 @@
 
         <meta property="og:type" content="website">
         <meta property="og:title" content="MC GameInfo">
-        <update-meta property="og:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>
-        <meta property="og:image" content="https://mcgame.info/favicon.png">
-        <update-meta property="og:image" content="{{meta.image || 'https://mcgame.info/favicon.png'}}"></update-meta>
+        <!--<update-meta property="og:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>-->
+        <meta property="og:image" content="{{ ngMeta.image || 'https://mcgame.info/favicon.png' }}">
+        <!--<update-meta property="og:image" content="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-meta>-->
         <meta property="og:description" content="Let your Friends know what you're playing and share your Minecraft game/server with Friends">
         <!--<update-meta property="og:description" content="{{head.pageDescription}}"></update-meta>-->
 
         <meta property="twitter:title" content="MC GameInfo">
-        <update-meta property="twitter:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>
-        <meta property="twitter:image" content="https://mcgame.info/favicon.png">
-        <update-meta property="twitter:image" content="{{meta.image || 'https://mcgame.info/favicon.png'}}"></update-meta>
+        <!--<update-meta property="twitter:title" content="{{ meta.title || 'MCGameInfo'}}"></update-meta>-->
+        <meta property="twitter:image" content="{{ ngMeta.image || 'https://mcgame.info/favicon.png' }}">
+        <!--<update-meta property="twitter:image" content="{{ meta.image || 'https://mcgame.info/favicon.png' }}"></update-meta>-->
         <meta property="twitter:description" content="Let your Friends know what you're playing and share your Minecraft game/server with Friends">
         <!--<update-meta property="twitter:description" content="{{head.pageDescription}}"></update-meta>-->
         <meta property="twitter:site" content="@MCGameInfo">
@@ -191,6 +191,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-cookies.min.js" integrity="sha256-KYao/9ufihAPfOpLlVPFDjECsFXMQqBhlbLn3FBsgvw=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js" integrity="sha256-FPRibkFAa4FnfmKmMCV4sX162vfxgb3aOyN4kL+3bvA=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js" integrity="sha256-0YzDSJS0qH+wpvug+Im1cMB9CX919NMtHj0d2VVHPp4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-meta/1.0.0/ngMeta.min.js" integrity="sha256-ozIo0gq6Sx8v/G9Tuaw8a70PT5leMat+Z3JeWyxZxzA=" crossorigin="anonymous"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js" integrity="sha256-FMocp8pp1WruAK6GtjNDtuGAALCt/dCsVtw7oSjvPX0=" crossorigin="anonymous"></script>
 

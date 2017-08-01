@@ -1,10 +1,8 @@
-app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce) {
+app.controller("serverListController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce",function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce) {
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
-
-    $scope.meta.title = "Servers | MCGameInfo";
 
     $scope.servers = [];
     $scope.pagination = {page: 1, pages: 0};

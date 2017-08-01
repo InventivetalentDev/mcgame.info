@@ -1,17 +1,10 @@
-app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage", "ModalService", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage, ModalService, $sce) {
+app.controller("loginRegisterController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$cookies", "$window", 'vcRecaptchaService', "$transition$", "$interval", "$localStorage", "ModalService", "$sce",'ngMeta', function ($scope, $state, $stateParams, $http, $timeout, $cookies, $window, vcRecaptchaService, $transition$, $interval, $localStorage, ModalService, $sce,ngMeta) {
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = false;
 
 
     console.log($scope.footerVisible)
-
-    $scope.state = $state;
-    if ($scope.state.is('login')) {
-        $scope.meta.title = "Login | MCGameInfo";
-    } else if ($scope.stats.is('register')) {
-        $scope.meta.title = "Register | MCGameInfo";
-    }
 
     console.log($stateParams)
 

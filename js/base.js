@@ -1,21 +1,37 @@
-var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage", "updateMeta"]);
+var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", "angularModalService", "vcRecaptcha", "ngSanitize", "ngStorage", "ngMeta"]);
 
-app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", "ngMetaProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, ngMetaProvider) {
     $stateProvider
         .state("index", {
             url: "/",
             templateUrl: "/pages/index.html",
-            controller: "indexController"
+            controller: "indexController",
+            data: {
+                meta: {
+                    title: "MCGameInfo",
+                    titleSuffix:""
+                }
+            }
         })
         .state("login", {
             url: "/login?username&token",
             templateUrl: "/pages/login.html",
-            controller: "loginRegisterController"
+            controller: "loginRegisterController",
+            data: {
+                meta: {
+                    title: "Login"
+                }
+            }
         })
         .state("register", {
             url: "/register?username",
             templateUrl: "/pages/login.html",
-            controller: "loginRegisterController"
+            controller: "loginRegisterController",
+            data: {
+                meta: {
+                    title: "Register"
+                }
+            }
         })
         .state("logout", {
             url: "/logout?go",
@@ -24,17 +40,32 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
         .state("changePassword", {
             url: "/account/changePassword?username&token",
             templateUrl: "/pages/account/changePassword.html",
-            controller: "changePasswordController"
+            controller: "changePasswordController",
+            data: {
+                meta: {
+                    title: "Change Password"
+                }
+            }
         })
         .state("accountOverview", {
             url: "/account",
             templateUrl: "/pages/account/overview.html",
-            controller: "accountOverviewController"
+            controller: "accountOverviewController",
+            data: {
+                meta: {
+                    title: "Account"
+                }
+            }
         })
         .state("serverList", {
             url: "/servers",
             templateUrl: "/pages/servers.html",
-            controller: "serverListController"
+            controller: "serverListController",
+            data: {
+                meta: {
+                    title: "Servers"
+                }
+            }
         })
         .state("server", {
             url: "/s/:server",
@@ -86,6 +117,12 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
 
     $locationProvider.html5Mode(true);
 
+    ngMetaProvider.useTitleSuffix(true);
+    ngMetaProvider.setDefaultTitleSuffix(" | MCGameInfo");
+    ngMetaProvider.setDefaultTitle("MCGameInfo");
+    ngMetaProvider.setDefaultTag("image", "https://mcgame.info/favicon.png");
+
+
     // Required for session cookies to be sent in $http
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.interceptors.push(['$location', '$localStorage', function ($location, $localStorage) {
@@ -104,7 +141,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             }
         };
     }]);
-}]);
+}])
+    .run(['$transitions', '$rootScope', 'ngMeta', function ($transitions, $rootScope, ngMeta) {
+        // https://github.com/vinaygopinath/ngMeta/issues/36#issuecomment-311581385 -> https://github.com/vinaygopinath/ngMeta/issues/25#issuecomment-268954483
+        $transitions.onFinish({}, function (trans) {
+            $rootScope.$broadcast('$routeChangeSuccess', trans.to());
+        });
+
+        ngMeta.init()
+    }])
 
 app.service("backend", function ($http) {
     this.request = function (path, method, data, headers) {

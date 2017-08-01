@@ -1,4 +1,4 @@
-app.controller("serverController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce) {
+app.controller("serverController", ["$scope", "$state", "$stateParams", "$http", "$timeout", "$interval", "$cookies", "moment", "$sce", 'ngMeta', function ($scope, $state, $stateParams, $http, $timeout, $interval, $cookies, moment, $sce, ngMeta) {
 
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
@@ -16,7 +16,7 @@ app.controller("serverController", ["$scope", "$state", "$stateParams", "$http",
                 $scope.server = response.data.server;
                 $scope.server.players = response.data.players;
 
-                $scope.meta.title = $scope.server.name + " | MCGameInfo";
+                ngMeta.setTitle($scope.server.name )
 
                 $http({
                     method: "GET",
