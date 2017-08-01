@@ -18,12 +18,13 @@
                 <div class="divider"></div>
                 <br/>
                 <ul class="collection">
-                    <li class="collection-item" ng-repeat="info in user.lastInfo">
+                    <li class="collection-item" ng-repeat="info in user.lastInfo | reverse">
                         <!--<img src="" ng-src="{{ 'https://minotar.net/avatar/'+friend.username+'/64' }}" alt="Avatar" class="circle">-->
                         <span style="font-weight:bold;" class="title"><a style="color:inherit" ng-href="{{ '/s/'+info.server.name }}">{{ info.server.name }}</a></span>
 
                         <p ng-show="info.game">
                             Playing <strong>{{ info.game }}</strong>
+                            <span class="pull-right text-muted" am-time-ago="info.lastUpdate"></span>
                         </p>
                     </li>
                 </ul>

@@ -9,7 +9,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             data: {
                 meta: {
                     title: "MCGameInfo",
-                    titleSuffix:""
+                    titleSuffix: ""
                 }
             }
         })
@@ -141,15 +141,20 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             }
         };
     }]);
-}])
-    .run(['$transitions', '$rootScope', 'ngMeta', function ($transitions, $rootScope, ngMeta) {
-        // https://github.com/vinaygopinath/ngMeta/issues/36#issuecomment-311581385 -> https://github.com/vinaygopinath/ngMeta/issues/25#issuecomment-268954483
-        $transitions.onFinish({}, function (trans) {
-            $rootScope.$broadcast('$routeChangeSuccess', trans.to());
-        });
+}]);
+app.run(['$transitions', '$rootScope', 'ngMeta', function ($transitions, $rootScope, ngMeta) {
+    // https://github.com/vinaygopinath/ngMeta/issues/36#issuecomment-311581385 -> https://github.com/vinaygopinath/ngMeta/issues/25#issuecomment-268954483
+    $transitions.onFinish({}, function (trans) {
+        $rootScope.$broadcast('$routeChangeSuccess', trans.to());
+    });
 
-        ngMeta.init()
-    }])
+    ngMeta.init()
+}])
+app.filter('reverse', function () {
+    return function (items) {
+        return items.slice().reverse();
+    };
+});
 
 app.service("backend", function ($http) {
     this.request = function (path, method, data, headers) {
