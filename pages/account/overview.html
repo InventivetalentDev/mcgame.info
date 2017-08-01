@@ -57,7 +57,7 @@
                                 </p>
 
                                 <p ng-show="!friend.info.server" class="text-muted">
-                                    Last seen playing <strong>{{ friend.latestInfo.game || "nothing" }}</strong> on <a ng-href="{{ (friend.latestInfo.server.name ? '/s/'+friend.latestInfo.server.name:'') }}"><strong>{{ friend.latestInfo.server.name || "nowhere" }}</strong></a>, <span am-time-ago="friend.lastInfo.lastUpdate"></span>
+                                    Last seen playing <strong>{{ friend.latestInfo.game || "nothing" }}</strong> on <a ng-href="{{ (friend.latestInfo.server.name ? '/s/'+friend.latestInfo.server.name:'') }}"><strong>{{ friend.latestInfo.server.name || "nowhere" }}</strong></a>, <span am-time-ago="friend.latestInfo.lastUpdate"></span>
                                 </p>
                                 <a class="secondary-content" title="Remove Friend" ng-click="removeFriend(friend.uuid,friend.username)"><i class="material-icons red-text">clear</i></a>
                             </li>
