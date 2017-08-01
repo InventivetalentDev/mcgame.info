@@ -1,4 +1,5 @@
-app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "$state", function ($scope, $cookies, $timeout, $http, $state) {
+app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "$state", "ModalService", function ($scope, $cookies, $timeout, $http, $state, ModalService) {
+
     $scope.cookies = {
         username: "",
         uuid: ""
@@ -77,5 +78,31 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "
     $scope.max = Math.max;
     $scope.min = Math.min;
 
+    $scope.openDonationModal = function (state) {
+        if (!state) state = "start";
+
+        if (!$scope.account || !$scope.account.uuid) {
+            Materialize.toast("Please login first :)", 4000)
+            return;
+        }
+        ModalService.showModal({
+            templateUrl: "/pages/modal/donate.html",
+            controller: function ($scope, $timeout, account, state) {
+                $scope.account = account;
+                $scope.state = state;
+
+                $timeout(function () {
+                    Materialize.updateTextFields();
+                })
+            },
+            inputs: {
+                account: $scope.account,
+                state: state
+            }
+        }).then(function (modal) {
+            modal.element.modal()
+            modal.element.modal("open")
+        })
+    }
 
 }])

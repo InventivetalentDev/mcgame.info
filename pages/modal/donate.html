@@ -1,0 +1,53 @@
+<div class="modal">
+    <div class="modal-content">
+        <div ng-show="state=='start'">
+            <h4>Donate <3</h4>
+
+            <div class="row">
+                <div class="col s6">
+                    <!-- TODO -->
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce odio justo, pharetra et urna in, lacinia fermentum dui. Fusce dictum mi tellus, vel posuere quam tincidunt sed. Donec nec nunc neque. Donec libero diam, vehicula facilisis elit et, elementum efficitur neque. Vivamus at nunc eget libero varius ultricies. Suspendisse vel tincidunt nisl. Morbi lobortis nisi sit amet
+                    gravida elementum. Vivamus sodales feugiat tincidunt. Praesent molestie felis eu convallis laoreet. Suspendisse pharetra suscipit ex. Etiam dictum erat sit amet mollis vulputate. Vestibulum quis tellus porttitor, sodales est sit amet, ullamcorper nibh. Nulla facilisi. Maecenas rutrum metus eu erat sollicitudin aliquam.
+
+                    Etiam bibendum augue eget metus hendrerit pellentesque. Phasellus at augue eu massa fermentum molestie. Duis et erat velit. Sed pulvinar libero ut purus finibus molestie. Ut convallis libero et purus aliquam laoreet. Cras aliquet dictum porttitor. In scelerisque felis at dignissim tincidunt. Donec quis velit sed lectus porta aliquet id a odio. Cras posuere diam leo, sit amet
+                    maximus eros gravida vitae. Praesent sit amet viverra nisl, congue rhoncus justo. Integer commodo fermentum semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tempus ex, eget eleifend libero. Morbi convallis rhoncus sem nec eleifend.
+                </div>
+                <div class="col s6">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="business" value="donation@inventivetalent.org">
+                        <input type="hidden" name="cmd" value="_xclick">
+
+                        <input type="hidden" name="item_name" value="Donation/Donor Rank for {{ account.username }}">
+                        <input type="hidden" name="item_number" value="d_{{ account.uuid }}_{{ account.username }}">
+
+                        <div class="input-field col s12">
+                            <input type="number" name="amount" id="amount" min="1" placeholder="10.00" class="validate">
+                            <label for="amount">Donation Amount</label>
+                        </div>
+
+                        <input type="hidden" name="currency_code" value="EUR">
+
+                        <input type="hidden" name="notify_url" value="https://api.mcgame.info/donation/paypal/notify">
+                        <input type="hidden" name="cancel_return" value="https://api.mcgame.info/donation/paypal/cancel">
+                        <input type="hidden" name="return" value="https://api.mcgame.info/donation/paypal/success">
+
+                        <input type="hidden" name="image_url" value="https://mcgame.info/img/logo-128.png">
+
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="state=='success'">
+            <h4>Thank you for donating!</h4>
+
+            <strong>Your rank should be updated automatically within the next few minutes!</strong>
+        </div>
+
+        <div ng-show="state=='cancel'">
+            <h4>Donation cancelled.</h4>
+        </div>
+    </div>
+</div>
