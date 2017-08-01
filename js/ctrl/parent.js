@@ -1,4 +1,4 @@
-app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$state",function ($scope, $cookies, $timeout,$http,$state) {
+app.controller("parentController", ["$scope", "$cookies", "$timeout", "$http", "$state", "ModalService", function ($scope, $cookies, $timeout, $http, $state, ModalService) {
     $scope.cookies = {
         username: "",
         uuid: ""
@@ -9,8 +9,8 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
     // }
     // $scope.refreshCookies();
 
-    $scope.theme={
-        color:"blue"
+    $scope.theme = {
+        color: "blue"
     };
 
     $scope.navbar = {
@@ -28,8 +28,8 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
             }, 100);
         }
     };
-    $scope.footer={
-        visible:true
+    $scope.footer = {
+        visible: true
     };
 
     $scope.account = {};
@@ -37,20 +37,20 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
         $http({
             method: "GET",
             url: "https://api.mcgame.info/account",
-            params: {uuid:  $cookies.get("uuid")}
+            params: {uuid: $cookies.get("uuid")}
         }).then(function (response) {
             console.log(response);
 
             if (response.data.status == "ok") {
                 $scope.account = response.data.user;
             } else {
-                $scope.account={}
+                $scope.account = {}
                 Materialize.toast('Error: ' + response.data.msg, 4000)
             }
         }, function (response) {
             console.log(response)
-            $scope.account={}
-            if(!silent) {
+            $scope.account = {}
+            if (!silent) {
                 Materialize.toast('Unexpected Error: ' + response.data.msg, 4000)
                 if (response.status == 403) {
                     $state.go("login", {reload: true})
@@ -62,15 +62,41 @@ app.controller("parentController", ["$scope", "$cookies", "$timeout","$http", "$
 
     $scope.locationHash = location.hash;
 
-    $scope.range = function(count){
+    $scope.range = function (count) {
         var a = [];
         for (var i = 0; i < count; i++) {
             a.push(i)
         }
         return a;
     }
-    $scope.max=Math.max;
-    $scope.min=Math.min;
+    $scope.max = Math.max;
+    $scope.min = Math.min;
 
+    $scope.openDonationModal = function (state) {
+        if (!state) state = "start";
+
+        if (!$scope.account || !$scope.account.uuid) {
+            Materialize.toast("Please login first :)", 4000)
+            return;
+        }
+        ModalService.showModal({
+            templateUrl: "/pages/modal/donate.html",
+            controller: function ($scope, $timeout, account, state) {
+                $scope.account = account;
+                $scope.state = state;
+
+                $timeout(function () {
+                    Materialize.updateTextFields();
+                })
+            },
+            inputs: {
+                account: $scope.account,
+                state: state
+            }
+        }).then(function (modal) {
+            modal.element.modal()
+            modal.element.modal("open")
+        })
+    }
 
 }])

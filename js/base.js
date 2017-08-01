@@ -3,7 +3,7 @@ var app = angular.module("infoApp", ["ngCookies", "ui.router", "angularMoment", 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $stateProvider
         .state("index", {
-            url: "/",
+            url: "/?donation",
             templateUrl: "/pages/index.html",
             controller: "indexController"
         })
@@ -59,20 +59,20 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
     $urlRouterProvider.otherwise("/");
 
     // https://github.com/angular-ui/ui-router/issues/50#issuecomment-50039600
-    $urlRouterProvider.rule(function ($injector, $location) {
-        var path = $location.url();
-
-        // check to see if the path has a trailing slash
-        if ('/' === path[path.length - 1]) {
-            return path.replace(/\/$/, '');
-        }
-
-        if (path.indexOf('/?') > -1) {
-            return path.replace('/?', '?');
-        }
-
-        return false;
-    });
+    // $urlRouterProvider.rule(function ($injector, $location) {
+    //     var path = $location.url();
+    //
+    //     // check to see if the path has a trailing slash
+    //     if ('/' === path[path.length - 1]) {
+    //         return path.replace(/\/$/, '');
+    //     }
+    //
+    //     if (path.indexOf('/?') > -1) {
+    //         return path.replace('/?', '?');
+    //     }
+    //
+    //     return false;
+    // });
 
     $locationProvider.html5Mode(true);
 
@@ -128,10 +128,16 @@ app.service("backend", function ($http) {
     };
 });
 
-app.controller("indexController", ["$scope", function ($scope) {
+app.controller("indexController", ["$scope", "$stateParams", "$timeout", function ($scope, $stateParams, $timeout) {
     $scope.navbar.tabs = [];
     $scope.navbar.initTabs();
     $scope.footer.visible = true;
+
+    if ($stateParams.donation) {
+        $timeout(function () {
+            $scope.openDonationModal($stateParams.donation);
+        }, 1000);
+    }
 }]);
 
 app.controller("redirectController", ["$scope", "$state", "$stateParams", "$timeout", function ($scope, $state, $stateParams, $timeout) {
